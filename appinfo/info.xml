@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>postmag</id>
+    <name>Postmag</name>
+    <summary>Postfix mail alias generator for Nextcloud</summary>
+    <description><![CDATA[This app allows users to generate aliases for their email addresses so that they can use different email addresses for different services on the internet easily. A configuration file for postfix that implements these aliases can be generated via the occ command line tool.]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="patrick1990.dev@gmail.com" homepage="https://github.com/patrick1990/postmag-nc">Patrick</author>
+    <namespace>Postmag</namespace>
+    <category>integration</category>
+    <category>office</category>
+    <category>organization</category>
+    <category>tools</category>
+    <bugs>https://github.com/patrick1990/postmag-nc/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="15" max-version="15"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Postmag</name>
+            <route>postmag.page.index</route>
+        </navigation>
+    </navigations>
+</info>

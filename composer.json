@@ -1,0 +1,15 @@
+{
+    "name": "Postmag",
+    "description": "Postfix mail alias generator for Nextcloud",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Patrick"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

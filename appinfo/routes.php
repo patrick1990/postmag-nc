@@ -9,7 +9,13 @@
  */
 return [
     'routes' => [
-	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+	    ['name' => 'page#index',     'url' => '/',           'verb' => 'GET'],   // return interface
+        ['name' => 'config#getconf', 'url' => '/config',     'verb' => 'GET'],   // get global config
+        ['name' => 'config#setconf', 'url' => '/config',     'verb' => 'PUT'],   // set global config
+        ['name' => 'user#getinfo',   'url' => '/userinfo',   'verb' => 'GET'],   // get user info
+	    ['name' => 'alias#index',    'url' => '/alias',      'verb' => 'GET'],   // return a list of all aliases
+        ['name' => 'alias#create',   'url' => '/alias',      'verb' => 'POST'],  // create a new alias
+        ['name' => 'alias#update',   'url' => '/alias/{id}', 'verb' => 'PUT'],   // update alias properties
+        ['name' => 'alias#destroy',  'url' => '/alias/{id}', 'verb' => 'DELETE'] // drop an alias
     ]
 ];

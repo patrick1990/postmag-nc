@@ -32,12 +32,5 @@ class AliasController extends Controller {
 	public function update() {
 	    // empty for now
 	}
-	
-	/**
-	 * @NoAdminRequired
-	 */
-	public function destroy() {
-	    // empty for now
-	}
 
 }

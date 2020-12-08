@@ -14,4 +14,9 @@ class UserService {
     public function getUserEMail($userId) {
         return $this->config->getUserValue($userId, 'settings', 'email');
     }
+    
+    public function getUserAlias($userId) {
+        // empty for now
+    }
+    
 }

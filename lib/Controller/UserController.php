@@ -23,7 +23,8 @@ class UserController extends Controller {
 	    
 		return array(
 		    'email' => $email,
-		    'emailSet' => ($email == '') ? 'false' : 'true'
+		    'emailSet' => ($email == '') ? 'false' : 'true',
+		    'userAlias' => 'abcd' // TODO: get user alias from database
 		);
 	}
 

@@ -16,6 +16,5 @@ return [
 	    ['name' => 'alias#index',    'url' => '/alias',      'verb' => 'GET'],   // return a list of all aliases
         ['name' => 'alias#create',   'url' => '/alias',      'verb' => 'POST'],  // create a new alias
         ['name' => 'alias#update',   'url' => '/alias/{id}', 'verb' => 'PUT'],   // update alias properties
-        ['name' => 'alias#destroy',  'url' => '/alias/{id}', 'verb' => 'DELETE'] // drop an alias
     ]
 ];

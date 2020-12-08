@@ -14,21 +14,12 @@ class ConfigController extends Controller {
 		$this->userId = $UserId;
 		$this->service = $service;
 	}
-
-	/**
-	 * @param string $domain
-	 */
-	private function formatConf(string $domain) {
-	    return array(
-	        'domain' => $domain
-	    );
-	}
 	
 	/**
 	 * @NoAdminRequired
 	 */
 	public function getConf() {
-	    return $this->formatConf($this->service->getTargetDomain());
+	    return $this->service->formatConf($this->service->getTargetDomain());
 	}
 	
 	/**
@@ -36,7 +27,7 @@ class ConfigController extends Controller {
 	 */
 	public function setConf(string $domain) {
 	    $this->service->setTargetDomain($domain);
-	    return $this->formatConf($domain);
+	    return $this->service->formatConf($domain);
 	}
 
 }

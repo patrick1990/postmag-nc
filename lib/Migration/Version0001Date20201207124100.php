@@ -60,6 +60,10 @@ class Version0001Date20201207124100 extends SimpleMigrationStep {
                 'notnull' => true,
                 'length' => 20
             ]);
+            $table->addColumn('to_mail', 'string', [
+                'notnull' => true,
+                'length' => 256
+            ]);
             $table->addColumn('comment', 'string', [
                 'notnull' => true,
                 'default' => '',

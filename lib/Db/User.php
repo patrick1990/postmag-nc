@@ -7,7 +7,7 @@ use OCP\AppFramework\Db\Entity;
 class User extends Entity implements JsonSerializable {
     
     protected $userId;
-    protected $userAlias;
+    protected $userAliasId;
     
     public function __construct() {
         $this->addType('id', 'int');
@@ -19,24 +19,8 @@ class User extends Entity implements JsonSerializable {
         return [
             'id' => $this->id,
             'user_id' => $this->userId,
-            'user_alias_id' => $this->userAlias
+            'user_alias_id' => $this->userAliasId
         ];
-    }
-    
-    public function getUserId(): string {
-        return $this->userId;
-    }
-    
-    public function setUserId(string $userId) {
-        $this->userId = $userId;
-    }
-    
-    public function getUserAlias(): string {
-        return $this->userAlias;
-    }
-    
-    public function setUserAlias(string $userAlias) {
-        $this->userAlias = $userAlias;
     }
     
 }

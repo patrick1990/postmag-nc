@@ -24,7 +24,7 @@ class UserController extends Controller {
 		return array(
 		    'email' => $email,
 		    'emailSet' => ($email == '') ? 'false' : 'true',
-		    'userAlias' => $this->service->getUserAlias($this->userId)
+		    'userAlias' => $this->service->getUserAliasId($this->userId)
 		);
 	}
 

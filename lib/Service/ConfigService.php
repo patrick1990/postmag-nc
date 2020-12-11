@@ -8,11 +8,11 @@ class ConfigService {
     public const DEF_DOMAIN = 'example.com';
     
     public const MIN_USER_ALIAS_ID_LEN = 2;
-    public const MAX_USER_ALIAS_ID_LEN = 10;
+    public const MAX_USER_ALIAS_ID_LEN = 8;
     public const DEF_USER_ALIAS_ID_LEN = 4;
     
     public const MIN_ALIAS_ID_LEN = 2;
-    public const MAX_ALIAS_ID_LEN = 10;
+    public const MAX_ALIAS_ID_LEN = 8;
     public const DEF_ALIAS_ID_LEN = 4;
     
     private $config;

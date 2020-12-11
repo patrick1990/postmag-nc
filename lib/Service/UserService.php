@@ -15,11 +15,11 @@ class UserService {
         $this->mapper = $mapper;
     }
     
-    public function getUserEMail($userId) {
+    public function getUserEMail(string $userId): string {
         return $this->config->getUserValue($userId, 'settings', 'email');
     }
     
-    public function getUserAlias($userId) {
+    public function getUserAlias(string $userId): string {
         try {
             $user = $this->mapper->find($userId);
         }

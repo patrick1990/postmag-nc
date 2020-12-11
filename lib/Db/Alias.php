@@ -27,7 +27,7 @@ class Alias extends Entity implements JsonSerializable {
         $this->addType('last_modified', 'int');
     }
     
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return [
             'id' => $this->id,
             'user_id' => $this->userId,

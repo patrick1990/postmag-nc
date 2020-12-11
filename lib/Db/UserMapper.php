@@ -10,7 +10,7 @@ class UserMapper extends QBMapper {
         parent::__construct($db, 'postmag_user', User::class);
     }
     
-    public function find(string $userId) {
+    public function find(string $userId): User {
         $qb = $this->db->getQueryBuilder();
         
         $qb->select('*')

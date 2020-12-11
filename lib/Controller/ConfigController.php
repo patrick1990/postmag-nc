@@ -19,15 +19,17 @@ class ConfigController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getConf() {
-	    return $this->service->formatConf($this->service->getTargetDomain());
+	    return $this->service->getConf();
 	}
 	
 	/**
 	 * @param string $domain
 	 */
-	public function setConf(string $domain) {
+	public function setConf(string $domain, int $userAliasIdLen, int $aliasIdLen) {
 	    $this->service->setTargetDomain($domain);
-	    return $this->service->formatConf($domain);
+	    $this->service->setUserAliasIdLen($userAliasIdLen);
+	    $this->service->setAliasIdLen($aliasIdLen);
+	    return $this->service->getConf();
 	}
 
 }

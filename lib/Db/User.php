@@ -15,7 +15,7 @@ class User extends Entity implements JsonSerializable {
         $this->addType('user_alias_id', 'string');
     }
     
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return [
             'id' => $this->id,
             'user_id' => $this->userId,

@@ -18,13 +18,13 @@ class UserController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function getinfo() {
+	public function getInfo() {
 	    $email = $this->service->getUserEMail($this->userId);
 	    
 		return array(
 		    'email' => $email,
 		    'emailSet' => ($email == '') ? 'false' : 'true',
-		    'userAlias' => 'abcd' // TODO: get user alias from database
+		    'userAlias' => $this->service->getUserAlias($this->userId)
 		);
 	}
 

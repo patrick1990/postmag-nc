@@ -23,4 +23,20 @@ class User extends Entity implements JsonSerializable {
         ];
     }
     
+    public function getUserId(): string {
+        return $this->userId;
+    }
+    
+    public function setUserId(string $userId) {
+        $this->userId = $userId;
+    }
+    
+    public function getUserAlias(): string {
+        return $this->userAlias;
+    }
+    
+    public function setUserAlias(string $userAlias) {
+        $this->userAlias = $userAlias;
+    }
+    
 }

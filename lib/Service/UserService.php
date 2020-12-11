@@ -2,13 +2,17 @@
 namespace OCA\Postmag\Service;
 
 use OCP\IConfig;
+use OCA\Postmag\Db\UserMapper;
+use OCA\Postmag\Db\User;
 
 class UserService {
     
     private $config;
+    private $mapper;
     
-    public function __construct(IConfig $config) {
+    public function __construct(IConfig $config, UserMapper $mapper) {
         $this->config = $config;
+        $this->mapper = $mapper;
     }
     
     public function getUserEMail($userId) {
@@ -16,7 +20,16 @@ class UserService {
     }
     
     public function getUserAlias($userId) {
-        // empty for now
+        try {
+            $user = $this->mapper->find($userId);
+        }
+        catch(\OCP\AppFramework\Db\DoesNotExistException $e) {
+            $user = new User();
+            $user->setUserId($userId);
+            $user->setUserAlias('abcd'); // TODO: Generate random string
+        }
+        
+        return $user->getUserAlias();
     }
     
 }

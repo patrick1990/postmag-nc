@@ -36,8 +36,8 @@ class Alias extends Entity implements JsonSerializable {
             'to_mail' => $this->toMail,
             'comment' => $this->comment,
             'enabled' => $this->enabled,
-            'created' => $this->created,
-            'last_modified' => $this->lastModified,
+            'created' => $this->getCreatedDT(),
+            'last_modified' => $this->getLastModifiedDT(),
         ];
     }
     

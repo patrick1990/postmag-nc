@@ -5,6 +5,7 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCA\Postmag\Service\ConfigService;
 
 class Version0001Date20201207124100 extends SimpleMigrationStep {
     
@@ -31,7 +32,7 @@ class Version0001Date20201207124100 extends SimpleMigrationStep {
             ]);
             $table->addColumn('user_alias_id', 'string', [
                 'notnull' => true,
-                'length' => 10,
+                'length' => ConfigService::MAX_USER_ALIAS_ID_LEN,
                 'customSchemaOptions' => [
                     'unique' => true
                 ]
@@ -54,20 +55,20 @@ class Version0001Date20201207124100 extends SimpleMigrationStep {
             ]);
             $table->addColumn('alias_id', 'string', [
                 'notnull' => true,
-                'length' => 10
+                'length' => ConfigService::MAX_ALIAS_ID_LEN
             ]);
             $table->addColumn('alias_name', 'string', [
                 'notnull' => true,
-                'length' => 20
+                'length' => ConfigService::MAX_ALIAS_NAME_LEN
             ]);
             $table->addColumn('to_mail', 'string', [
                 'notnull' => true,
-                'length' => 256
+                'length' => ConfigService::MAX_TO_MAIL_LEN
             ]);
             $table->addColumn('comment', 'string', [
                 'notnull' => true,
                 'default' => '',
-                'length' => 40
+                'length' => ConfigService::MAX_COMMENT_LEN
             ]);
             $table->addColumn('enabled', 'boolean', [
                 'notnull' => true,

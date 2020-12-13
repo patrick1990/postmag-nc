@@ -9,7 +9,7 @@
  */
 return [
     'routes' => [
-	    ['name' => 'page#index',     'url' => '/',           'verb' => 'GET'],   // return interface
+	    ['name' => 'page#index',     'url' => '/',           'verb' => 'GET'],   // return user interface
         ['name' => 'config#getconf', 'url' => '/config',     'verb' => 'GET'],   // get global config
         ['name' => 'config#setconf', 'url' => '/config',     'verb' => 'PUT'],   // set global config
         ['name' => 'user#getinfo',   'url' => '/userinfo',   'verb' => 'GET'],   // get user info

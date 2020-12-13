@@ -24,12 +24,18 @@ class UserService {
     
     public function getUserAliasId(string $userId): string {
         try {
-            $user = $this->mapper->find($userId);
+            $user = $this->mapper->findUser($userId);
         }
         catch(\OCP\AppFramework\Db\DoesNotExistException $e) {
+            // Generate new user alias id
+            $userAliasId = Random::hexString($this->confService->getUserAliasIdLen());
+            while ($this->mapper->containsAliasId($userAliasId)) {
+                $userAliasId = Random::hexString($this->confService->getUserAliasIdLen());
+            }
+            
             $user = new User();
             $user->setUserId($userId);
-            $user->setUserAliasId(Random::hexString($this->confService->getUserAliasIdLen()));
+            $user->setUserAliasId($userAliasId);
             $this->mapper->insert($user);
         }
         

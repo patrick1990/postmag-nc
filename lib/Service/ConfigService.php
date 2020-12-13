@@ -27,7 +27,11 @@ class ConfigService {
         return array(
             'domain' => $this->getTargetDomain(),
             'userAliasIdLen' => $this->getUserAliasIdLen(),
-            'aliasIdLen' => $this->getAliasIdLen()
+            'userAliasIdLenMin' => self::MIN_USER_ALIAS_ID_LEN,
+            'userAliasIdLenMax' => self::MAX_USER_ALIAS_ID_LEN,
+            'aliasIdLen' => $this->getAliasIdLen(),
+            'aliasIdLenMin' => self::MIN_ALIAS_ID_LEN,
+            'aliasIdLenMax' => self::MAX_ALIAS_ID_LEN
         );
     }
     

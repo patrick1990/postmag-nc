@@ -1,10 +1,9 @@
 <?php
 namespace OCA\Postmag\Db;
 
-use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
-class User extends Entity implements JsonSerializable {
+class User extends Entity {
     
     protected $userId;
     protected $userAliasId;
@@ -15,7 +14,7 @@ class User extends Entity implements JsonSerializable {
         $this->addType('user_alias_id', 'string');
     }
     
-    public function jsonSerialize(): array {
+    public function serialize(): array {
         return [
             'id' => $this->id,
             'user_id' => $this->userId,

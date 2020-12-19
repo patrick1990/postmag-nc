@@ -1,10 +1,10 @@
 <?php
 namespace OCA\Postmag\Db;
 
-use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use OCP\IDateTimeFormatter;
 
-class Alias extends Entity implements JsonSerializable {
+class Alias extends Entity {
     
     protected $userId;
     protected $aliasId;
@@ -27,7 +27,7 @@ class Alias extends Entity implements JsonSerializable {
         $this->addType('last_modified', 'int');
     }
     
-    public function jsonSerialize(): array {
+    public function serialize(IDateTimeFormatter $formatter): array {
         return [
             'id' => $this->id,
             'user_id' => $this->userId,
@@ -36,29 +36,9 @@ class Alias extends Entity implements JsonSerializable {
             'to_mail' => $this->toMail,
             'comment' => $this->comment,
             'enabled' => $this->enabled,
-            'created' => $this->getCreatedDT(),
-            'last_modified' => $this->getLastModifiedDT(),
+            'created' => $formatter->formatDateTime($this->created, 'short', 'medium'),
+            'last_modified' => $formatter->formatDateTime($this->lastModified, 'short', 'medium'),
         ];
-    }
-    
-    public function getCreatedDT(): \DateTime {
-        $created = new \DateTime();
-        $created->setTimestamp($this->getCreated());
-        return $created;
-    }
-    
-    public function setCreatedDT(\DateTime $created) {
-        $this->setCreated($created->getTimestamp());
-    }
-    
-    public function getLastModifiedDT(): \DateTime {
-        $lastModified = new \DateTime();
-        $lastModified->setTimestamp($this->getLastModified());
-        return $lastModified;
-    }
-    
-    public function setLastModifedDT(\DateTime $lastModified) {
-        $this->setLastModified($lastModified->getTimestamp());
     }
     
 }

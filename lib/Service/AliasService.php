@@ -5,32 +5,34 @@ use OCP\IConfig;
 use OCA\Postmag\Db\AliasMapper;
 use OCA\Postmag\Db\Alias;
 use OCA\Postmag\Share\Random;
-use OC\DateTimeFormatter;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\IDateTimeFormatter;
 
 class AliasService {
     
     use Errors;
     
     private $config;
-    private $dtFormater;
+    private $dateTimeFormatter;
     private $mapper;
     private $confService;
     
     public function __construct(IConfig $config,
-                                DateTimeFormatter $dtFormater,
+                                IDateTimeFormatter $dateTimeFormatter,
                                 AliasMapper $mapper,
                                 ConfigService $confService)
     {
         $this->config = $config;
-        $this->dtFormater = $dtFormater;
+        $this->dateTimeFormatter = $dateTimeFormatter;
         $this->mapper = $mapper;
         $this->confService = $confService;
     }
     
     public function findAll(string $userId): array {
-        return $this->mapper->findAll($userId);
+        $ret = $this->mapper->findAll($userId);
+        array_walk($ret, function (&$value, $key) use ($this) {
+            $value->serialize($this->dateTimeFormatter);
+        });
+        return $ret;
     }
     
     private function checkParameters(string $aliasName = null,
@@ -64,7 +66,7 @@ class AliasService {
         }
         
         // Get DateTime
-        $now = $this->dtFormater->getDateTime(null);
+        $now = new \DateTime('now');
         
         $alias = new Alias();
         $alias->setUserId($userId);
@@ -73,10 +75,10 @@ class AliasService {
         $alias->setToMail($toMail);
         $alias->setComment($comment);
         $alias->setEnabled(True);
-        $alias->setCreatedDT($now);
-        $alias->setLastModifedDT($now);
+        $alias->setCreated($now->getTimestamp());
+        $alias->setLastModifed($now->getTimestamp());
         
-        return $this->mapper->insert($alias);;
+        return $this->mapper->insert($alias)->serialize($this->dateTimeFormatter);
     }
     
     public function update(int $id, string $toMail, string $comment, bool $enabled, string $userId): Alias {
@@ -84,15 +86,15 @@ class AliasService {
         
         try {
             // Get DateTime
-            $now = $this->dtFormater->getDateTime(null);
+            $now = new \DateTime('now');
             
             $alias = $this->mapper->find($id, $userId);
             $alias->setToMail($toMail);
             $alias->setComment($comment);
             $alias->setEnabled($enabled);
-            $alias->setLastModifedDT($now);
+            $alias->setLastModifed($now->getTimestamp());
             
-            return $this->mapper->update($alias);
+            return $this->mapper->update($alias)->serialize($this->dateTimeFormatter);
         }
         catch (\Exception $e) {
             $this->handleDbException($e);

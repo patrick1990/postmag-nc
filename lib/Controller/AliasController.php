@@ -23,7 +23,7 @@ class AliasController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function index() {
-		return new JSONResponse($this->service->findAll($this->userId));
+		return $this->service->findAll($this->userId);
 	}
 	
 	/**
@@ -34,7 +34,7 @@ class AliasController extends Controller {
 	 * @param string $comment
 	 */
 	public function create(string $aliasName, string $toMail, string $comment) {
-	    return new JSONResponse($this->service->create($aliasName, $toMail, $comment, $this->userId));
+	    return $this->service->create($aliasName, $toMail, $comment, $this->userId);
 	}
 	
 	/**

@@ -40,16 +40,31 @@ class AliasService {
                                      string $comment = null)
     {
         if($aliasName !== null) {
+            // Check string length
             if(strlen($aliasName) > ConfigService::MAX_ALIAS_NAME_LEN) {
                 throw new Exceptions\StringLengthException("Maximum allowed length of alias_name is ".ConfigService::MAX_ALIAS_NAME_LEN);
             }
+            
+            // Check string format
+            if(preg_match($aliasName, ConfigService::REGEX_ALIAS_NAME) !== 1) {
+                throw new Exceptions\ValueFormatException("The alias name have to be of the right format");
+            }
         }
+        
         if($toMail !== null) {
+            // Check string length
             if(strlen($toMail) > ConfigService::MAX_TO_MAIL_LEN) {
                 throw new Exceptions\StringLengthException("Maximum allowed length of to_mail is ".ConfigService::MAX_TO_MAIL_LEN);
             }
+            
+            // Check string format
+            if(preg_match($toMail, ConfigService::REGEX_EMAIL) !== 1) {
+                throw new Exceptions\ValueFormatException("The To mail address have to be a valid mail address");
+            }
         }
+        
         if($comment !== null) {
+            // Check string length
             if(strlen($comment) > ConfigService::MAX_COMMENT_LEN) {
                 throw new Exceptions\StringLengthException("Maximum allowed length of comment is ".ConfigService::MAX_COMMENT_LEN);
             }

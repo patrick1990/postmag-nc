@@ -13,6 +13,11 @@ class PageController extends Controller {
 		$this->userId = $UserId;
 	}
 
+	// TODO: Implement Commands
+	// TODO: Implement Unit- and Integration-Tests
+	// TODO: Implement Frontend
+	// TODO: Implement REST API
+	
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

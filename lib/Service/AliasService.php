@@ -13,17 +13,14 @@ class AliasService {
     
     use Errors;
     
-    private $config;
     private $dateTimeFormatter;
     private $mapper;
     private $confService;
     
-    public function __construct(IConfig $config,
-                                IDateTimeFormatter $dateTimeFormatter,
+    public function __construct(IDateTimeFormatter $dateTimeFormatter,
                                 AliasMapper $mapper,
                                 ConfigService $confService)
     {
-        $this->config = $config;
         $this->dateTimeFormatter = $dateTimeFormatter;
         $this->mapper = $mapper;
         $this->confService = $confService;

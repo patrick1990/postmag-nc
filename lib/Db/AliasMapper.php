@@ -24,7 +24,7 @@ class AliasMapper extends QBMapper {
         return $this->findEntity($qb);
     }
     
-    public function findAll(string $userId, bool $enabled = null): array {
+    public function findAll(?string $userId, ?bool $enabled = null): array {
         $qb = $this->db->getQueryBuilder();
         
         $qb->select('*')
@@ -46,6 +46,22 @@ class AliasMapper extends QBMapper {
         }
         
         return $this->findEntities($qb);
+    }
+    
+    public function findLastModified(?string $userId): Alias {
+        $qb = $this->db->getQueryBuilder();
+        
+        $qb->select('*')
+            ->from($this->getTableName());
+        
+        if ($userId !== null) {
+            $qb->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
+        }
+        
+        $qb->orderBy('last_modified', 'DESC')
+            ->setMaxResults(1);
+        
+        return $this->findEntity($qb);
     }
     
     public function containsAliasId(string $aliasId, string $userId, string $aliasName): bool {

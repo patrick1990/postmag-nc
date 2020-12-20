@@ -17,6 +17,10 @@
     <dependencies>
         <nextcloud min-version="20" max-version="20"/>
     </dependencies>
+    <commands>
+		<command>OCA\Postmag\Command\Aliases</command>
+		<command>OCA\Postmag\Command\LastModified</command>
+	</commands>
     <navigations>
         <navigation>
             <name>Postmag</name>

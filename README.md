@@ -19,3 +19,19 @@ alias_name.alias_id.user_alias_id@your_domain.com
 ```
 
 your_domian is configurable by the administrator.
+
+## OCC Commands
+
+The app implements 2 OCC commands.
+
+### postmag:last_modified
+
+This command writes the timestamp of the last alias change to the console. Everytime a user update or creates an aliase this timestamp will change. You can use it to check if you have populated the most recent alias file to your postfix server.
+
+If you use this command with the option "-f" you get the timestamp formatted in a more readable format than in unix time.
+
+### postmag:aliases
+
+This command generates an alias file out of the enabled user aliases an writes it to the console. You can use this file directly with you postfix server (don't forget to call newaliases on you postfix server).
+
+The aliases will be of the format described above.

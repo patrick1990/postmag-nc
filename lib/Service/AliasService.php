@@ -45,7 +45,7 @@ class AliasService {
             }
             
             // Check string format
-            if(preg_match(ConfigService::REGEX_ALIAS_NAME, $aliasName) !== 1) {
+            if(preg_match("/".ConfigService::REGEX_ALIAS_NAME."/", $aliasName) !== 1) {
                 throw new Exceptions\ValueFormatException("The alias name have to be of the right format");
             }
         }
@@ -57,7 +57,7 @@ class AliasService {
             }
             
             // Check string format
-            if(preg_match(ConfigService::REGEX_EMAIL, $toMail) !== 1) {
+            if(preg_match("/".ConfigService::REGEX_EMAIL."/", $toMail) !== 1) {
                 throw new Exceptions\ValueFormatException("The To mail address have to be a valid mail address");
             }
         }

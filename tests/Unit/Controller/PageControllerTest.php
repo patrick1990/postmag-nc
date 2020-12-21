@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
@@ -13,7 +14,7 @@ class PageControllerTest extends TestCase {
 	private $controller;
 	private $userId = 'john';
 
-	public function setUp() {
+	public function setUp(): void {
 		$request = $this->getMockBuilder('OCP\IRequest')->getMock();
 
 		$this->controller = new PageController(
@@ -21,7 +22,7 @@ class PageControllerTest extends TestCase {
 		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$result = $this->controller->index();
 
 		$this->assertEquals('index', $result->getTemplateName());

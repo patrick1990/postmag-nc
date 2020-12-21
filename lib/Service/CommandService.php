@@ -39,7 +39,7 @@ class CommandService {
                         ."."
                         .$this->userService->getUserAliasId($alias->getUserId())
                         .": "
-                        .$this->getToMail();
+                        .$alias->getToMail();
         }
         
         return $ret;

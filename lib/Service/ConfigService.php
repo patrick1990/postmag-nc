@@ -9,8 +9,8 @@ class ConfigService {
     
     public const DEF_DOMAIN = 'example.com';
     public const REGEX_DOMAIN = '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$';
-    public const REGEX_EMAIL = '';
-    public const REGEX_ALIAS_NAME = '';
+    public const REGEX_EMAIL = '^([a-z0-9]+([-_][a-z0-9]+)*\.)+@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$';
+    public const REGEX_ALIAS_NAME = '^[a-z0-9]+$';
     
     public const MIN_USER_ALIAS_ID_LEN = 2;
     public const MAX_USER_ALIAS_ID_LEN = 8;

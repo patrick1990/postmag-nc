@@ -11,6 +11,7 @@ use OCA\Postmag\Controller\PageController;
 
 
 class PageControllerTest extends TestCase {
+    
 	private $controller;
 	private $userId = 'john';
 

@@ -67,7 +67,7 @@ class ConfigService {
      */
     public function setTargetDomain(string $domain) {
         // Check if $domain is indeed a domain
-        if(preg_match($domainRegex, self::REGEX_DOMAIN) !== 1)
+        if(preg_match(self::REGEX_DOMAIN, $domain) !== 1)
             throw new Exceptions\ValueFormatException("The configured domain have to be a domain");
         
         $this->config->setAppValue($this->appName, 'targetDomain', $domain);

@@ -28,8 +28,8 @@ class AliasService {
     
     public function findAll(string $userId): array {
         $ret = $this->mapper->findAll($userId);
-        array_walk($ret, function (&$value, $key) use ($this) {
-            $value->serialize($this->dateTimeFormatter);
+        array_walk($ret, function (&$value, $key) {
+            $value = $value->serialize($this->dateTimeFormatter);
         });
         return $ret;
     }

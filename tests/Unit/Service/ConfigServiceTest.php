@@ -95,7 +95,7 @@ class ConfigServiceTest extends TestCase {
         
         foreach (self::CONF_DEFAULTS as $key => $val) {
             $this->assertTrue(array_key_exists($key, $defConf), $key." doesn't exist in getConf.");
-            $this->assertEquals($val, $defConf[$key], $key." doesn't equals to the expected default value.");
+            $this->assertSame($val, $defConf[$key], $key." doesn't equals to the expected default value.");
         }
     }
     

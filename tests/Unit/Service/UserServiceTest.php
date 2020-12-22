@@ -43,7 +43,7 @@ class UserServiceTest extends TestCase {
         // Test method
         $ret = $this->service->getUserEMail($userId);
         
-        $this->assertEquals($email, $ret, 'Wrong mail address returned.');
+        $this->assertSame($email, $ret, 'Wrong mail address returned.');
     }
     
     public function testGetExistingUserAliasId(): void {
@@ -63,7 +63,7 @@ class UserServiceTest extends TestCase {
         // Test method
         $ret = $this->service->getUserAliasId($userId);
         
-        $this->assertEquals($userAliasId, $ret, 'Wrong user alias id returned');
+        $this->assertSame($userAliasId, $ret, 'Wrong user alias id returned');
     }
     
     public function testGetNewUserAliasId(): void {
@@ -87,9 +87,9 @@ class UserServiceTest extends TestCase {
         // Test method
         $ret = $this->service->getUserAliasId($userId);
         
-        $this->assertEquals('string', gettype($ret), 'user alias is not of type string.');
-        $this->assertEquals(1, preg_match("/^[0-9a-f]*$/", $ret), 'user alias is not a hexadecimal string.');
-        $this->assertEquals(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret), 'user alias is of wrong length.');
+        $this->assertSame('string', gettype($ret), 'user alias is not of type string.');
+        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret), 'user alias is not a hexadecimal string.');
+        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret), 'user alias is of wrong length.');
     }
     
 }

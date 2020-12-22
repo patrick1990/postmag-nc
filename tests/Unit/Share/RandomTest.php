@@ -13,9 +13,9 @@ class RandomTest extends TestCase {
     public function testHexString(): void {
         $str = Random::hexString($this->hexStrLen);
         
-        $this->assertEquals('string', gettype($str), 'hexString is not of type string.');
-        $this->assertEquals(1, preg_match("/^[0-9a-f]*$/", $str), 'hexString is not a hexadecimal string.');
-        $this->assertEquals($this->hexStrLen, strlen($str), 'hexString is of wrong length.');
+        $this->assertSame('string', gettype($str), 'hexString is not of type string.');
+        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $str), 'hexString is not a hexadecimal string.');
+        $this->assertSame($this->hexStrLen, strlen($str), 'hexString is of wrong length.');
     }
     
 }

@@ -81,7 +81,7 @@ class CommandServiceTest extends TestCase {
                 continue;
             }
             
-            $this->assertEquals(
+            $this->assertSame(
                 $this->aliases[$i]->getAliasName()
                 ."."
                 .$this->aliases[$i]->getAliasId()
@@ -105,16 +105,16 @@ class CommandServiceTest extends TestCase {
         // Test method - unix time
         $ret = $this->service->getLastModified();
         
-        $this->assertEquals(
+        $this->assertSame(
             $this->aliases[0]->getLastModified(),
-            $ret, 
+            intval($ret), 
             "last modified date is not returned as correct unix time."
         );
         
         // Test method - formatted
         $ret = $this->service->getLastModified(true);
         
-        $this->assertEquals(
+        $this->assertSame(
             (new \DateTime())->setTimestamp($this->aliases[0]->getLastModified())->format('Y-m-d_H:i:s'),
             $ret,
             "last modified date is not returned as correct formatted time."

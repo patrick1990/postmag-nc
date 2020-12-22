@@ -27,6 +27,43 @@ class ConfigServiceTest extends TestCase {
         'commentLenMax' => ConfigService::MAX_COMMENT_LEN
     ];
     
+    // Define test cases for settings
+    private const DOMAIN_TEST_CASES = [
+        "allowed" => [
+            "example.com",
+            "sub.domain.de",
+            "abc.def.ghijk"
+        ],
+        "notAllowed" => [
+            "",
+            ".",
+            "domain",
+            ".com"
+        ]
+    ];
+    private const USER_ALIAS_ID_LEN_TEST_CASES = [
+        "allowed" => [
+            ConfigService::MIN_USER_ALIAS_ID_LEN,
+            ConfigService::DEF_USER_ALIAS_ID_LEN,
+            ConfigService::MAX_USER_ALIAS_ID_LEN
+        ],
+        "notAllowed" => [
+            ConfigService::MIN_USER_ALIAS_ID_LEN - 1,
+            ConfigService::MAX_USER_ALIAS_ID_LEN + 1
+        ]
+    ];
+    private const ALIAS_ID_LEN_TEST_CASES = [
+        "allowed" => [
+            ConfigService::MIN_ALIAS_ID_LEN,
+            ConfigService::DEF_ALIAS_ID_LEN,
+            ConfigService::MAX_ALIAS_ID_LEN
+        ],
+        "notAllowed" => [
+            ConfigService::MIN_ALIAS_ID_LEN - 1,
+            ConfigService::MAX_ALIAS_ID_LEN + 1
+        ]
+    ];
+    
     private $service;
     private $appName = "postmag";
     private $config;
@@ -62,55 +99,133 @@ class ConfigServiceTest extends TestCase {
         }
     }
     
-    public function testSetDomain(): void {
-        $goodDomain = "sub.mydomain.com";
-        $badDomain = ".com";
-        
-        // Mocking
-        $this->config->expects($this->once())
-            ->method('setAppValue')
-            ->with($this->appName, 'targetDomain', $goodDomain);
-        
-        // Test method - good case
-        $this->service->setTargetDomain($goodDomain);
-        
-        // Test method - bad case
-        $this->expectException(ValueFormatException::class);
-        $this->service->setTargetDomain($badDomain);
+    public function testSetDomainAllowed(): void {
+        foreach (self::DOMAIN_TEST_CASES["allowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Mocking
+            $this->config->expects($this->once())
+                ->method('setAppValue')
+                ->with($this->appName, 'targetDomain', $testcase);
+            
+            // Test method
+            try {
+                $this->service->setTargetDomain($testcase);
+            }
+            catch (ValueFormatException $e) {
+                $this->assertTrue(false, strval($testcase)." was not accepted as domain.");
+            }
+        }
     }
     
-    public function testSetUserAliasIdLen(): void {
-        $goodLen = ConfigService::MIN_USER_ALIAS_ID_LEN;
-        $badLen = ConfigService::MAX_USER_ALIAS_ID_LEN + 1;
+    public function testSetDomainNotAllowed(): void {
+        foreach (self::DOMAIN_TEST_CASES["notAllowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Test method
+            $caught = false;
+            try {
+                $this->service->setTargetDomain($testcase);
+            }
+            catch (ValueFormatException $e) {
+                $caught = true;
+            }
+            
+            if (!$caught) {
+                $this->assertTrue(false, strval($testcase)." was accepted as domain.");
+            }
+        }
         
-        // Mocking
-        $this->config->expects($this->once())
-            ->method('setAppValue')
-            ->with($this->appName, 'userAliasIdLen', $goodLen);
-        
-        // Test method - good case
-        $this->service->setUserAliasIdLen($goodLen);
-        
-        // Test method - bad case
-        $this->expectException(ValueBoundException::class);
-        $this->service->setUserAliasIdLen($badLen);
+        // Prevent test of beeing useless in case of all length are rejected.
+        $this->assertTrue(true);
     }
     
-    public function testSetAliasIdLen(): void {
-        $goodLen = ConfigService::MIN_ALIAS_ID_LEN;
-        $badLen = ConfigService::MAX_ALIAS_ID_LEN + 1;
+    public function testSetUserAliasIdLenAllowed(): void {
+        foreach (self::USER_ALIAS_ID_LEN_TEST_CASES["allowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Mocking
+            $this->config->expects($this->once())
+                ->method('setAppValue')
+                ->with($this->appName, 'userAliasIdLen', $testcase);
+            
+            // Test method
+            try {
+                $this->service->setUserAliasIdLen($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $this->assertTrue(false, strval($testcase)." was not accepted as user alias id length.");
+            }
+        }
+    }
+    
+    public function testSetUserAliasIdLenNotAllowed(): void {
+        foreach (self::USER_ALIAS_ID_LEN_TEST_CASES["notAllowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Test method
+            $caught = false;
+            try {
+                $this->service->setUserAliasIdLen($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $caught = true;
+            }
+            
+            if (!$caught) {
+                $this->assertTrue(false, strval($testcase)." was accepted as user alias id length.");
+            }
+        }
         
-        // Mocking
-        $this->config->expects($this->once())
-            ->method('setAppValue')
-            ->with($this->appName, 'aliasIdLen', $goodLen);
+        // Prevent test of beeing useless in case of all length are rejected.
+        $this->assertTrue(true);
+    }
+    
+    public function testSetAliasIdLenAllowed(): void {
+        foreach (self::ALIAS_ID_LEN_TEST_CASES["allowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Mocking
+            $this->config->expects($this->once())
+                ->method('setAppValue')
+                ->with($this->appName, 'aliasIdLen', $testcase);
+            
+            // Test method
+            try {
+                $this->service->setAliasIdLen($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $this->assertTrue(false, strval($testcase)." was not accepted as alias id length.");
+            }
+        }
+    }
+    
+    public function testSetAliasIdLenNotAllowed(): void {
+        foreach (self::ALIAS_ID_LEN_TEST_CASES["notAllowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+            
+            // Test method
+            $caught = false;
+            try {
+                $this->service->setAliasIdLen($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $caught = true;
+            }
+            
+            if (!$caught) {
+                $this->assertTrue(false, strval($testcase)." was accepted as alias id length.");
+            }
+        }
         
-        // Test method - good case
-        $this->service->setAliasIdLen($goodLen);
-        
-        // Test method - bad case
-        $this->expectException(ValueBoundException::class);
-        $this->service->setAliasIdLen($badLen);
+        // Prevent test of beeing useless in case of all length are rejected.
+        $this->assertTrue(true);
     }
     
 }

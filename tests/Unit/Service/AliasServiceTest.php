@@ -11,6 +11,7 @@ use OCA\Postmag\Service\AliasService;
 use OCA\Postmag\Db\Alias;
 use OCA\Postmag\Service\Exceptions\ValueFormatException;
 use OCA\Postmag\Service\Exceptions\StringLengthException;
+use OCP\AppFramework\Db\DoesNotExistException;
 
 class AliasServiceTest extends TestCase {
     
@@ -219,6 +220,33 @@ class AliasServiceTest extends TestCase {
         $this->assertSame($this->aliases[1]->getToMail(), $ret['to_mail'], 'not the expected to mail.');
         $this->assertSame($this->aliases[1]->getComment(), $ret['comment'], 'not the expected comment.');
         $this->assertSame(false, $ret['enabled'], 'not the expected enabled state.');
+    }
+    
+    public function testUpdateNotFound(): void {
+        // Mocking
+        $this->mapper->expects($this->once())
+            ->method('find')
+            ->with($this->aliases[0]->getId(), $this->aliases[0]->getUserId())
+            ->willThrowException(new DoesNotExistException("Does not exists."));
+        
+        // Test method
+        $caught = false;
+        try {
+            $this->service->update(
+                $this->aliases[0]->getId(),
+                $this->aliases[1]->getToMail(),
+                $this->aliases[1]->getComment(),
+                false,
+                $this->aliases[0]->getUserId()
+                );
+        }
+        catch (\OCA\Postmag\Service\Exceptions\NotFoundException $e) {
+            $caught = true;
+        }
+        
+        if (!$caught) {
+            $this->assertTrue(false, "Not found exception of database was not handled.");
+        }
     }
     
     public function testAliasNameAllowed(): void {

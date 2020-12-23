@@ -70,7 +70,7 @@ class AliasService {
         }
     }
     
-    public function create(string $aliasName, string $toMail, string $comment, string $userId): Alias {
+    public function create(string $aliasName, string $toMail, string $comment, string $userId): array {
         $this->checkParameters($aliasName, $toMail, $comment);
         
         // Generate new alias id
@@ -90,12 +90,12 @@ class AliasService {
         $alias->setComment($comment);
         $alias->setEnabled(True);
         $alias->setCreated($now->getTimestamp());
-        $alias->setLastModifed($now->getTimestamp());
+        $alias->setLastModified($now->getTimestamp());
         
         return $this->mapper->insert($alias)->serialize($this->dateTimeFormatter);
     }
     
-    public function update(int $id, string $toMail, string $comment, bool $enabled, string $userId): Alias {
+    public function update(int $id, string $toMail, string $comment, bool $enabled, string $userId): array {
         $this->checkParameters(null, $toMail, $comment);
         
         try {
@@ -106,7 +106,7 @@ class AliasService {
             $alias->setToMail($toMail);
             $alias->setComment($comment);
             $alias->setEnabled($enabled);
-            $alias->setLastModifed($now->getTimestamp());
+            $alias->setLastModified($now->getTimestamp());
             
             return $this->mapper->update($alias)->serialize($this->dateTimeFormatter);
         }

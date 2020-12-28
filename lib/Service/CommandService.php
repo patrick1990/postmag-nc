@@ -15,10 +15,6 @@ class CommandService {
         $this->userService = $userService;
     }
     
-    public function findAllEnabled(): array {
-        return $this->mapper->findAll(null, true);
-    }
-    
     public function formatPostfixAliasFile(): iterable {
         $aliases = $this->mapper->findAll(null);
         

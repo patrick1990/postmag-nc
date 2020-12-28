@@ -24,7 +24,7 @@ class AliasMapper extends QBMapper {
         return $this->findEntity($qb);
     }
     
-    public function findAll(?string $userId, ?bool $enabled = null): array {
+    public function findAll(?string $userId): array {
         $qb = $this->db->getQueryBuilder();
         
         $qb->select('*')
@@ -33,16 +33,6 @@ class AliasMapper extends QBMapper {
         if ($userId !== null) {
             # return aliases of selected user
             $qb->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
-        }
-        
-        if ($enabled !== null) {
-            # return aliases depending on enable state
-            if($userId === null) {
-                $qb->where($qb->expr()->eq('enabled', $qb->createNamedParameter($enabled)));
-            }
-            else {
-                $qb->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter($enabled)));
-            }
         }
         
         return $this->findEntities($qb);

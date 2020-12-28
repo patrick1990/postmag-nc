@@ -86,7 +86,7 @@ class AliasServiceTest extends TestCase {
         $this->aliases[0]->setCreated(12345);
         $this->aliases[0]->setLastModified(23456);
         
-        $this->aliases[0]->setId(236);
+        $this->aliases[1]->setId(236);
         $this->aliases[1]->setUserId('jane');
         $this->aliases[1]->setAliasId('2b3c');
         $this->aliases[1]->setAliasName('important');

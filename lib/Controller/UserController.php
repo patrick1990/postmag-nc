@@ -6,6 +6,7 @@ namespace OCA\Postmag\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Controller;
 use OCA\Postmag\Service\UserService;
+use OCP\AppFramework\Http\JSONResponse;
 
 class UserController extends Controller {
 	private $userId;
@@ -23,11 +24,11 @@ class UserController extends Controller {
 	public function getInfo() {
 	    $email = $this->service->getUserEMail($this->userId);
 	    
-		return array(
+		return new JSONResponse(array(
 		    'email' => $email,
 		    'emailSet' => ($email == '') ? 'false' : 'true',
 		    'userAlias' => $this->service->getUserAliasId($this->userId)
-		);
+		));
 	}
 
 }

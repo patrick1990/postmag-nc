@@ -6,6 +6,7 @@ namespace OCA\Postmag\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Controller;
 use OCA\Postmag\Service\ConfigService;
+use OCP\AppFramework\Http\JSONResponse;
 
 class ConfigController extends Controller {
 	private $userId;
@@ -21,7 +22,7 @@ class ConfigController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getConf() {
-	    return $this->service->getConf();
+	    return new JSONResponse($this->service->getConf());
 	}
 	
 	/**
@@ -31,7 +32,7 @@ class ConfigController extends Controller {
 	    $this->service->setTargetDomain($domain);
 	    $this->service->setUserAliasIdLen($userAliasIdLen);
 	    $this->service->setAliasIdLen($aliasIdLen);
-	    return $this->service->getConf();
+	    return new JSONResponse($this->service->getConf());
 	}
 
 }

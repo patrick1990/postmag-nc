@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use OCP\IRequest;
 use OCA\Postmag\Service\UserService;
 use OCA\Postmag\Controller\UserController;
+use OCP\AppFramework\Http\JSONResponse;
 
 class UserControllerTest extends TestCase {
     
@@ -37,9 +38,10 @@ class UserControllerTest extends TestCase {
         // Test method
         $ret = $this->controller->getInfo();
         
-        $this->assertSame('john@doe.com', $ret['email'], 'Returned an unexpected mail address.');
-        $this->assertSame('true', $ret['emailSet'], 'Set flag should be true.');
-        $this->assertSame('1a2b', $ret['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertSame('john@doe.com', $ret->getData()['email'], 'Returned an unexpected mail address.');
+        $this->assertSame('true', $ret->getData()['emailSet'], 'Set flag should be true.');
+        $this->assertSame('1a2b', $ret->getData()['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
     }
     
     public function testGetInfoMailUnset(): void {
@@ -57,9 +59,10 @@ class UserControllerTest extends TestCase {
         // Test method
         $ret = $this->controller->getInfo();
         
-        $this->assertSame('', $ret['email'], 'Returned an unexpected mail address.');
-        $this->assertSame('false', $ret['emailSet'], 'Set flag should be false.');
-        $this->assertSame('1a2b', $ret['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertSame('', $ret->getData()['email'], 'Returned an unexpected mail address.');
+        $this->assertSame('false', $ret->getData()['emailSet'], 'Set flag should be false.');
+        $this->assertSame('1a2b', $ret->getData()['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
     }
     
 }

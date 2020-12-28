@@ -148,10 +148,14 @@ class AliasServiceTest extends TestCase {
             ->method('getAliasIdLen')
             ->willReturn(ConfigService::DEF_ALIAS_ID_LEN);
         
+        $toggle = false;
         $this->mapper->expects($this->any())
             ->method('containsAliasId')
             ->withAnyParameters()
-            ->willReturn(false);
+            ->willReturnCallback(function () use (&$toggle) {
+                $toggle = ! $toggle;
+                return $toggle;
+            });
         
         $this->mapper->expects($this->once())
             ->method('insert')

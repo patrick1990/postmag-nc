@@ -79,10 +79,14 @@ class UserServiceTest extends TestCase {
             ->method('getUserAliasIdLen')
             ->willReturn(ConfigService::DEF_USER_ALIAS_ID_LEN);
         
+        $toggle = false;
         $this->mapper->expects($this->any())
             ->method('containsAliasId')
             ->withAnyParameters()
-            ->willReturn(false);
+            ->willReturnCallback(function () use (&$toggle) {
+                $toggle = ! $toggle;
+                return $toggle;
+            });
         
         // Test method
         $ret = $this->service->getUserAliasId($userId);

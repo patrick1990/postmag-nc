@@ -11,7 +11,7 @@ use OCA\Postmag\Service\Exceptions\ValueBoundException;
 
 class ConfigServiceTest extends TestCase {
     
-    private const CONF_DEFAULTS = [
+    public const CONF_DEFAULTS = [
         'domain' => ConfigService::DEF_DOMAIN,
         'regexDomain' => ConfigService::REGEX_DOMAIN,
         'regexEMail' => ConfigService::REGEX_EMAIL,

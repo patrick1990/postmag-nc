@@ -26,32 +26,41 @@ class CommandServiceTest extends TestCase {
             $this->userService
         );
         
-        $this->aliases = [new Alias(), new Alias()];
+        $this->aliases = [new Alias(), new Alias(), new Alias()];
         
         $this->aliases[0]->setUserId('john');
         $this->aliases[0]->setAliasId('1a2b');
         $this->aliases[0]->setAliasName('alias');
         $this->aliases[0]->setToMail('john@doe.com');
-        $this->aliases[0]->setComment('My Alias');
+        $this->aliases[0]->setComment('My Alias New');
         $this->aliases[0]->setEnabled(true);
         $this->aliases[0]->setCreated(12345);
         $this->aliases[0]->setLastModified(23456);
         
-        $this->aliases[1]->setUserId('jane');
-        $this->aliases[1]->setAliasId('2b3c');
-        $this->aliases[1]->setAliasName('important');
-        $this->aliases[1]->setToMail('jane@doe.com');
-        $this->aliases[1]->setComment('Very important');
-        $this->aliases[1]->setEnabled(true);
-        $this->aliases[1]->setCreated(76543);
-        $this->aliases[1]->setLastModified(87654);
+        $this->aliases[1]->setUserId('john');
+        $this->aliases[1]->setAliasId('0123');
+        $this->aliases[1]->setAliasName('alias');
+        $this->aliases[1]->setToMail('john@doe.com');
+        $this->aliases[1]->setComment('My Alias');
+        $this->aliases[1]->setEnabled(false);
+        $this->aliases[1]->setCreated(12300);
+        $this->aliases[1]->setLastModified(12340);
+        
+        $this->aliases[2]->setUserId('jane');
+        $this->aliases[2]->setAliasId('2b3c');
+        $this->aliases[2]->setAliasName('important');
+        $this->aliases[2]->setToMail('jane@doe.com');
+        $this->aliases[2]->setComment('Very important');
+        $this->aliases[2]->setEnabled(true);
+        $this->aliases[2]->setCreated(76543);
+        $this->aliases[2]->setLastModified(87654);
     }
     
     public function testFormatPostfixAliasFile(): void {
         // Mocking
         $this->mapper->expects($this->once())
             ->method('findAll')
-            ->with(null, true)
+            ->with(null)
             ->willReturn($this->aliases);
         
         $getUserAliasId = function($userId) {
@@ -77,10 +86,24 @@ class CommandServiceTest extends TestCase {
         $i = 0;
         foreach ($ret as $line) {
             if (($line === "") || ($line[0] === "#")) {
+                // Skip disabled alias
+                if ($line === "# ".$this->aliases[$i]->getAliasName()
+                                ."."
+                                .$this->aliases[$i]->getAliasId()
+                                ."."
+                                .$getUserAliasId($this->aliases[$i]->getUserId())
+                                .": "
+                                .$this->aliases[$i]->getToMail())
+                {
+                    $i = $i + 1;
+                }
+                
                 // Skip comments
                 continue;
             }
             
+            
+           
             $this->assertSame(
                 $this->aliases[$i]->getAliasName()
                 ."."

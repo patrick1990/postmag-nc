@@ -20,7 +20,7 @@ class CommandService {
     }
     
     public function formatPostfixAliasFile(): iterable {
-        $aliases = $this->findAllEnabled();
+        $aliases = $this->mapper->findAll(null);
         
         // add comments
         $ret[] = "######################";
@@ -33,7 +33,15 @@ class CommandService {
         
         // add aliases
         foreach ($aliases as $alias) {
-            $ret[] = $alias->getAliasName()
+            // Add created and last modified time stamp
+            $ret[] = "# Created: "
+                        .strval($alias->getCreated())
+                        .", Modified: "
+                        .strval($alias->getLastModified());
+            
+            // Add alias
+            $ret[] = $alias->getEnabled() ? "" : "# "
+                        .$alias->getAliasName()
                         ."."
                         .$alias->getAliasId()
                         ."."

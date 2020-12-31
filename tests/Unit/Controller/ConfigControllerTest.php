@@ -33,8 +33,9 @@ class ConfigControllerTest extends TestCase {
         // Test method
         $ret = $this->controller->getConf();
         
-        $this->assertSame(ConfigServiceTest::CONF_DEFAULTS, $ret->getData(), 'Did not return the expected config array');
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(200, $ret->getStatus(), 'HTTP status should be 200.');
+        $this->assertSame(ConfigServiceTest::CONF_DEFAULTS, $ret->getData(), 'Did not return the expected config array');
     }
     
     public function testSetConf(): void {
@@ -71,8 +72,9 @@ class ConfigControllerTest extends TestCase {
         // Test method
         $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
         
-        $this->assertSame($getConf(), $ret->getData(), 'Did not return the expected config array');
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(200, $ret->getStatus(), 'HTTP status should be 200.');
+        $this->assertSame($getConf(), $ret->getData(), 'Did not return the expected config array');
     }
     
 }

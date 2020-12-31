@@ -24,10 +24,11 @@ class PageControllerTest extends TestCase {
 	}
 
 	public function testIndex(): void {
-		$result = $this->controller->index();
+		$ret = $this->controller->index();
 
-		$this->assertSame('index', $result->getTemplateName());
-		$this->assertTrue($result instanceof TemplateResponse);
+		$this->assertTrue($ret instanceof TemplateResponse, 'Result should be a template response.');
+		$this->assertSame(200, $ret->getStatus(), 'HTTP status should be 200.');
+		$this->assertSame('index', $ret->getTemplateName(), 'Template name has to be index.');
 	}
 
 }

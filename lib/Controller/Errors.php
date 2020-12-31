@@ -5,7 +5,7 @@ namespace OCA\Postmag\Controller;
 
 use Closure;
 use OCP\AppFramework\Http\JSONResponse;
-use OC\AppFramework\Http;
+use OCP\AppFramework\Http;
 
 trait Errors {
     

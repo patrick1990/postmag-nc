@@ -15,7 +15,7 @@ class PageController extends Controller {
 		$this->userId = $UserId;
 	}
 
-	// TODO: Implement Unit- and Integration-Tests
+	// TODO: Implement Integration-Tests
 	// TODO: Implement Frontend
 	// TODO: Code documentation (Param documentation, License,...)
 	// TODO: Implement REST API

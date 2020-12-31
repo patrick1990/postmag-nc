@@ -9,6 +9,7 @@ use OCA\Postmag\Controller\ConfigController;
 use OCA\Postmag\Service\ConfigService;
 use OCA\Postmag\Tests\Unit\Service\ConfigServiceTest;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http;
 
 class ConfigControllerTest extends TestCase {
     
@@ -34,7 +35,7 @@ class ConfigControllerTest extends TestCase {
         $ret = $this->controller->getConf();
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
-        $this->assertSame(200, $ret->getStatus(), 'HTTP status should be 200.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame(ConfigServiceTest::CONF_DEFAULTS, $ret->getData(), 'Did not return the expected config array');
     }
     
@@ -73,7 +74,7 @@ class ConfigControllerTest extends TestCase {
         $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
-        $this->assertSame(200, $ret->getStatus(), 'HTTP status should be 200.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame($getConf(), $ret->getData(), 'Did not return the expected config array');
     }
     

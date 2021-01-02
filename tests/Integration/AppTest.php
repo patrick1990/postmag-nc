@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace OCA\Postmag\Tests\Integration\Controller;
+namespace OCA\Postmag\Tests\Integration;
 
 use OCP\AppFramework\App;
 use Test\TestCase;
@@ -15,7 +16,7 @@ class AppTest extends TestCase {
 
     private $container;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
         $app = new App('postmag');
         $this->container = $app->getContainer();
@@ -23,7 +24,7 @@ class AppTest extends TestCase {
 
     public function testAppInstalled() {
         $appManager = $this->container->query('OCP\App\IAppManager');
-        $this->assertTrue($appManager->isInstalled('postmag'));
+        $this->assertTrue($appManager->isInstalled('postmag'), 'Postmag is not installed in Nextcloud.');
     }
 
 }

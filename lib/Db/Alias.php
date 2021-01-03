@@ -19,14 +19,14 @@ class Alias extends Entity {
     
     public function __construct() {
         $this->addType('id', 'int');
-        $this->addType('user_id', 'string');
-        $this->addType('alias_id', 'string');
-        $this->addType('alias_name', 'string');
-        $this->addType('to_mail', 'string');
+        $this->addType('userId', 'string');
+        $this->addType('aliasId', 'string');
+        $this->addType('aliasName', 'string');
+        $this->addType('toMail', 'string');
         $this->addType('comment', 'string');
         $this->addType('enabled', 'bool');
         $this->addType('created', 'int');
-        $this->addType('last_modified', 'int');
+        $this->addType('lastModified', 'int');
     }
     
     public function serialize(IDateTimeFormatter $formatter): array {

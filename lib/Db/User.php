@@ -12,8 +12,8 @@ class User extends Entity {
     
     public function __construct() {
         $this->addType('id', 'int');
-        $this->addType('user_id', 'string');
-        $this->addType('user_alias_id', 'string');
+        $this->addType('userId', 'string');
+        $this->addType('userAliasId', 'string');
     }
     
     public function serialize(): array {

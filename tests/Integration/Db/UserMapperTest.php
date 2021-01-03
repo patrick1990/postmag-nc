@@ -17,7 +17,8 @@ class UserMapperTest extends TestCase {
     private $mapper;
     private $userId = 'john';
     
-    private $user;
+    private $testUser;
+    private $insertedUser;
     
     public function setUp(): void {
         parent::setUp();
@@ -31,43 +32,40 @@ class UserMapperTest extends TestCase {
         
         $this->mapper = $container->query('OCA\Postmag\Db\UserMapper');
         
-        $this->user = new User();
-        $this->user->setUserId($this->userId);
-        $this->user->setUserAliasId(Random::hexString(ConfigService::DEF_USER_ALIAS_ID_LEN));
+        // Create test user
+        $this->testUser = new User();
+        $this->testUser->setUserId($this->userId);
+        $this->testUser->setUserAliasId(Random::hexString(ConfigService::DEF_USER_ALIAS_ID_LEN));
+        
+        // Insert user into database
+        $this->insertedUser = $this->mapper->insert($this->testUser);
+    }
+    
+    public function tearDown(): void {
+        // Clean up
+        $this->mapper->delete($this->insertedUser);
+        
+        parent::tearDown();
     }
     
     public function testFindUser(): void {
-        // Insert user
-        $insertedUser = $this->mapper->insert($this->user);
-        
-        // Test method
         $ret = $this->mapper->findUser($this->userId);
         
         $this->assertTrue($ret instanceof User, 'Result should be a User entity.');
-        $this->assertSame($insertedUser->getId(), $ret->getId(), 'Did not return the expected id.');
-        $this->assertSame($this->user->getUserId(), $ret->getUserId(), 'Did not return the expected user id.');
-        $this->assertSame($this->user->getUserAliasId(), $ret->getUserAliasId(), 'Did not return the expected user alias id.');
-        
-        // Clean up
-        $this->mapper->delete($insertedUser);
+        $this->assertSame($this->insertedUser->getId(), $ret->getId(), 'Did not return the expected id.');
+        $this->assertSame($this->testUser->getUserId(), $ret->getUserId(), 'Did not return the expected user id.');
+        $this->assertSame($this->testUser->getUserAliasId(), $ret->getUserAliasId(), 'Did not return the expected user alias id.');
     }
     
     public function testContainsAliasId(): void {
-        // Insert user
-        $insertedUser = $this->mapper->insert($this->user);
-        
-        // Test method
         $this->assertTrue(
-            $this->mapper->containsAliasId($this->user->getUserAliasId()),
+            $this->mapper->containsAliasId($this->testUser->getUserAliasId()),
             'User alias id was allready present but not found.'
             );
         $this->assertFalse(
-            $this->mapper->containsAliasId(strrev($this->user->getUserAliasId())),
+            $this->mapper->containsAliasId(strrev($this->testUser->getUserAliasId())),
             'User alias id was not present but found.'
             );
-        
-        // Clean up
-        $this->mapper->delete($insertedUser);
     }
     
 }

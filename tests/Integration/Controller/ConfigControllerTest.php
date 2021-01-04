@@ -38,6 +38,8 @@ class ConfigControllerTest extends TestCase {
             $this->confCache['userAliasIdLen'],
             $this->confCache['aliasIdLen']
             );
+        
+        parent::tearDown();
     }
     
     public function testGetConf(): void {

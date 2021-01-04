@@ -18,7 +18,6 @@ class PageController extends Controller {
 	// TODO: Implement Integration-Tests
 	// TODO: Implement Frontend
 	// TODO: Code documentation (Param documentation, License,...)
-	// TODO: Implement REST API
 	
 	/**
 	 * @NoAdminRequired

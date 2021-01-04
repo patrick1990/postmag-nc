@@ -4,6 +4,8 @@ Postmag allows users to generate aliases for their email addresses so that they 
 
 A configuration file for postfix that implements these aliases can be generated via the occ command line tool.
 
+**One remark**: This app needs admin access to a postfix mail server for your own domain and some admin skills (for instance for deploying the generated alias file to the mail server). Otherwise it is only a list of a bunch of text without any usage.
+
 ## Alias format
 
 A generated alias is built out of 3 parts.
@@ -35,3 +37,9 @@ If you use this command with the option "-f" you get the timestamp formatted in 
 This command generates an alias file out of the enabled user aliases an writes it to the console. You can use this file directly with you postfix server (don't forget to call newaliases on you postfix server).
 
 The aliases will be of the format described above.
+
+## Disclaimer
+
+I've written this app because I needed it for my own Nextcloud instance. Feel free to use it for your Nextcloud and however you want under the terms of AGPL (see COPYING).
+
+I'm happy if you open an issue for a bug report or a feature request, but please don't be surprised if I don't reply to these tickets immediatly, since I develop the app in my free time. Of course if you want to speed up development, please fork the app and open a pull request.

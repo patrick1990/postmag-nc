@@ -10,6 +10,8 @@ use OCA\Postmag\Service\ConfigService;
 use OCA\Postmag\Tests\Unit\Service\ConfigServiceTest;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
+use OCA\Postmag\Service\Exceptions\ValueFormatException;
+use OCA\Postmag\Service\Exceptions\ValueBoundException;
 
 class ConfigControllerTest extends TestCase {
     
@@ -76,6 +78,90 @@ class ConfigControllerTest extends TestCase {
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame($getConf(), $ret->getData(), 'Did not return the expected config array');
+    }
+    
+    public function testSetConfDomainException(): void {
+        $newDomain = '.org';
+        $newUserAliasIdLen = 6;
+        $newAliasIdLen = 5;
+        $exceptionMsg = 'Domain not valid.';
+        
+        // Mocking
+        $this->service->expects($this->any())
+            ->method('setTargetDomain')
+            ->with($newDomain)
+            ->willThrowException(new ValueFormatException($exceptionMsg));
+        
+        $this->service->expects($this->any())
+            ->method('setUserAliasIdLen')
+            ->with($newUserAliasIdLen);
+        
+        $this->service->expects($this->any())
+            ->method('setAliasIdLen')
+            ->with($newAliasIdLen);
+        
+        // Test method
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
+    public function testSetConfUserAliasIdLenException(): void {
+        $newDomain = 'mydomain.org';
+        $newUserAliasIdLen = 20;
+        $newAliasIdLen = 5;
+        $exceptionMsg = 'Length not valid.';
+        
+        // Mocking
+        $this->service->expects($this->any())
+            ->method('setTargetDomain')
+            ->with($newDomain);
+        
+        $this->service->expects($this->any())
+            ->method('setUserAliasIdLen')
+            ->with($newUserAliasIdLen)
+            ->willThrowException(new ValueBoundException($exceptionMsg));
+        
+        $this->service->expects($this->any())
+            ->method('setAliasIdLen')
+            ->with($newAliasIdLen);
+        
+        // Test method
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
+    public function testSetConfAliasIdLenException(): void {
+        $newDomain = 'mydomain.org';
+        $newUserAliasIdLen = 6;
+        $newAliasIdLen = 20;
+        $exceptionMsg = 'Length not valid.';
+        
+        // Mocking
+        $this->service->expects($this->any())
+            ->method('setTargetDomain')
+            ->with($newDomain);
+        
+        $this->service->expects($this->any())
+            ->method('setUserAliasIdLen')
+            ->with($newUserAliasIdLen);
+        
+        $this->service->expects($this->any())
+            ->method('setAliasIdLen')
+            ->with($newAliasIdLen)
+            ->willThrowException(new ValueBoundException($exceptionMsg));
+        
+        // Test method
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
     }
     
 }

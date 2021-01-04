@@ -9,6 +9,9 @@ use OCA\Postmag\Service\ConfigService;
 use OCP\AppFramework\Http\JSONResponse;
 
 class ConfigController extends Controller {
+    
+    use Errors;
+    
 	private $userId;
 	private $service;
 
@@ -29,10 +32,15 @@ class ConfigController extends Controller {
 	 * @param string $domain
 	 */
 	public function setConf(string $domain, int $userAliasIdLen, int $aliasIdLen) {
-	    $this->service->setTargetDomain($domain);
-	    $this->service->setUserAliasIdLen($userAliasIdLen);
-	    $this->service->setAliasIdLen($aliasIdLen);
-	    return new JSONResponse($this->service->getConf());
+	    return $this->handleConfigException(
+	        function () use ($domain, $userAliasIdLen, $aliasIdLen) {
+	            $this->service->setTargetDomain($domain);
+	            $this->service->setUserAliasIdLen($userAliasIdLen);
+	            $this->service->setAliasIdLen($aliasIdLen);
+	        },
+	        function () {
+	            return $this->service->getConf();
+	        });
 	}
 
 }

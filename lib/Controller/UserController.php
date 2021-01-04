@@ -27,7 +27,7 @@ class UserController extends Controller {
 		return new JSONResponse(array(
 		    'email' => $email,
 		    'emailSet' => ($email == '') ? 'false' : 'true',
-		    'userAlias' => $this->service->getUserAliasId($this->userId)
+		    'userAliasId' => $this->service->getUserAliasId($this->userId)
 		));
 	}
 

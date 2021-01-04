@@ -43,7 +43,7 @@ class UserControllerTest extends TestCase {
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('john@doe.com', $ret->getData()['email'], 'Returned an unexpected mail address.');
         $this->assertSame('true', $ret->getData()['emailSet'], 'Set flag should be true.');
-        $this->assertSame('1a2b', $ret->getData()['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertSame('1a2b', $ret->getData()['userAliasId'], 'Returned an unexpected user alias id.');
     }
     
     public function testGetInfoMailUnset(): void {
@@ -65,7 +65,7 @@ class UserControllerTest extends TestCase {
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('', $ret->getData()['email'], 'Returned an unexpected mail address.');
         $this->assertSame('false', $ret->getData()['emailSet'], 'Set flag should be false.');
-        $this->assertSame('1a2b', $ret->getData()['userAlias'], 'Returned an unexpected user alias id.');
+        $this->assertSame('1a2b', $ret->getData()['userAliasId'], 'Returned an unexpected user alias id.');
     }
     
 }

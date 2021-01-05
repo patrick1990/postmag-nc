@@ -10,6 +10,8 @@ use OCA\Postmag\Controller\AliasController;
 use OCP\AppFramework\Http\JSONResponse;
 use OCA\Postmag\Service\Exceptions\NotFoundException;
 use OCP\AppFramework\Http;
+use OCA\Postmag\Service\Exceptions\StringLengthException;
+use OCA\Postmag\Service\Exceptions\ValueFormatException;
 
 class AliasControllerTest extends TestCase {
     
@@ -94,6 +96,52 @@ class AliasControllerTest extends TestCase {
         $this->assertSame($this->aliases[0], $ret->getData(), 'Did not return the created alias.');
     }
     
+    public function testCreateStringLengthException() {
+        // Mocking
+        $exceptionMsg = 'String length not allowed.';
+        $this->service->expects($this->once())
+            ->method('create')
+            ->with($this->aliases[0]["alias_name"],
+                $this->aliases[0]["to_mail"],
+                $this->aliases[0]["comment"],
+                $this->userId)
+            ->willThrowException(new StringLengthException($exceptionMsg));
+            
+        // Test method
+        $ret = $this->controller->create(
+            $this->aliases[0]["alias_name"],
+            $this->aliases[0]["to_mail"],
+            $this->aliases[0]["comment"]
+            );
+            
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
+    public function testCreateValueFormatException() {
+        // Mocking
+        $exceptionMsg = 'Value format not allowed.';
+        $this->service->expects($this->once())
+            ->method('create')
+            ->with($this->aliases[0]["alias_name"],
+                $this->aliases[0]["to_mail"],
+                $this->aliases[0]["comment"],
+                $this->userId)
+            ->willThrowException(new ValueFormatException($exceptionMsg));
+            
+        // Test method
+        $ret = $this->controller->create(
+            $this->aliases[0]["alias_name"],
+            $this->aliases[0]["to_mail"],
+            $this->aliases[0]["comment"]
+            );
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
     public function testUpdate() {
         // Mocking
         $this->service->expects($this->once())
@@ -140,6 +188,56 @@ class AliasControllerTest extends TestCase {
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_NOT_FOUND, $ret->getStatus(), 'HTTP status should be NOT_FOUND.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
+    public function testUpdateStringLengthException() {
+        // Mocking
+        $exceptionMsg = 'String length not allowed.';
+        $this->service->expects($this->once())
+            ->method('update')
+            ->with($this->aliases[0]["id"],
+                $this->aliases[0]["to_mail"],
+                $this->aliases[0]["comment"],
+                $this->aliases[0]["enabled"],
+                $this->userId)
+            ->willThrowException(new StringLengthException($exceptionMsg));
+            
+        // Test method
+        $ret = $this->controller->update(
+            $this->aliases[0]["id"],
+            $this->aliases[0]["to_mail"],
+            $this->aliases[0]["comment"],
+            $this->aliases[0]["enabled"]
+            );
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
+    public function testUpdateValueFormatException() {
+        // Mocking
+        $exceptionMsg = 'Value format not allowed.';
+        $this->service->expects($this->once())
+            ->method('update')
+            ->with($this->aliases[0]["id"],
+                $this->aliases[0]["to_mail"],
+                $this->aliases[0]["comment"],
+                $this->aliases[0]["enabled"],
+                $this->userId)
+            ->willThrowException(new ValueFormatException($exceptionMsg));
+            
+        // Test method
+        $ret = $this->controller->update(
+            $this->aliases[0]["id"],
+            $this->aliases[0]["to_mail"],
+            $this->aliases[0]["comment"],
+            $this->aliases[0]["enabled"]
+            );
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
         $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
     }
     

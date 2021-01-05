@@ -26,7 +26,7 @@ class ConfigControllerTest extends TestCase {
             return $this->userId;
         });
         
-        $this->controller = $container->query('OCA\Postmag\Controller\ConfigController');
+        $this->controller = $container->get('OCA\Postmag\Controller\ConfigController');
         
         $this->confCache = $this->controller->getConf()->getData();
     }

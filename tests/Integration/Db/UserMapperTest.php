@@ -30,7 +30,7 @@ class UserMapperTest extends TestCase {
             return $this->userId;
         });
         
-        $this->mapper = $container->query('OCA\Postmag\Db\UserMapper');
+        $this->mapper = $container->get('OCA\Postmag\Db\UserMapper');
         
         // Create test user
         $this->testUser = new User();

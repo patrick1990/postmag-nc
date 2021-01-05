@@ -28,7 +28,7 @@ class AliasMapperTest extends TestCase {
             return $this->userId;
         });
         
-        $this->mapper = $container->query('OCA\Postmag\Db\AliasMapper');
+        $this->mapper = $container->get('OCA\Postmag\Db\AliasMapper');
         
         // Create test aliases
         $this->testAliases = [new Alias(), new Alias()];

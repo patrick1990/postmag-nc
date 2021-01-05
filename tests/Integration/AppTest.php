@@ -23,7 +23,7 @@ class AppTest extends TestCase {
     }
 
     public function testAppInstalled() {
-        $appManager = $this->container->query('OCP\App\IAppManager');
+        $appManager = $this->container->get('OCP\App\IAppManager');
         $this->assertTrue($appManager->isInstalled('postmag'), 'Postmag is not installed in Nextcloud.');
     }
 

@@ -30,8 +30,8 @@ class UserControllerTest extends TestCase {
             return $this->userId;
         });
         
-        $this->controller = $container->query('OCA\Postmag\Controller\UserController');
-        $this->mapper = $container->query('OCA\Postmag\Db\UserMapper');
+        $this->controller = $container->get('OCA\Postmag\Controller\UserController');
+        $this->mapper = $container->get('OCA\Postmag\Db\UserMapper');
         
         // Create user alias id of john
         $this->userAliasId = $this->controller->getInfo()->getData()['userAliasId'];

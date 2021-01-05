@@ -36,7 +36,9 @@ class AliasController extends Controller {
 	 * @param string $comment
 	 */
 	public function create(string $aliasName, string $toMail, string $comment) {
-	    return new JSONResponse($this->service->create($aliasName, $toMail, $comment, $this->userId));
+	    return $this->handleAliasCreateException(function () use ($aliasName, $toMail, $comment) {
+	        return $this->service->create($aliasName, $toMail, $comment, $this->userId);
+	    });
 	}
 	
 	/**
@@ -48,7 +50,7 @@ class AliasController extends Controller {
 	 * @param bool $enabled
 	 */
 	public function update(int $id, string $toMail, string $comment, bool $enabled) {
-	    return $this->handleNotFound(function () use ($id, $toMail, $comment, $enabled) {
+	    return $this->handleAliasUpdateException(function () use ($id, $toMail, $comment, $enabled) {
 	        return $this->service->update($id, $toMail, $comment, $enabled, $this->userId);
 	    });
 	}

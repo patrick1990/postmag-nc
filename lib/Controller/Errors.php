@@ -9,28 +9,67 @@ use OCP\AppFramework\Http;
 use OCA\Postmag\Service\Exceptions\UnexpectedDatabaseResponseException;
 use OCA\Postmag\Service\Exceptions\ValueFormatException;
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
+use OCA\Postmag\Service\Exceptions\StringLengthException;
 
 trait Errors {
     
-    protected function handleNotFound(Closure $callback): JSONResponse{
-        try {
-            return new JSONResponse($callback());
-        }
-        catch(UnexpectedDatabaseResponseException $e) {
-            $message = ['message' => $e->getMessage()];
-            return new JSONResponse($message, Http::STATUS_NOT_FOUND);
-        }
+    protected function handleServiceException(
+        array $caughtExceptions,
+        Closure $retCallback,
+        ?Closure $preCallback = null
+        ): JSONResponse
+        {
+            try {
+                // Run pre callback if set
+                if ($preCallback !== null) {
+                    $preCallback();
+                }
+                
+                return new JSONResponse($retCallback());
+            }
+            catch(\Exception $e) {
+                foreach ($caughtExceptions as $exception => $httpStatus) {
+                    if ($e instanceof $exception) {
+                        $message = ['message' => $e->getMessage()];
+                        return new JSONResponse($message, $httpStatus);
+                    }
+                }
+                
+                // Throw exception if it is not handled
+                throw $e;
+            }
+    }
+    
+    protected function handleAliasCreateException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                StringLengthException::class => Http::STATUS_BAD_REQUEST,
+                ValueFormatException::class => Http::STATUS_BAD_REQUEST
+            ],
+            $callback
+            );
+    }
+    
+    protected function handleAliasUpdateException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                UnexpectedDatabaseResponseException::class => Http::STATUS_NOT_FOUND,
+                StringLengthException::class => Http::STATUS_BAD_REQUEST,
+                ValueFormatException::class => Http::STATUS_BAD_REQUEST
+            ],
+            $callback
+            );
     }
     
     protected function handleConfigException(Closure $setCallback, Closure $getCallback): JSONResponse {
-        try {
-            $setCallback();
-            return new JSONResponse($getCallback());
-        }
-        catch(ValueFormatException | ValueBoundException $e) {
-            $message = ['message' => $e->getMessage()];
-            return new JSONResponse($message, Http::STATUS_BAD_REQUEST);
-        }
+        return $this->handleServiceException(
+            [
+                ValueFormatException::class => Http::STATUS_BAD_REQUEST,
+                ValueBoundException::class => Http::STATUS_BAD_REQUEST
+            ],
+            $getCallback,
+            $setCallback
+            );
     }
     
 }

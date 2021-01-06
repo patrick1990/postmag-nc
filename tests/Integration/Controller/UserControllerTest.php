@@ -8,6 +8,8 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
+use OCA\Postmag\Db\User;
+use OCA\Postmag\Service\ConfigService;
 
 /**
  * @group DB
@@ -18,7 +20,7 @@ class UserControllerTest extends TestCase {
     private $mapper;
     private $userId = 'john';
     
-    private $userAliasId;
+    private $user;
     
     public function setUp(): void {
         parent::setUp();
@@ -34,7 +36,10 @@ class UserControllerTest extends TestCase {
         $this->mapper = $container->get('OCA\Postmag\Db\UserMapper');
         
         // Create user alias id of john
-        $this->userAliasId = $this->controller->getInfo()->getData()['userAliasId'];
+        $user = new User();
+        $user->setUserId($this->userId);
+        $user->setUserAliasId('1a2b');
+        $this->user = $this->mapper->insert($user);
     }
     
     public function tearDown(): void {
@@ -45,14 +50,28 @@ class UserControllerTest extends TestCase {
         parent::tearDown();
     }
     
-    public function testGetInfo(): void {
+    public function testGetExistingUserInfo(): void {
         $ret = $this->controller->getInfo();
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('', $ret->getData()['email'], 'Did not return the expected email address');
         $this->assertSame('false', $ret->getData()['emailSet'], 'Did not return the expected email set flag');
-        $this->assertSame($this->userAliasId, $ret->getData()['userAliasId'], 'Did not return the expected user alias id');
+        $this->assertSame($this->user->getUserAliasId(), $ret->getData()['userAliasId'], 'Did not return the expected user alias id');
+    }
+    
+    public function testNewUserInfo(): void {
+        // delete user john
+        $this->mapper->delete($this->user);
+        
+        $ret = $this->controller->getInfo();
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
+        $this->assertSame('', $ret->getData()['email'], 'Did not return the expected email address');
+        $this->assertSame('false', $ret->getData()['emailSet'], 'Did not return the expected email set flag');
+        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret->getData()['userAliasId']), 'user alias is not a hexadecimal string.');
+        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret->getData()['userAliasId']), 'user alias is of wrong length.');
     }
     
 }

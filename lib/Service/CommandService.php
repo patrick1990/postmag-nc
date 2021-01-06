@@ -36,7 +36,7 @@ class CommandService {
                         .strval($alias->getLastModified());
             
             // Add alias
-            $ret[] = $alias->getEnabled() ? "" : "# "
+            $ret[] = ($alias->getEnabled() ? "" : "# ")
                         .$alias->getAliasName()
                         ."."
                         .$alias->getAliasId()

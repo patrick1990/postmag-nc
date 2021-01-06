@@ -14,8 +14,7 @@ class PageController extends Controller {
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
 	}
-
-	// TODO: Implement Integration-Tests
+	
 	// TODO: Implement Frontend
 	// TODO: Code documentation (Param documentation, License,...)
 	

@@ -46,11 +46,13 @@ class UserServiceTest extends TestCase {
         $this->assertSame($email, $ret, 'Wrong mail address returned.');
     }
     
-    public function testGetExistingUserAliasId(): void {
+    public function testFindExistingUser(): void {
+        $id = 123;
         $userId = 'john';
         $userAliasId = '1a2b';
         
         $user = new User();
+        $user->setId($id);
         $user->setUserId($userId);
         $user->setUserAliasId($userAliasId);
         
@@ -61,12 +63,15 @@ class UserServiceTest extends TestCase {
             ->willReturn($user);
         
         // Test method
-        $ret = $this->service->getUserAliasId($userId);
+        $ret = $this->service->find($userId);
         
-        $this->assertSame($userAliasId, $ret, 'Wrong user alias id returned');
+        $this->assertSame($id, $ret['id'], 'Wrong id returned');
+        $this->assertSame($userId, $ret['user_id'], 'Wrong user id returned');
+        $this->assertSame($userAliasId, $ret['user_alias_id'], 'Wrong user alias id returned');
     }
     
-    public function testGetNewUserAliasId(): void {
+    public function testFindNewUser(): void {
+        $id = 123;
         $userId = 'john';
         
         // Mocking
@@ -87,7 +92,75 @@ class UserServiceTest extends TestCase {
                 $toggle = ! $toggle;
                 return $toggle;
             });
+            
+        $this->mapper->expects($this->once())
+            ->method('insert')
+            ->willReturnCallback(function ($user) use ($id) {
+                $user->setId($id);
+                return $user;
+            });
         
+        // Test method
+        $ret = $this->service->find($userId);
+        
+        $this->assertSame($id, $ret['id'], 'Wrong id returned');
+        $this->assertSame($userId, $ret['user_id'], 'Wrong user id returned');
+        $this->assertSame('string', gettype($ret['user_alias_id']), 'user alias is not of type string.');
+        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret['user_alias_id']), 'user alias is not a hexadecimal string.');
+        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret['user_alias_id']), 'user alias is of wrong length.');
+    }
+    
+    public function testGetExistingUserAliasId(): void {
+        $id = 123;
+        $userId = 'john';
+        $userAliasId = '1a2b';
+        
+        $user = new User();
+        $user->setId($id);
+        $user->setUserId($userId);
+        $user->setUserAliasId($userAliasId);
+        
+        // Mocking
+        $this->mapper->expects($this->once())
+            ->method('findUser')
+            ->with($userId)
+            ->willReturn($user);
+        
+        // Test method
+        $ret = $this->service->getUserAliasId($userId);
+        
+        $this->assertSame($userAliasId, $ret, 'Wrong user alias id returned');
+    }
+    
+    public function testGetNewUserAlaisId(): void {
+        $userId = 'john';
+        
+        // Mocking
+        $this->mapper->expects($this->once())
+            ->method('findUser')
+            ->with($userId)
+            ->willThrowException(new DoesNotExistException('No record found.'));
+        
+        $this->confService->expects($this->any())
+            ->method('getUserAliasIdLen')
+            ->willReturn(ConfigService::DEF_USER_ALIAS_ID_LEN);
+        
+        $toggle = false;
+        $this->mapper->expects($this->any())
+            ->method('containsAliasId')
+            ->withAnyParameters()
+            ->willReturnCallback(function () use (&$toggle) {
+                $toggle = ! $toggle;
+                return $toggle;
+            });
+            
+        $this->mapper->expects($this->once())
+            ->method('insert')
+            ->willReturnCallback(function ($user) {
+                $user->setId(123);
+                return $user;
+            });
+            
         // Test method
         $ret = $this->service->getUserAliasId($userId);
         

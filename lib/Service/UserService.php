@@ -24,9 +24,9 @@ class UserService {
         return $this->config->getUserValue($userId, 'settings', 'email');
     }
     
-    public function getUserAliasId(string $userId): string {
+    public function find(string $userId): array {
         try {
-            $user = $this->mapper->findUser($userId);
+            return $this->mapper->findUser($userId)->serialize();
         }
         catch(\OCP\AppFramework\Db\DoesNotExistException $e) {
             // Generate new user alias id
@@ -38,10 +38,12 @@ class UserService {
             $user = new User();
             $user->setUserId($userId);
             $user->setUserAliasId($userAliasId);
-            $this->mapper->insert($user);
+            return $this->mapper->insert($user)->serialize();
         }
-        
-        return $user->getUserAliasId();
+    }
+    
+    public function getUserAliasId(string $userId): string {
+        return $this->find($userId)['user_alias_id'];
     }
     
 }

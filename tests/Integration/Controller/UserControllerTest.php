@@ -56,8 +56,9 @@ class UserControllerTest extends TestCase {
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('', $ret->getData()['email'], 'Did not return the expected email address');
-        $this->assertSame('false', $ret->getData()['emailSet'], 'Did not return the expected email set flag');
-        $this->assertSame($this->user->getUserAliasId(), $ret->getData()['userAliasId'], 'Did not return the expected user alias id');
+        $this->assertSame('false', $ret->getData()['email_set'], 'Did not return the expected email set flag');
+        $this->assertSame($this->userId, $ret->getData()['user_id'], 'Did not return the expected user alias id');
+        $this->assertSame($this->user->getUserAliasId(), $ret->getData()['user_alias_id'], 'Did not return the expected user alias id');
     }
     
     public function testNewUserInfo(): void {
@@ -69,9 +70,10 @@ class UserControllerTest extends TestCase {
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('', $ret->getData()['email'], 'Did not return the expected email address');
-        $this->assertSame('false', $ret->getData()['emailSet'], 'Did not return the expected email set flag');
-        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret->getData()['userAliasId']), 'user alias is not a hexadecimal string.');
-        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret->getData()['userAliasId']), 'user alias is of wrong length.');
+        $this->assertSame('false', $ret->getData()['email_set'], 'Did not return the expected email set flag');
+        $this->assertSame($this->userId, $ret->getData()['user_id'], 'Did not return the expected user alias id');
+        $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret->getData()['user_alias_id']), 'user alias is not a hexadecimal string.');
+        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret->getData()['user_alias_id']), 'user alias is of wrong length.');
     }
     
 }

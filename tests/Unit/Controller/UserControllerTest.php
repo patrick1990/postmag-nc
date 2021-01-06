@@ -32,9 +32,13 @@ class UserControllerTest extends TestCase {
             ->willReturn('john@doe.com');
         
         $this->service->expects($this->once())
-            ->method('getUserAliasId')
+            ->method('find')
             ->with($this->userId)
-            ->willReturn('1a2b');
+            ->willReturn([
+                'id' => 123,
+                'user_id' => $this->userId,
+                'user_alias_id' => '1a2b'
+            ]);
         
         // Test method
         $ret = $this->controller->getInfo();
@@ -42,8 +46,9 @@ class UserControllerTest extends TestCase {
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('john@doe.com', $ret->getData()['email'], 'Returned an unexpected mail address.');
-        $this->assertSame('true', $ret->getData()['emailSet'], 'Set flag should be true.');
-        $this->assertSame('1a2b', $ret->getData()['userAliasId'], 'Returned an unexpected user alias id.');
+        $this->assertSame('true', $ret->getData()['email_set'], 'Set flag should be true.');
+        $this->assertSame($this->userId, $ret->getData()['user_id'], 'Returned an unexpected user id.');
+        $this->assertSame('1a2b', $ret->getData()['user_alias_id'], 'Returned an unexpected user alias id.');
     }
     
     public function testGetInfoMailUnset(): void {
@@ -53,10 +58,14 @@ class UserControllerTest extends TestCase {
             ->with($this->userId)
             ->willReturn('');
         
-        $this->service->expects($this->once())
-            ->method('getUserAliasId')
-            ->with($this->userId)
-            ->willReturn('1a2b');
+            $this->service->expects($this->once())
+                ->method('find')
+                ->with($this->userId)
+                ->willReturn([
+                    'id' => 123,
+                    'user_id' => $this->userId,
+                    'user_alias_id' => '1a2b'
+                ]);
         
         // Test method
         $ret = $this->controller->getInfo();
@@ -64,8 +73,9 @@ class UserControllerTest extends TestCase {
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame('', $ret->getData()['email'], 'Returned an unexpected mail address.');
-        $this->assertSame('false', $ret->getData()['emailSet'], 'Set flag should be false.');
-        $this->assertSame('1a2b', $ret->getData()['userAliasId'], 'Returned an unexpected user alias id.');
+        $this->assertSame('false', $ret->getData()['email_set'], 'Set flag should be false.');
+        $this->assertSame($this->userId, $ret->getData()['user_id'], 'Returned an unexpected user id.');
+        $this->assertSame('1a2b', $ret->getData()['user_alias_id'], 'Returned an unexpected user alias id.');
     }
     
 }

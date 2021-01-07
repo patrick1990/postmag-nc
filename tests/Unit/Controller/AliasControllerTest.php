@@ -241,4 +241,35 @@ class AliasControllerTest extends TestCase {
         $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
     }
     
+    public function testDelete() {
+        // Mocking
+        $this->service->expects($this->once())
+            ->method('delete')
+            ->with($this->aliases[0]["id"], $this->userId)
+            ->willReturn($this->aliases[0]);
+            
+        // Test method
+        $ret = $this->controller->delete($this->aliases[0]["id"]);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
+        $this->assertSame($this->aliases[0], $ret->getData(), 'Did not return the updated alias.');
+    }
+    
+    public function testDeleteNotFound() {
+        // Mocking
+        $exceptionMsg = 'Id not found.';
+        $this->service->expects($this->once())
+            ->method('delete')
+            ->with($this->aliases[0]["id"], $this->userId)
+            ->willThrowException(new NotFoundException($exceptionMsg));
+            
+        // Test method
+        $ret = $this->controller->delete($this->aliases[0]["id"]);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_NOT_FOUND, $ret->getStatus(), 'HTTP status should be NOT_FOUND.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+    
 }

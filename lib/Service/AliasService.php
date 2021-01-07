@@ -115,4 +115,15 @@ class AliasService {
         }
     }
     
+    public function delete(int $id, string $userId): array {
+        try {
+            $alias = $this->mapper->find($id, $userId);
+            
+            return $this->mapper->delete($alias)->serialize($this->dateTimeFormatter);
+        }
+        catch (\Exception $e) {
+            $this->handleDbException($e);
+        }
+    }
+    
 }

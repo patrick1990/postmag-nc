@@ -54,5 +54,16 @@ class AliasController extends Controller {
 	        return $this->service->update($id, $toMail, $comment, $enabled, $this->userId);
 	    });
 	}
+	
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function delete(int $id) {
+	    return $this->handleAliasDeleteException(function () use ($id) {
+	        return $this->service->delete($id, $this->userId);
+	    });
+	}
 
 }

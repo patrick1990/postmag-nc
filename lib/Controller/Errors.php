@@ -61,6 +61,15 @@ trait Errors {
             );
     }
     
+    protected function handleAliasDeleteException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                UnexpectedDatabaseResponseException::class => Http::STATUS_NOT_FOUND
+            ],
+            $callback
+            );
+    }
+    
     protected function handleConfigException(Closure $setCallback, Closure $getCallback): JSONResponse {
         return $this->handleServiceException(
             [

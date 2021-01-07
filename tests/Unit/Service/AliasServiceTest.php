@@ -231,7 +231,7 @@ class AliasServiceTest extends TestCase {
         $this->mapper->expects($this->once())
             ->method('find')
             ->with($this->aliases[0]->getId(), $this->aliases[0]->getUserId())
-            ->willThrowException(new DoesNotExistException("Does not exists."));
+            ->willThrowException(new DoesNotExistException("Does not exist."));
         
         // Test method
         $caught = false;
@@ -248,9 +248,54 @@ class AliasServiceTest extends TestCase {
             $caught = true;
         }
         
-        if (!$caught) {
-            $this->assertTrue(false, "Not found exception of database was not handled.");
+        $this->assertTrue($caught, "Not found exception of database was not handled.");
+    }
+    
+    public function testDelete(): void {
+        // Mocking
+        $this->mapper->expects($this->once())
+            ->method('find')
+            ->with($this->aliases[0]->getId(), $this->aliases[0]->getUserId())
+            ->willReturn($this->aliases[0]);
+        
+        $this->mapper->expects($this->once())
+            ->method('delete')
+            ->willReturnCallback(function($alias) {
+                return $alias;
+            });
+            
+        // Test method
+        $ret = $this->service->delete($this->aliases[0]->getId(), $this->aliases[0]->getUserId());
+        
+        // Check timestamps
+        $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret['created'], 'created timestamp was changed.');
+        $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret['last_modified'], 'last modified timestamp was changed.');
+        
+        // Check other data
+        $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');
+        $this->assertSame($this->aliases[0]->getAliasName(), $ret['alias_name'], 'not the expected alias name.');
+        $this->assertSame($this->aliases[0]->getToMail(), $ret['to_mail'], 'not the expected to mail.');
+        $this->assertSame($this->aliases[0]->getComment(), $ret['comment'], 'not the expected comment.');
+        $this->assertSame($this->aliases[0]->getEnabled(), $ret['enabled'], 'not the expected enabled state.');
+    }
+    
+    public function testDeleteNotFound(): void {
+        // Mocking
+        $this->mapper->expects($this->once())
+            ->method('find')
+            ->with($this->aliases[0]->getId(), $this->aliases[0]->getUserId())
+            ->willThrowException(new DoesNotExistException("Does not exist."));
+        
+        // Test method
+        $caught = false;
+        try {
+            $this->service->delete($this->aliases[0]->getId(), $this->aliases[0]->getUserId());
         }
+        catch (\OCA\Postmag\Service\Exceptions\NotFoundException $e) {
+            $caught = true;
+        }
+        
+        $this->assertTrue($caught, "Not found exception of database was not handled.");
     }
     
     public function testAliasNameAllowed(): void {

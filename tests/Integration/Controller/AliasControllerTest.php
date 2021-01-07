@@ -162,4 +162,30 @@ class AliasControllerTest extends TestCase {
             );
     }
     
+    public function testDelete() {
+        $ret = $this->controller->delete($this->aliases[0]->getId());
+        
+        // Remove alias for clean tearDown
+        $alias = array_shift($this->aliases);
+        
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
+        $this->assertSame($this->userId, $ret->getData()['user_id'], 'Alias has not the expected user id');
+        $this->assertSame($alias->getAliasId(), $ret->getData()['alias_id'], 'Alias has not the expected alias id');
+        $this->assertSame($alias->getAliasName(), $ret->getData()['alias_name'], 'Alias has not the expected alias name');
+        $this->assertSame($alias->getToMail(), $ret->getData()['to_mail'], 'Alias has not the expected to mail');
+        $this->assertSame($alias->getComment(), $ret->getData()['comment'], 'Alias has not the expected comment');
+        $this->assertSame($alias->getEnabled(), $ret->getData()['enabled'], 'Alias has not the expected enabled state');
+        $this->assertSame(
+            $this->dateTimeFormatter->formatDateTime($alias->getCreated(), 'short', 'medium'),
+            $ret->getData()['created'],
+            'Alias has not the expected created timestamp'
+            );
+        $this->assertSame(
+            $this->dateTimeFormatter->formatDateTime($alias->getLastModified(), 'short', 'medium'),
+            $ret->getData()['last_modified'],
+            'Alias has not the expected last modified timestamp'
+            );
+    }
+    
 }

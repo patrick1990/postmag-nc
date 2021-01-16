@@ -2,3 +2,6 @@
 .project
 .settings
 .phpunit.result.cache
+
+vendor
+composer.phar

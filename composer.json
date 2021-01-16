@@ -1,15 +1,14 @@
 {
-    "name": "Postmag",
-    "description": "Postfix mail alias generator for Nextcloud",
-    "type": "project",
-    "license": "AGPL",
-    "authors": [
-        {
-            "name": "Patrick"
-        }
-    ],
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^5.4"
-    }
+	"name" : "patrick1990/postmag-nc",
+	"description" : "Postfix mail alias generator for Nextcloud",
+	"type" : "project",
+	"license" : "AGPL",
+	"authors" : [{
+			"name" : "Patrick"
+		}
+	],
+	"require-dev" : {
+		"phpunit/phpunit" : "^8.5.13"
+	},
+	"homepage" : "https://github.com/patrick1990/postmag-nc"
 }

@@ -21,6 +21,9 @@
 		<command>OCA\Postmag\Command\Aliases</command>
 		<command>OCA\Postmag\Command\LastModified</command>
 	</commands>
+	<settings>
+		<admin>OCA\Postmag\Settings\AdminSettings</admin>
+	</settings>
     <navigations>
         <navigation>
             <name>Postmag</name>

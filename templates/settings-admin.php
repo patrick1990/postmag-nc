@@ -9,7 +9,8 @@ style('postmag', 'settings-admin');
 	<label for="postmagDomain"><?php p($l->t('Target mail domain')); ?></label><br/>
 	<input id="postmagDomain"
 		type="text"
-		value="<?php p($_['domain']); ?>"/><br/>
+		value="<?php p($_['domain']); ?>"
+		pattern="<?php p($_['regexDomain'])?>"/><br/>
 	
 	<label for="postmagUserAliasIdLen"><?php p($l->t('Length of user alias ids (only for new users)')); ?></label><br/>
 	<input id="postmagUserAliasIdLen"

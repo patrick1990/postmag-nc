@@ -1,5 +1,4 @@
 <?php
-script('postmag', 'script');
 style('postmag', 'style');
 ?>
 

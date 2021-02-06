@@ -45,7 +45,7 @@ install-deps-npm:
 	npm install --production
 	
 .PHONY: install-deps-npm-dev
-install-deps-npm-dev
+install-deps-npm-dev:
 	npm install
 	
 .PHONY: install-deps

@@ -3,5 +3,7 @@
 .settings
 .phpunit.result.cache
 
+js
+
 vendor
 composer.phar

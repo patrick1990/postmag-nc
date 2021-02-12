@@ -1,0 +1,35 @@
+{
+	"name": "postmag-nc",
+	"version": "0.0.1",
+	"description": "Postfix mail alias generator for Nextcloud",
+	"homepage": "https://github.com/patrick1990/postmag-nc",
+	"repository": {
+		"url": "https://github.com/patrick1990/postmag-nc",
+		"type": "git"
+	},
+	"bugs": {
+		"url": "https://github.com/patrick1990/postmag-nc/issues"
+	},
+	"license": "AGPL-3.0",
+	"author": {
+		"name": "Patrick"
+	},
+	"private": true,
+	"scripts": {
+		"build": "NODE_ENV=production npx webpack --progress --hide-modules --config webpack.prod.js",
+		"dev": "NODE_ENV=development npx webpack --progress --config webpack.dev.js",
+		"watch": "NODE_ENV=development npx webpack --progress --watch --config webpack.dev.js"
+	},
+	"browserslist": [
+		"extends @nextcloud/browserslist-config"
+	],
+	"dependencies": {
+		"@nextcloud/router": "^1.2.0"
+	},
+	"devDependencies": {
+		"@nextcloud/browserslist-config": "^1.0.0",
+		"webpack": "^5.21.1",
+		"webpack-cli": "^4.5.0",
+		"webpack-merge": "^5.7.3"
+	}
+}

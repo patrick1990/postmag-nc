@@ -7,3 +7,5 @@ js
 
 vendor
 composer.phar
+node_modules
+package-lock.json

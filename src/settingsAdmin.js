@@ -38,11 +38,17 @@ $(document).ready(function() {
 	$("body").on("change",
 		"input#postmagDomain, input#postmagUserAliasIdLen, input#postmagAliasIdLen",
 		function(e){
-			const domain = $("input#postmagDomain").val();
-			const userAliasIdLen = $("input#postmagUserAliasIdLen").val();
-			const aliasIdLen = $("input#postmagAliasIdLen").val();
+			if(
+				$("input#postmagDomain")[0].validity.valid &&
+				$("input#postmagUserAliasIdLen")[0].validity.valid &&
+				$("input#postmagAliasIdLen")[0].validity.valid
+			){
+				const domain = $("input#postmagDomain").val();
+				const userAliasIdLen = $("input#postmagUserAliasIdLen").val();
+				const aliasIdLen = $("input#postmagAliasIdLen").val();
 
-			setPostmagSettings(domain, userAliasIdLen, aliasIdLen);
+				setPostmagSettings(domain, userAliasIdLen, aliasIdLen);
+			}
 		}
 	)
 })

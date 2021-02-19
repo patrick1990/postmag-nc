@@ -11,19 +11,22 @@ script('postmag', 'settingsAdmin');
 	<input id="postmagDomain"
 		type="text"
 		value="<?php p($_['domain']); ?>"
-		pattern="<?php p($_['regexDomain'])?>"/><br/>
+		pattern="<?php p($_['regexDomain'])?>"
+        required/><br/>
 	
 	<label for="postmagUserAliasIdLen"><?php p($l->t('Length of user alias ids (only for new users)')); ?></label><br/>
 	<input id="postmagUserAliasIdLen"
 		type="number"
 		value="<?php p($_['userAliasIdLen']); ?>"
 		min="<?php p($_['userAliasIdLenMin']); ?>"
-		max="<?php p($_['userAliasIdLenMax']); ?>"/><br/>
+		max="<?php p($_['userAliasIdLenMax']); ?>"
+        required/><br/>
 	
 	<label for="postmagAliasIdLen"><?php p($l->t('Length of alias ids (only for new aliases)')); ?></label><br/>
 	<input id="postmagAliasIdLen"
 		type="number"
 		value="<?php p($_['aliasIdLen']); ?>"
 		min="<?php p($_['aliasIdLenMin']); ?>"
-		max="<?php p($_['aliasIdLenMax']); ?>"/><br/>
+		max="<?php p($_['aliasIdLenMax']); ?>"
+        required/><br/>
 </div>

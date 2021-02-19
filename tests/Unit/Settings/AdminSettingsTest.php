@@ -48,7 +48,7 @@ class AdminSettingsTest extends TestCase {
         
         $this->assertTrue($ret instanceof TemplateResponse, 'Result should be a template response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
-        $this->assertSame('settings-admin', $ret->getTemplateName(), 'Template name has to be settings-admin.');
+        $this->assertSame('settingsAdmin', $ret->getTemplateName(), 'Template name has to be settings-admin.');
         $this->assertSame(ConfigServiceTest::CONF_DEFAULTS, $ret->getParams(), 'The template didnt get the right params.');
     }
     

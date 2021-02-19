@@ -1,5 +1,6 @@
 <?php
-style('postmag', 'settings-admin');
+style('postmag', 'settingsAdmin');
+script('postmag', 'settingsAdmin');
 ?>
 
 <div class="section" id="postmag">

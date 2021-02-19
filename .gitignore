@@ -5,6 +5,8 @@
 .phpunit.result.cache
 
 js
+img/*
+!img/app.svg
 
 vendor
 composer.phar

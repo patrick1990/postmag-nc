@@ -18,7 +18,7 @@ class AdminSettings implements ISettings {
     }
     
     public function getForm(): TemplateResponse {
-        return new TemplateResponse($this->appName, 'settings-admin', $this->service->getConf());
+        return new TemplateResponse($this->appName, 'settingsAdmin', $this->service->getConf());
     }
     
     public function getSection(): string {

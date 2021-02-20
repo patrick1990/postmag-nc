@@ -6,8 +6,8 @@ import { showSuccess, showError } from "@nextcloud/dialogs";
 import "@nextcloud/dialogs/styles/toast.scss";
 
 function setPostmagSettings(domain, userAliasIdLen, aliasIdLen) {
-	let url = generateUrl('apps/postmag/config');
-	let req = {
+	const url = generateUrl('apps/postmag/config');
+	const req = {
 		domain: domain,
 		userAliasIdLen: userAliasIdLen,
 		aliasIdLen: aliasIdLen

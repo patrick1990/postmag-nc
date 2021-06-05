@@ -22,6 +22,7 @@ class AliasControllerTest extends TestCase {
     private $userId = 'john';
     
     private $aliases;
+    private $config;
     
     public function setUp(): void {
         parent::setUp();
@@ -36,7 +37,10 @@ class AliasControllerTest extends TestCase {
         $this->controller = $container->get('OCA\Postmag\Controller\AliasController');
         $this->mapper = $container->get('OCA\Postmag\Db\AliasMapper');
         $this->dateTimeFormatter = $container->get('OCP\IDateTimeFormatter');
-        
+
+        // Get current config
+        $this->config = $container->get('OCA\Postmag\Controller\ConfigController')->getConf()->getData();
+
         // Create some aliases for testing
         $this->aliases = [];
         $this->aliases[] = $this->createAlias("alias1", "john@doe.com", "First alias", true);
@@ -117,7 +121,7 @@ class AliasControllerTest extends TestCase {
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame($this->userId, $ret->getData()['user_id'], 'Alias has not the expected user id');
         $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret->getData()['alias_id']), 'Alias id is not a hexadecimal string.');
-        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret->getData()['alias_id']), 'Alias id is of wrong length.');
+        $this->assertSame($this->config['aliasIdLen'], strlen($ret->getData()['alias_id']), 'Alias id is of wrong length.');
         $this->assertSame('alias4', $ret->getData()['alias_name'], 'Alias has not the expected alias name');
         $this->assertSame('john@mydomain.org', $ret->getData()['to_mail'], 'Alias has not the expected to mail');
         $this->assertSame('Fourth alias', $ret->getData()['comment'], 'Alias has not the expected comment');

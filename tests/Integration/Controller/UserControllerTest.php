@@ -21,6 +21,7 @@ class UserControllerTest extends TestCase {
     private $userId = 'john';
     
     private $user;
+    private $config;
     
     public function setUp(): void {
         parent::setUp();
@@ -34,7 +35,10 @@ class UserControllerTest extends TestCase {
         
         $this->controller = $container->get('OCA\Postmag\Controller\UserController');
         $this->mapper = $container->get('OCA\Postmag\Db\UserMapper');
-        
+
+        // Get current config
+        $this->config = $container->get('OCA\Postmag\Controller\ConfigController')->getConf()->getData();
+
         // Create user alias id of john
         $user = new User();
         $user->setUserId($this->userId);
@@ -73,7 +77,7 @@ class UserControllerTest extends TestCase {
         $this->assertSame('false', $ret->getData()['email_set'], 'Did not return the expected email set flag');
         $this->assertSame($this->userId, $ret->getData()['user_id'], 'Did not return the expected user alias id');
         $this->assertSame(1, preg_match("/^[0-9a-f]*$/", $ret->getData()['user_alias_id']), 'user alias is not a hexadecimal string.');
-        $this->assertSame(ConfigService::DEF_USER_ALIAS_ID_LEN, strlen($ret->getData()['user_alias_id']), 'user alias is of wrong length.');
+        $this->assertSame($this->config['userAliasIdLen'], strlen($ret->getData()['user_alias_id']), 'user alias is of wrong length.');
     }
     
 }

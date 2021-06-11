@@ -87,7 +87,7 @@ class AliasMapperTest extends TestCase {
     }
     
     public function testFindAllPerUser(): void {
-        $ret = $this->mapper->findAll($this->testAliases[0]->getUserId());
+        $ret = $this->mapper->findAll(0, count($this->testAliases), $this->testAliases[0]->getUserId());
         
         $this->assertSame(1, count($ret), 'We expect only 1 result for this user.');
         $this->assertSame(array_values($this->insertedAliases)[0]->getId(), $ret[0]->getId(), 'Did not return the expected id.');
@@ -101,7 +101,7 @@ class AliasMapperTest extends TestCase {
     }
     
     public function testFindAll(): void {
-        $ret = $this->mapper->findAll(null);
+        $ret = $this->mapper->findAll(null, null, null);
         
         $this->assertSame(count($this->testAliases), count($ret), 'Did not get all results.');
         foreach ($ret as $retAlias) {

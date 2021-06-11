@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
+use OCA\Postmag\Service\Exceptions\ValueBoundException;
 use PHPUnit\Framework\TestCase;
 use OCP\IRequest;
 use OCA\Postmag\Service\AliasService;
@@ -53,7 +54,9 @@ class AliasControllerTest extends TestCase {
     
     public function testIndex() {
         // Mocking
-        $findAll = function($userId) {
+        $firstResult = 0;
+        $maxResults = 10;
+        $findAll = function($firstResult, $maxResults, $userId) {
             foreach ($this->aliases as $alias) {
                 if ($alias['user_id'] === $userId) {
                     $ret[] = $alias;
@@ -67,11 +70,31 @@ class AliasControllerTest extends TestCase {
             ->willReturnCallback($findAll);
         
         // Test method
-        $ret = $this->controller->index();
+        $ret = $this->controller->index($firstResult, $maxResults);
             
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
-        $this->assertSame($findAll($this->userId), $ret->getData(), 'Did not return the expected aliases.');
+        $this->assertSame($findAll($firstResult, $maxResults, $this->userId), $ret->getData(), 'Did not return the expected aliases.');
+    }
+
+    public function testIndexValueBoundException() {
+        // Mocking
+        $firstResult = 0;
+        $maxResults = 100;
+        $exceptionMsg = 'Value not allowed.';
+        $this->service->expects($this->once())
+            ->method('findAll')
+            ->with($firstResult,
+                $maxResults,
+                $this->userId)
+            ->willThrowException(new ValueBoundException($exceptionMsg));
+
+        // Test method
+        $ret = $this->controller->index($firstResult, $maxResults);
+
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
     }
     
     public function testCreate() {

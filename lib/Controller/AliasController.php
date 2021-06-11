@@ -23,9 +23,14 @@ class AliasController extends Controller {
 	
 	/**
 	 * @NoAdminRequired
+     *
+     * @param int $firstResult
+     * @param int $maxResults
 	 */
-	public function index() {
-		return new JSONResponse($this->service->findAll($this->userId));
+	public function index(int $firstResult, int $maxResults) {
+	    return $this->handleAliasIndexException(function () use ($firstResult, $maxResults) {
+	        return $this->service->findAll($firstResult, $maxResults, $this->userId);
+        });
 	}
 	
 	/**

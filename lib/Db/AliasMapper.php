@@ -24,7 +24,7 @@ class AliasMapper extends QBMapper {
         return $this->findEntity($qb);
     }
     
-    public function findAll(?string $userId): array {
+    public function findAll(?int $firstResult, ?int $maxResults, ?string $userId): array {
         $qb = $this->db->getQueryBuilder();
         
         $qb->select('*')
@@ -34,7 +34,13 @@ class AliasMapper extends QBMapper {
             # return aliases of selected user
             $qb->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
         }
-        
+
+        if ($firstResult !== null && $maxResults !== null) {
+            $qb->orderBy('alias_name')->addOrderBy('alias_id')
+                ->setFirstResult($firstResult)
+                ->setMaxResults($maxResults);
+        }
+
         return $this->findEntities($qb);
     }
     

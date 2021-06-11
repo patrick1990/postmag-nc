@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Service;
 
+use OCA\Postmag\Service\Exceptions\ValueBoundException;
 use PHPUnit\Framework\TestCase;
 use OCP\IDateTimeFormatter;
 use OCA\Postmag\Db\AliasMapper;
@@ -16,6 +17,17 @@ use OCP\AppFramework\Db\DoesNotExistException;
 class AliasServiceTest extends TestCase {
     
     // Define test cases for input arguments
+    private const MAX_RESULT_TEST_CASES = [
+        "allowed" => [
+            1,
+            ConfigService::MAX_ALIAS_RESULTS
+        ],
+        "notAllowed" => [
+            -1,
+            0,
+            ConfigService::MAX_ALIAS_RESULTS + 1
+        ]
+    ];
     private const ALIAS_NAME_TEST_CASES = [
         "allowed" => [
             "alias123",
@@ -114,7 +126,9 @@ class AliasServiceTest extends TestCase {
     
     public function testFindAll(): void {
         // Mocking
-        $findAll = function($userId) {
+        $firstResult = 0;
+        $maxResults = 1;
+        $findAll = function($firstResult, $maxResults, $userId) {
             foreach ($this->aliases as $alias) {
                 if ($alias->getUserId() === $userId) {
                     $ret[] = $alias;
@@ -128,7 +142,7 @@ class AliasServiceTest extends TestCase {
             ->willReturnCallback($findAll);
         
         // Test method
-        $ret = $this->service->findAll('john');
+        $ret = $this->service->findAll($firstResult, $maxResults, 'john');
         
         $this->assertSame(1, count($ret), 'find all returns not the expected count of aliases');
         $this->assertSame($this->aliases[0]->getId(), $ret[0]['id'], 'not the expected id.');
@@ -297,7 +311,65 @@ class AliasServiceTest extends TestCase {
         
         $this->assertTrue($caught, "Not found exception of database was not handled.");
     }
-    
+
+    public function testMaxResultsAllowed(): void {
+        foreach (self::MAX_RESULT_TEST_CASES["allowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+
+            // Mocking
+            $firstResult = 0;
+            $maxResults = $testcase;
+            $findAll = function($firstResult, $maxResults, $userId) {
+                foreach ($this->aliases as $alias) {
+                    if ($alias->getUserId() === $userId) {
+                        $ret[] = $alias;
+                    }
+                    return $ret;
+                }
+            };
+
+            $this->mapper->expects($this->once())
+                ->method('findAll')
+                ->willReturnCallback($findAll);
+
+            // Test method
+            try{
+                $this->service->findAll($firstResult, $maxResults, $this->aliases[0]->getUserId());
+            }
+            catch (ValueBoundException $e) {
+                $this->assertTrue(false, strval($maxResults)." was not accepted as max results.");
+            }
+        }
+    }
+
+    public function testMaxResultsNotAllowed(): void {
+        foreach (self::MAX_RESULT_TEST_CASES["notAllowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+
+            // Mocking
+            $firstResult = 0;
+            $maxResults = $testcase;
+
+            // Test method
+            $caught = false;
+            try {
+                $this->service->findAll($firstResult, $maxResults, $this->aliases[0]->getUserId());
+            }
+            catch (ValueBoundException $e) {
+                $caught = true;
+            }
+
+            if (!$caught) {
+                $this->assertTrue(false, strval($maxResults)." was accepted as max results.");
+            }
+        }
+
+        // Prevent test of beeing useless in case of all length are rejected.
+        $this->assertTrue(true);
+    }
+
     public function testAliasNameAllowed(): void {
         foreach (self::ALIAS_NAME_TEST_CASES["allowed"] as $testcase) {
             // Reset test
@@ -374,7 +446,7 @@ class AliasServiceTest extends TestCase {
             catch (StringLengthException $e) {
                 $caught = true;
             }
-            
+
             if (!$caught) {
                 $this->assertTrue(false, strval($testcase)." was accepted as alias name.");
             }

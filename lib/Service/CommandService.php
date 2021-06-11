@@ -16,7 +16,7 @@ class CommandService {
     }
     
     public function formatPostfixAliasFile(): iterable {
-        $aliases = $this->mapper->findAll(null);
+        $aliases = $this->mapper->findAll(null, null, null);
         
         // add comments
         $ret[] = "######################";

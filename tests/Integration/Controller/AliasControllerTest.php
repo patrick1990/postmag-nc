@@ -73,7 +73,7 @@ class AliasControllerTest extends TestCase {
     }
     
     public function testIndex(): void {
-        $ret = $this->controller->index();
+        $ret = $this->controller->index(0, count($this->aliases));
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');

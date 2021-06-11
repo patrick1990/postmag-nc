@@ -23,6 +23,7 @@ class ConfigService {
     public const MAX_ALIAS_NAME_LEN = 20;
     public const MAX_TO_MAIL_LEN = 256;
     public const MAX_COMMENT_LEN = 40;
+    public const MAX_ALIAS_RESULTS = 30;
     
     private $config;
     private $appName;
@@ -46,7 +47,8 @@ class ConfigService {
             'aliasIdLenMax' => self::MAX_ALIAS_ID_LEN,
             'aliasNameLenMax' => self::MAX_ALIAS_NAME_LEN,
             'toMailLenMax' => self::MAX_TO_MAIL_LEN,
-            'commentLenMax' => self::MAX_COMMENT_LEN
+            'commentLenMax' => self::MAX_COMMENT_LEN,
+            'maxAliasResults' => self::MAX_ALIAS_RESULTS
         );
     }
     

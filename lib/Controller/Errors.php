@@ -39,7 +39,16 @@ trait Errors {
                 throw $e;
             }
     }
-    
+
+    protected function handleAliasIndexException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                ValueBoundException::class => Http::STATUS_BAD_REQUEST
+            ],
+            $callback
+        );
+    }
+
     protected function handleAliasCreateException(Closure $callback): JSONResponse {
         return $this->handleServiceException(
             [

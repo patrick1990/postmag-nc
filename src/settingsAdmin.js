@@ -4,28 +4,7 @@ import { generateUrl } from "@nextcloud/router";
 import axios from "@nextcloud/axios";
 import { showSuccess, showError } from "@nextcloud/dialogs";
 import "@nextcloud/dialogs/styles/toast.scss";
-
-function setPostmagSettings(domain, userAliasIdLen, aliasIdLen) {
-	const url = generateUrl('apps/postmag/config');
-	const req = {
-		domain: domain,
-		userAliasIdLen: userAliasIdLen,
-		aliasIdLen: aliasIdLen
-	};
-
-	axios.put(url, req)
-		.then(function(response) {
-			showSuccess(t("postmag", "Postmag settings changed successfully!"));
-		})
-		.catch(function (error) {
-			if(error.response) {
-				showError(t("postmag", "Error on Postmag settings change ({status}).", {status: error.response.status}));
-			}
-			else {
-				showError(t("postmag", "Error on Postmag settings change (unknown error)."));
-			}
-		});
-}
+import { postmagPutConfig } from "./endpoints";
 
 $(function() {
 	$("body").on("change",
@@ -40,7 +19,7 @@ $(function() {
 				userAliasIdLen[0].validity.valid &&
 				aliasIdLen[0].validity.valid
 			){
-				setPostmagSettings(domain.val(), userAliasIdLen.val(), aliasIdLen.val());
+				postmagPutConfig(domain.val(), userAliasIdLen.val(), aliasIdLen.val());
 			}
 		}
 	)

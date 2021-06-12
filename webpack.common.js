@@ -3,7 +3,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
 	entry: {
-		settingsAdmin: path.join(__dirname, "src", "settingsAdmin.js")
+		settingsAdmin: path.join(__dirname, "src", "settingsAdmin.js"),
+		aliasListHandler: path.join(__dirname, "src", "aliasListHandler.js")
 	},
 	output: {
 		path: path.resolve(__dirname, "./js"),

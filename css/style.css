@@ -1,3 +1,28 @@
-#hello {
-	color: red;
+.postmag-space-above {
+	margin-top: 20px;
+}
+
+.postmag-container-section {
+	width: 100%;
+}
+
+.postmag-label-section {
+	width: 180px;
+	height: 40px;
+	line-height: 40px;
+	float: left;
+}
+
+.postmag-field-section {
+	width: calc(100% - 180px);
+	height: 40px;
+	line-height: 40px;
+	float: right;
+}
+
+#postmagAliasFormAliasName,
+#postmagAliasFormSendTo,
+#postmagAliasFormComment
+{
+	width: 300px;
 }

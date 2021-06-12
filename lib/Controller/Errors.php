@@ -56,7 +56,16 @@ trait Errors {
                 ValueFormatException::class => Http::STATUS_BAD_REQUEST
             ],
             $callback
-            );
+        );
+    }
+
+    protected function handleAliasReadException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                UnexpectedDatabaseResponseException::class => Http::STATUS_NOT_FOUND
+            ],
+            $callback
+        );
     }
     
     protected function handleAliasUpdateException(Closure $callback): JSONResponse {
@@ -67,7 +76,7 @@ trait Errors {
                 ValueFormatException::class => Http::STATUS_BAD_REQUEST
             ],
             $callback
-            );
+        );
     }
     
     protected function handleAliasDeleteException(Closure $callback): JSONResponse {
@@ -76,7 +85,7 @@ trait Errors {
                 UnexpectedDatabaseResponseException::class => Http::STATUS_NOT_FOUND
             ],
             $callback
-            );
+        );
     }
     
     protected function handleConfigException(Closure $setCallback, Closure $getCallback): JSONResponse {
@@ -87,7 +96,7 @@ trait Errors {
             ],
             $getCallback,
             $setCallback
-            );
+        );
     }
     
 }

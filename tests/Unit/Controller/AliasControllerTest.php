@@ -164,7 +164,38 @@ class AliasControllerTest extends TestCase {
         $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
         $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
     }
-    
+
+    public function testRead() {
+        // Mocking
+        $this->service->expects($this->once())
+            ->method('find')
+            ->with($this->aliases[0]["id"], $this->userId)
+            ->willReturn($this->aliases[0]);
+
+        // Test method
+        $ret = $this->controller->read($this->aliases[0]["id"]);
+
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
+        $this->assertSame($this->aliases[0], $ret->getData(), 'Did not return the read alias.');
+    }
+
+    public function testReadNotFound() {
+        // Mocking
+        $exceptionMsg = 'Id not found.';
+        $this->service->expects($this->once())
+            ->method('find')
+            ->with($this->aliases[0]["id"], $this->userId)
+            ->willThrowException(new NotFoundException($exceptionMsg));
+
+        // Test method
+        $ret = $this->controller->read($this->aliases[0]["id"]);
+
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_NOT_FOUND, $ret->getStatus(), 'HTTP status should be NOT_FOUND.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+
     public function testUpdate() {
         // Mocking
         $this->service->expects($this->once())
@@ -276,7 +307,7 @@ class AliasControllerTest extends TestCase {
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
-        $this->assertSame($this->aliases[0], $ret->getData(), 'Did not return the updated alias.');
+        $this->assertSame($this->aliases[0], $ret->getData(), 'Did not return the deleted alias.');
     }
     
     public function testDeleteNotFound() {

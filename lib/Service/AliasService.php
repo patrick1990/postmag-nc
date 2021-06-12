@@ -25,7 +25,16 @@ class AliasService {
         $this->mapper = $mapper;
         $this->confService = $confService;
     }
-    
+
+    public function find(int $id, string $userId): array {
+        try {
+            return $this->mapper->find($id, $userId)->serialize($this->dateTimeFormatter);
+        }
+        catch (\Exception $e) {
+            $this->handleDbException($e);
+        }
+    }
+
     public function findAll(int $firstResult, int $maxResults, string $userId): array {
         if($maxResults <= 0 || $maxResults > ConfigService::MAX_ALIAS_RESULTS) {
             throw new Exceptions\ValueBoundException("Max results has to be positive and lesser than ".ConfigService::MAX_ALIAS_RESULTS);

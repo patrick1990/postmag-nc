@@ -45,6 +45,17 @@ class AliasController extends Controller {
 	        return $this->service->create($aliasName, $toMail, $comment, $this->userId);
 	    });
 	}
+
+    /**
+     * @NoAdminRequired
+     *
+     * @param int $id
+     */
+	public function read(int $id) {
+	    return $this->handleAliasReadException(function() use ($id) {
+	        return $this->service->find($id, $this->userId);
+        });
+    }
 	
 	/**
 	 * @NoAdminRequired

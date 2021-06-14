@@ -92,11 +92,7 @@ export async function postmagPostAlias(aliasName, toMail, comment) {
         comment: comment
     };
 
-    let alias = await axios.post(url, req)
-        .then(function(response) {
-            showSuccess(t("postmag", "Alias created successfully!"));
-        })
-        .catch(function (error) {
+    let alias = await axios.post(url, req).catch(function (error) {
             if(error.response) {
                 showError(t("postmag", "Error on alias creation ({status}).", {status: error.response.status}));
             }
@@ -109,7 +105,7 @@ export async function postmagPostAlias(aliasName, toMail, comment) {
     if (alias === undefined)
         return undefined;
     else
-        return alias.data["id"];
+        return alias.data;
 }
 
 export async function postmagGetAlias(id) {
@@ -139,11 +135,7 @@ export async function postmagPutAlias(id, toMail, comment, enabled) {
         enabled: enabled
     };
 
-    let alias = await axios.put(url, req)
-        .then(function(response) {
-            showSuccess(t("postmag", "Alias updated successfully!"));
-        })
-        .catch(function (error) {
+    let alias = await axios.put(url, req).catch(function (error) {
             if(error.response) {
                 showError(t("postmag", "Error on alias update ({status}).", {status: error.response.status}));
             }
@@ -156,17 +148,13 @@ export async function postmagPutAlias(id, toMail, comment, enabled) {
     if (alias === undefined)
         return undefined;
     else
-        return alias.data["id"];
+        return alias.data;
 }
 
 export async function postmagDeleteAlias(id) {
     const url = generateUrl('apps/postmag/alias/' + id.toString());
 
-    let alias = await axios.delete(url)
-        .then(function(response) {
-            showSuccess(t("postmag", "Alias deleted successfully!"));
-        })
-        .catch(function (error) {
+    let alias = await axios.delete(url).catch(function (error) {
             if(error.response) {
                 showError(t("postmag", "Error on alias delete ({status}).", {status: error.response.status}));
             }
@@ -179,5 +167,5 @@ export async function postmagDeleteAlias(id) {
     if (alias === undefined)
         return undefined;
     else
-        return alias.data["id"];
+        return alias.data;
 }

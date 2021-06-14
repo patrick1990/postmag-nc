@@ -1,8 +1,4 @@
 import $ from "jquery";
-import { translate as t } from "@nextcloud/l10n";
-import { generateUrl } from "@nextcloud/router";
-import axios from "@nextcloud/axios";
-import { showSuccess, showError } from "@nextcloud/dialogs";
 import "@nextcloud/dialogs/styles/toast.scss";
 import { postmagPutConfig } from "./endpoints";
 

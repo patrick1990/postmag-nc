@@ -2,11 +2,18 @@ import $ from "jquery";
 import { translate as t } from "@nextcloud/l10n";
 import {showError, showSuccess} from "@nextcloud/dialogs";
 import "@nextcloud/dialogs/styles/toast.scss";
-import {postmagGetAliases, postmagGetConfig, postmagGetUserInfo, postmagPostAlias, postmagPutAlias} from "./endpoints";
+import {
+	postmagGetAlias,
+	postmagGetAliases,
+	postmagGetConfig,
+	postmagGetUserInfo,
+	postmagPostAlias,
+	postmagPutAlias
+} from "./endpoints";
 import {
 	contentBaseLoaded, setActiveAlias, setAliasForm,
 	templateAliasList,
-	templateContentBase,
+	templateContentBase, templateDeleteSure,
 	templateNewAlias,
 	templateNoAliases
 } from "./templates";
@@ -47,17 +54,6 @@ $(async function() {
 
 	// ==== HANDLERS ====
 	$("body").on("click",
-		"button#postmagNewAlias",
-		async function(e){
-			if(!contentBaseLoaded()) {
-				templateContentBase(config);
-			}
-			templateNewAlias(true);
-			setActiveAlias(-1);
-			setAliasForm(undefined, userInfo, config);
-		}
-	);
-	$("body").on("click",
 		"#postmagAliasFilterAll, #postmagAliasFilterEnabled, #postmagAliasFilterDisabled",
 		function(e){
 			$("#postmagAliasFilterAll").removeClass("active");
@@ -82,6 +78,39 @@ $(async function() {
 				templateAliasList(aliasList, showEnabled,  showDisabled);
 				setActiveAlias($("input#postmagAliasFormId").val());
 			}
+		}
+	);
+	$("body").on("click",
+		"div#postmagAliasListPlaceholder",
+		async function(e) {
+			let prefix = "postmagAliasId";
+			let id = "";
+
+			// Get id of clicked element
+			if (e.target.id.substring(0, prefix.length) === prefix) {
+				// Link was clicked
+				id = e.target.id.substring(prefix.length + 1);
+			}
+			else {
+				// A children was clicked
+				id = $(e.target).parent("a")[0].id.substring(prefix.length + 1);
+			}
+
+			// Set list item
+			templateNewAlias(false);
+			setActiveAlias(id);
+			setAliasForm(await postmagGetAlias(id), userInfo, config);
+		}
+	);
+	$("body").on("click",
+		"button#postmagNewAlias",
+		async function(e){
+			if(!contentBaseLoaded()) {
+				templateContentBase(config);
+			}
+			templateNewAlias(true);
+			setActiveAlias(-1);
+			setAliasForm(undefined, userInfo, config);
 		}
 	);
 	$("body").on("click",
@@ -126,7 +155,7 @@ $(async function() {
 	$("body").on("click",
 		"#postmagAliasFormDelete",
 		function(e) {
-			return;
+			templateDeleteSure(true);
 		}
 	);
 	$("body").on("click",

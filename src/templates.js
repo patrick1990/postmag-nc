@@ -20,6 +20,7 @@ function templateAliasForm(config) {
         '<div class="postmag-space-above">' +
         '<button id="postmagAliasFormCopy" type="button">' + t("postmag", "Copy alias")+ '</button>' +
         '<button id="postmagAliasFormDelete" type="button">' + t("postmag", "Delete alias") + '</button>' +
+        '<div id="postmagAliasFormDeleteSurePlaceholder"></div>' +
         '<input id="postmagAliasFormId" type="hidden">' +
         '</div>' +
         '<div class="postmag-container-section postmag-space-above">' +
@@ -48,8 +49,16 @@ function templateAliasForm(config) {
         '</div>');
 }
 
+export function templateDeleteSure(enabled) {
+    if (enabled)
+        $("#postmagAliasFormDeleteSurePlaceholder").html("<p>" + t("postmag", "Sure?") + "</p>");
+    else
+        $("#postmagAliasFormDeleteSurePlaceholder").html('');
+}
+
 export function setAliasForm(alias, userInfo, config) {
-    // jQuery $("...").prop("disabled", true)
+    templateDeleteSure(false);
+
     if (alias === undefined) {
         // New alias mode
         // Enable/Disable fields
@@ -128,8 +137,11 @@ export function templateNewAlias(enabled) {
 }
 
 function templateExistingAlias(alias) {
+    let colNum = parseInt(alias['alias_id'], 16) % 256;
+    let col = 'rgb(' + colNum.toString() + ', ' + ((colNum - 100)%256).toString() + ', ' + ((colNum + 100)%256).toString() + ')';
+
     let ret = '<a href="#" id="postmagAliasId_' + alias['id'] + '" class="app-content-list-item">' +
-        '<div class="app-content-list-item-icon" style="background-color: rgb(152, 59, 144);">' + alias['alias_name'][0].toUpperCase() + '</div>' +
+        '<div class="app-content-list-item-icon" style="background-color: ' + col + ';">' + alias['alias_name'][0].toUpperCase() + '</div>' +
         '<div class="app-content-list-item-line-one">' + alias['alias_name'] + '.' + alias['alias_id'] + '</div>' +
         '<div class="app-content-list-item-line-two">' + alias['comment'] + '</div>';
 

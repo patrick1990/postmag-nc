@@ -20,7 +20,6 @@ function templateAliasForm(config) {
         '<div class="postmag-space-above">' +
         '<button id="postmagAliasFormCopy" type="button">' + t("postmag", "Copy alias")+ '</button>' +
         '<button id="postmagAliasFormDelete" type="button">' + t("postmag", "Delete alias") + '</button>' +
-        '<div id="postmagAliasFormDeleteSurePlaceholder"></div>' +
         '<input id="postmagAliasFormId" type="hidden">' +
         '</div>' +
         '<div class="postmag-container-section postmag-space-above">' +
@@ -49,15 +48,23 @@ function templateAliasForm(config) {
         '</div>');
 }
 
-export function templateDeleteSure(enabled) {
-    if (enabled)
-        $("#postmagAliasFormDeleteSurePlaceholder").html("<p>" + t("postmag", "Sure?") + "</p>");
-    else
-        $("#postmagAliasFormDeleteSurePlaceholder").html('');
+export function templateDeleteForm(id, aliasHead) {
+    $("#postmagAppContentDetail").html('<div class="section">' +
+        '<h2>' + t("postmag", "Delete {aliasHead}?", {aliasHead: aliasHead}) + '</h2>' +
+        '<hr>' +
+        '<p class="postmag-space-above">' + t("postmag", "Are you sure you want to delete this alias?") + '</p>' +
+        '<p class="postmag-space-above">' + t("postmag", "Deleted aliases cannot be restored.") + '</p>' +
+        '<p>' + t("postmag", "Consider disabling the alias if you don't want to receive mails via it anymore.") + '</p>' +
+        '<div class="postmag-space-above">' +
+        '<button id="postmagDeleteFormYes" type="button">' + t("postmag", "Yes")+ '</button>' +
+        '<button id="postmagDeleteFormNo" type="button">' + t("postmag", "No") + '</button>' +
+        '<input id="postmagDeleteFormId" type="hidden" value="' + id + '">' +
+        '</div>' +
+        '</div>');
 }
 
 export function setAliasForm(alias, userInfo, config) {
-    templateDeleteSure(false);
+    templateAliasForm(config);
 
     if (alias === undefined) {
         // New alias mode
@@ -110,7 +117,7 @@ export function setAliasForm(alias, userInfo, config) {
     }
 }
 
-export function templateContentBase(config) {
+export function templateContentBase() {
     $("#app-content").html('<div id="app-content-wrapper">' +
         '<div class="app-content-list">' +
         '<div id="postmagNewAliasPlaceholder"></div>' +
@@ -118,8 +125,6 @@ export function templateContentBase(config) {
         '</div>' +
         '<div class="app-content-detail" id="postmagAppContentDetail">' +
         '</div>');
-
-    templateAliasForm(config);
 }
 
 export function contentBaseLoaded() {

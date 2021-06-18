@@ -31,6 +31,7 @@ class AliasMapperTest extends TestCase {
         $this->mapper = $container->get('OCA\Postmag\Db\AliasMapper');
         
         // Create test aliases
+        $now = new \DateTime('now');
         $this->testAliases = [new Alias(), new Alias()];
         
         $this->testAliases[0]->setUserId('john');
@@ -39,8 +40,8 @@ class AliasMapperTest extends TestCase {
         $this->testAliases[0]->setToMail('john@doe.com');
         $this->testAliases[0]->setComment('My Alias');
         $this->testAliases[0]->setEnabled(true);
-        $this->testAliases[0]->setCreated(12345);
-        $this->testAliases[0]->setLastModified(23456);
+        $this->testAliases[0]->setCreated($now->getTimestamp());
+        $this->testAliases[0]->setLastModified($now->getTimestamp());
         
         $this->testAliases[1]->setUserId('jane');
         $this->testAliases[1]->setAliasId('2b3c');
@@ -48,8 +49,9 @@ class AliasMapperTest extends TestCase {
         $this->testAliases[1]->setToMail('jane@doe.com');
         $this->testAliases[1]->setComment('Very important');
         $this->testAliases[1]->setEnabled(true);
-        $this->testAliases[1]->setCreated(76543);
-        $this->testAliases[1]->setLastModified(87654);
+        $this->testAliases[1]->setCreated($now->getTimestamp());
+        sleep(1);
+        $this->testAliases[1]->setLastModified((new \DateTime('now'))->getTimestamp());
         
         // Insert aliases into database
         $this->insertedAliases = [];
@@ -102,17 +104,29 @@ class AliasMapperTest extends TestCase {
     
     public function testFindAll(): void {
         $ret = $this->mapper->findAll(null, null, null);
-        
-        $this->assertSame(count($this->testAliases), count($ret), 'Did not get all results.');
-        foreach ($ret as $retAlias) {
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getUserId(), $retAlias->getUserId(), 'Did not return the expected user id.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getAliasId(), $retAlias->getAliasId(), 'Did not return the expected alias id.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getAliasName(), $retAlias->getAliasName(), 'Did not return the expected alias name.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getComment(), $retAlias->getComment(), 'Did not return the expected comment.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getEnabled(), $retAlias->getEnabled(), 'Did not return the expected enabled state.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getCreated(), $retAlias->getCreated(), 'Did not return the expected created timestamp.');
-            $this->assertSame($this->insertedAliases[$retAlias->getId()]->getLastModified(), $retAlias->getLastModified(), 'Did not return the expected last modified timestamp.');
+
+        // Filter ret to get only test entries
+        $testUserIds = [];
+        foreach ($this->insertedAliases as $alias) {
+            if(!in_array($alias->getUserId(), $testUserIds))
+                array_push($testUserIds, $alias->getUserId());
         }
+
+        // count test results
+        $testResults = 0;
+        foreach ($ret as $retAlias) {
+            if(in_array($retAlias->getUserId(), $testUserIds)) {
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getUserId(), $retAlias->getUserId(), 'Did not return the expected user id.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getAliasId(), $retAlias->getAliasId(), 'Did not return the expected alias id.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getAliasName(), $retAlias->getAliasName(), 'Did not return the expected alias name.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getComment(), $retAlias->getComment(), 'Did not return the expected comment.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getEnabled(), $retAlias->getEnabled(), 'Did not return the expected enabled state.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getCreated(), $retAlias->getCreated(), 'Did not return the expected created timestamp.');
+                $this->assertSame($this->insertedAliases[$retAlias->getId()]->getLastModified(), $retAlias->getLastModified(), 'Did not return the expected last modified timestamp.');
+                $testResults = $testResults + 1;
+            }
+        }
+        $this->assertSame(count($this->testAliases), $testResults, 'Did not get all results.');
     }
     
     public function testFindLastModifiedPerUser(): void {

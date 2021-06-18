@@ -135,7 +135,7 @@ export function templateNewAlias(enabled) {
     if (enabled)
         $("#postmagNewAliasPlaceholder").html('<a href="#" id="postmagAliasId_-1" class="app-content-list-item">' +
             '<div class="app-content-list-item-icon" style="background-color: rgb(34, 139, 34);">N</div>' +
-            '<div class="app-content-list-item-line-one">New alias</div>' +
+            '<div class="app-content-list-item-line-one">' + t("postmag", "New alias") + '</div>' +
             '</a>');
     else
         $("#postmagNewAliasPlaceholder").html('');

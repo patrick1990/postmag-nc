@@ -4,7 +4,7 @@
 	"type" : "project",
 	"license" : "AGPL-3.0",
 	"authors" : [{
-			"name" : "Patrick"
+			"name" : "Patrick Greyson"
 		}
 	],
 	"require-dev" : {

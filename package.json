@@ -1,6 +1,5 @@
 {
 	"name": "postmag-nc",
-	"version": "0.0.1",
 	"description": "Postfix mail alias generator for Nextcloud",
 	"homepage": "https://github.com/patrick1990/postmag-nc",
 	"repository": {

@@ -7,6 +7,8 @@
 # * krankerl (https://github.com/ChristophWurst/krankerl)
 
 app_name=postmag
+build_dir=$(CURDIR)/build
+artifacts_dir=$(build_dir)/artifacts
 
 all: build
 
@@ -28,6 +30,7 @@ clean-js:
 
 .PHONY: clean
 clean: clean-deps clean-js
+	rm -rf $(build_dir)
 	
 .PHONY: install-deps-composer
 install-deps-composer:
@@ -64,3 +67,7 @@ test: install-deps-dev
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
 	npm run lint
+
+.PHONY: package
+package:
+	krankerl package

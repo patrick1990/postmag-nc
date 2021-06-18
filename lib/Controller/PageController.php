@@ -15,9 +15,6 @@ class PageController extends Controller {
 		$this->userId = $UserId;
 	}
 	
-	// TODO: Implement Frontend
-	// TODO: Code documentation (Param documentation, License,...)
-	
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

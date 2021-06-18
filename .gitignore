@@ -3,6 +3,7 @@
 .idea
 .settings
 .phpunit.result.cache
+TODO.md
 
 js
 img/*

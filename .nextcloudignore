@@ -15,7 +15,7 @@ screenshots
 /translationfiles
 /vendor
 
-/.eslint.rc
+/.eslintrc.js
 /composer.*
 /Makefile
 /package.json

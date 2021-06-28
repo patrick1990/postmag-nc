@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace OCA\Postmag\Tests\Unit\Service;
 
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
+use OCP\IConfig;
 use PHPUnit\Framework\TestCase;
 use OCP\IDateTimeFormatter;
 use OCA\Postmag\Db\AliasMapper;
@@ -89,6 +90,8 @@ class AliasServiceTest extends TestCase {
     ];
     
     private $service;
+    private $appName = "postmag";
+    private $config;
     private $dateTimeFormatter;
     private $mapper;
     private $confService;
@@ -96,11 +99,14 @@ class AliasServiceTest extends TestCase {
     private $aliases;
     
     public function setUp(): void {
+        $this->config = $this->createMock(IConfig::class);
         $this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
         $this->mapper = $this->createMock(AliasMapper::class);
         $this->confService = $this->createMock(ConfigService::class);
         
         $this->service = new AliasService(
+            $this->appName,
+            $this->config,
             $this->dateTimeFormatter,
             $this->mapper,
             $this->confService

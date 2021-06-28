@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Service;
 
+use OCA\Postmag\Service\AliasService;
 use PHPUnit\Framework\TestCase;
 use OCA\Postmag\Db\AliasMapper;
 use OCA\Postmag\Service\UserService;
@@ -33,16 +34,19 @@ class CommandServiceTest extends TestCase {
     
     private $service;
     private $mapper;
+    private $aliasService;
     private $userService;
     
     private $aliases;
     
     public function setUp(): void {
         $this->mapper = $this->createMock(AliasMapper::class);
+        $this->aliasService = $this->createMock(AliasService::class);
         $this->userService = $this->createMock(UserService::class);
         
         $this->service = new CommandService(
             $this->mapper,
+            $this->aliasService,
             $this->userService
         );
         
@@ -140,10 +144,9 @@ class CommandServiceTest extends TestCase {
     
     public function testGetLastModified(): void {
         // Mocking
-        $this->mapper->expects($this->exactly(2))
-            ->method('findLastModified')
-            ->with(null)
-            ->willReturn($this->aliases[0]);
+        $this->aliasService->expects($this->exactly(2))
+            ->method('getLastModified')
+            ->willReturn(strval($this->aliases[0]->getLastModified()));
         
         // Test method - unix time
         $ret = $this->service->getLastModified();

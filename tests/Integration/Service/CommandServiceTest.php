@@ -36,8 +36,9 @@ use OCA\Postmag\Db\User;
 class CommandServiceTest extends TestCase {
     
     private $service;
+    private $formatter;
+    private $aliasService;
     private $userService;
-    private $aliasMapper;
     private $userMapper;
     
     private $users;
@@ -49,8 +50,9 @@ class CommandServiceTest extends TestCase {
         $container = $app->getContainer();
         
         $this->service = $container->get('OCA\Postmag\Service\CommandService');
+        $this->formatter = $container->get('OCP\IDateTimeFormatter');
+        $this->aliasService = $container->get('OCA\Postmag\Service\AliasService');
         $this->userService = $container->get('OCA\Postmag\Service\UserService');
-        $this->aliasMapper = $container->get('OCA\Postmag\Db\AliasMapper');
         $this->userMapper = $container->get('OCA\Postmag\Db\UserMapper');
         
         // Fill something in the database
@@ -75,26 +77,16 @@ class CommandServiceTest extends TestCase {
         return $this->userMapper->insert($user);
     }
     
-    private function createAlias(string $userId, string $aliasName, string $toMail, string $comment, bool $enabled): Alias {
-        $now = new \DateTime('now');
+    private function createAlias(string $userId, string $aliasName, string $toMail, string $comment, bool $enabled): array {
+        $alias = $this->aliasService->create($aliasName, $toMail, $comment, $userId);
         
-        $alias = new Alias();
-        $alias->setUserId($userId);
-        $alias->setAliasId(Random::hexString(ConfigService::DEF_ALIAS_ID_LEN));
-        $alias->setAliasName($aliasName);
-        $alias->setToMail($toMail);
-        $alias->setComment($comment);
-        $alias->setEnabled($enabled);
-        $alias->setCreated($now->getTimestamp());
-        $alias->setLastModified($now->getTimestamp());
-        
-        return $this->aliasMapper->insert($alias);
+        return $this->aliasService->update($alias['id'], $toMail, $comment, $enabled, $userId);;
     }
     
     public function tearDown(): void {
         // Clean up the database
         foreach ($this->aliases as $alias) {
-            $this->aliasMapper->delete($alias);
+            $this->aliasService->delete($alias['id'], $alias['user_id']);
         }
         foreach ($this->users as $user) {
             $this->userMapper->delete($user);
@@ -105,15 +97,22 @@ class CommandServiceTest extends TestCase {
     
     public function testGetLastModified(): void {
         $this->assertSame(
-            strval(end($this->aliases)->getLastModified()),
-            $this->service->getLastModified(),
+            end($this->aliases)['last_modified'],
+            $this->formatter->formatDateTime($this->service->getLastModified(), 'short', 'medium'),
             'Expected the last added alias to be the last modified entry'
             );
         
         // Formatted
         $this->assertSame(
-            (new \DateTime())->setTimestamp(end($this->aliases)->getLastModified())->format('Y-m-d_H:i:s'),
-            $this->service->getLastModified(true),
+            end($this->aliases)['last_modified'],
+            $this->formatter->formatDateTime(
+                strval(\DateTime::createFromFormat(
+                    'Y-m-d_H:i:s',
+                    $this->service->getLastModified(true))->getTimestamp()
+                ),
+                'short',
+                'medium'
+            ),
             'Expected the last added alias to be the last modified entry (formatted reply)'
             );
     }
@@ -128,8 +127,8 @@ class CommandServiceTest extends TestCase {
         $expectAlias = false;
         
         // Value caches
-        $created = 0;
-        $lastModified = 0;
+        $created = '';
+        $lastModified = '';
         $enabled = false;
         $aliasName = '';
         $aliasId = '';
@@ -141,8 +140,8 @@ class CommandServiceTest extends TestCase {
                 // Found timestamp line
                 if (substr($line, 0, 10) === '# Created:') {
                     $sep = strpos($line, ',');
-                    $created = intval(substr($line, 11, $sep-11));
-                    $lastModified = intval(substr($line, $sep+12, strlen($line)-$sep-12));
+                    $created = $this->formatter->formatDateTime(substr($line, 11, $sep-11), 'short', 'medium');
+                    $lastModified = $this->formatter->formatDateTime(substr($line, $sep+12, strlen($line)-$sep-12), 'short', 'medium');
                     
                     $expectAlias = true;
                     continue;
@@ -171,21 +170,21 @@ class CommandServiceTest extends TestCase {
                 
                 // Mark it, if this is one of the test cases
                 foreach ($this->aliases as $key => $alias) {
-                    if (($alias->getCreated() === $created) &&
-                        ($alias->getLastModified() === $lastModified) &&
-                        ($alias->getEnabled() === $enabled) &&
-                        ($alias->getAliasName() === $aliasName) &&
-                        ($alias->getAliasId() === $aliasId) &&
-                        ($this->userService->getUserAliasId($alias->getUserId()) === $userAliasId) &&
-                        ($alias->getToMail() === $toMail))
+                    if (($alias['created'] === $created) &&
+                        ($alias['last_modified'] === $lastModified) &&
+                        ($alias['enabled'] === $enabled) &&
+                        ($alias['alias_name'] === $aliasName) &&
+                        ($alias['alias_id'] === $aliasId) &&
+                        ($this->userService->getUserAliasId($alias['user_id']) === $userAliasId) &&
+                        ($alias['to_mail'] === $toMail))
                     {
                         $marker[$key] = true;
                     }
                 }
                 
                 // Reset everything
-                $created = 0;
-                $lastModified = 0;
+                $created = '';
+                $lastModified = '';
                 $enabled = false;
                 $aliasName = '';
                 $aliasId = '';
@@ -196,7 +195,7 @@ class CommandServiceTest extends TestCase {
         
         // Check marker array
         foreach ($marker as $key => $value) {
-            $this->assertTrue($value, $this->aliases[$key]->getAliasName().' was not found in the alias file');
+            $this->assertTrue($value, $this->aliases[$key]['alias_name'].' was not found in the alias file');
         }
     }
     

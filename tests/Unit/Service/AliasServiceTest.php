@@ -378,6 +378,19 @@ class AliasServiceTest extends TestCase {
         $this->assertTrue($caught, "Not found exception of database was not handled.");
     }
 
+    public function testGetLastModified(): void {
+        // Mocking
+        $this->config->expects($this->once())
+            ->method('getAppValue')
+            ->with($this->appName, 'lastModified', '0')
+            ->willReturn(strval($this->aliases[1]->getLastModified()));
+
+        // Test method
+        $ret = $this->service->getLastModified();
+
+        $this->assertSame($ret, strval($this->aliases[1]->getLastModified()), "Last modified doesn't return the last modified timestamp.");
+    }
+
     public function testMaxResultsAllowed(): void {
         foreach (self::MAX_RESULT_TEST_CASES["allowed"] as $testcase) {
             // Reset test

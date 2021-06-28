@@ -28,10 +28,12 @@ use OCA\Postmag\Db\AliasMapper;
 class CommandService {
     
     private $mapper;
+    private $aliasService;
     private $userService;
     
-    public function __construct(AliasMapper $mapper, UserService $userService) {
+    public function __construct(AliasMapper $mapper, AliasService $aliasService, UserService $userService) {
         $this->mapper = $mapper;
+        $this->aliasService = $aliasService;
         $this->userService = $userService;
     }
     
@@ -70,18 +72,13 @@ class CommandService {
     }
     
     public function getLastModified(bool $formatted = false): string {
-        try {
-            $lastModified = $this->mapper->findLastModified(null)->getLastModified();
-        }
-        catch(\OCP\AppFramework\Db\DoesNotExistException $e) {
-            $lastModified = 0;
-        }
+        $lastModified = $this->aliasService->getLastModified();
         
         if ($formatted) {
-            return (new \DateTime())->setTimestamp($lastModified)->format('Y-m-d_H:i:s');
+            return (new \DateTime())->setTimestamp(intval($lastModified))->format('Y-m-d_H:i:s');
         }
         
-        return strval($lastModified);
+        return $lastModified;
     }
     
 }

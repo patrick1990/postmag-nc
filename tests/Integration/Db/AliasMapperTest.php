@@ -149,49 +149,6 @@ class AliasMapperTest extends TestCase {
         $this->assertSame(count($this->testAliases), $testResults, 'Did not get all results.');
     }
     
-    public function testFindLastModifiedPerUser(): void {
-        $ret = $this->mapper->findLastModified($this->testAliases[0]->getUserId());
-        
-        // get last modified alias of inserted aliases
-        $expected = array_values($this->insertedAliases)[0];
-        foreach (array_values($this->insertedAliases) as $alias) {
-            if($alias->getUserId() === $expected->getUserId())
-                if($alias->getLastModified() > $expected->getLastModified())
-                    $expected = $alias;
-        }
-        
-        $this->assertTrue($ret instanceof Alias, 'Result should be an Alias entity.');
-        $this->assertSame($expected->getId(), $ret->getId(), 'Did not return the expected id.');
-        $this->assertSame($expected->getUserId(), $ret->getUserId(), 'Did not return the expected user id.');
-        $this->assertSame($expected->getAliasId(), $ret->getAliasId(), 'Did not return the expected alias id.');
-        $this->assertSame($expected->getAliasName(), $ret->getAliasName(), 'Did not return the expected alias name.');
-        $this->assertSame($expected->getComment(), $ret->getComment(), 'Did not return the expected comment.');
-        $this->assertSame($expected->getEnabled(), $ret->getEnabled(), 'Did not return the expected enabled state.');
-        $this->assertSame($expected->getCreated(), $ret->getCreated(), 'Did not return the expected created timestamp.');
-        $this->assertSame($expected->getLastModified(), $ret->getLastModified(), 'Did not return the expected last modified timestamp.');
-    }
-    
-    public function testFindLastModified(): void {
-        $ret = $this->mapper->findLastModified(null);
-        
-        // get last modified alias of inserted aliases
-        $expected = array_values($this->insertedAliases)[0];
-        foreach (array_values($this->insertedAliases) as $alias) {
-            if($alias->getLastModified() > $expected->getLastModified())
-                $expected = $alias;
-        }
-        
-        $this->assertTrue($ret instanceof Alias, 'Result should be an Alias entity.');
-        $this->assertSame($expected->getId(), $ret->getId(), 'Did not return the expected id.');
-        $this->assertSame($expected->getUserId(), $ret->getUserId(), 'Did not return the expected user id.');
-        $this->assertSame($expected->getAliasId(), $ret->getAliasId(), 'Did not return the expected alias id.');
-        $this->assertSame($expected->getAliasName(), $ret->getAliasName(), 'Did not return the expected alias name.');
-        $this->assertSame($expected->getComment(), $ret->getComment(), 'Did not return the expected comment.');
-        $this->assertSame($expected->getEnabled(), $ret->getEnabled(), 'Did not return the expected enabled state.');
-        $this->assertSame($expected->getCreated(), $ret->getCreated(), 'Did not return the expected created timestamp.');
-        $this->assertSame($expected->getLastModified(), $ret->getLastModified(), 'Did not return the expected last modified timestamp.');
-    }
-    
     public function testContainsAliasId(): void {
         $this->assertTrue(
             $this->mapper->containsAliasId(

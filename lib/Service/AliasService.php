@@ -32,15 +32,21 @@ use OCP\IDateTimeFormatter;
 class AliasService {
     
     use Errors;
-    
+
+    private $appName;
+    private $config;
     private $dateTimeFormatter;
     private $mapper;
     private $confService;
     
-    public function __construct(IDateTimeFormatter $dateTimeFormatter,
+    public function __construct($AppName,
+                                IConfig $config,
+                                IDateTimeFormatter $dateTimeFormatter,
                                 AliasMapper $mapper,
                                 ConfigService $confService)
     {
+        $this->appName = $AppName;
+        $this->config = $config;
         $this->dateTimeFormatter = $dateTimeFormatter;
         $this->mapper = $mapper;
         $this->confService = $confService;
@@ -124,7 +130,8 @@ class AliasService {
         $alias->setEnabled(True);
         $alias->setCreated($now->getTimestamp());
         $alias->setLastModified($now->getTimestamp());
-        
+
+        $this->config->setAppValue($this->appName, 'lastModified', strval($now->getTimestamp()));
         return $this->mapper->insert($alias)->serialize($this->dateTimeFormatter);
     }
     
@@ -140,7 +147,8 @@ class AliasService {
             $alias->setComment($comment);
             $alias->setEnabled($enabled);
             $alias->setLastModified($now->getTimestamp());
-            
+
+            $this->config->setAppValue($this->appName, 'lastModified', strval($now->getTimestamp()));
             return $this->mapper->update($alias)->serialize($this->dateTimeFormatter);
         }
         catch (\Exception $e) {
@@ -150,13 +158,21 @@ class AliasService {
     
     public function delete(int $id, string $userId): array {
         try {
+            // Get DateTime
+            $now = new \DateTime('now');
+
             $alias = $this->mapper->find($id, $userId);
-            
+
+            $this->config->setAppValue($this->appName, 'lastModified', strval($now->getTimestamp()));
             return $this->mapper->delete($alias)->serialize($this->dateTimeFormatter);
         }
         catch (\Exception $e) {
             $this->handleDbException($e);
         }
+    }
+
+    public function getLastModified(): string {
+        return $this->config->getAppValue($this->appName, 'lastModified', '0');
     }
     
 }

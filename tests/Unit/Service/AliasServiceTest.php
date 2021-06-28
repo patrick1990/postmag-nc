@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace OCA\Postmag\Tests\Unit\Service;
 
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
+use OCP\IConfig;
 use PHPUnit\Framework\TestCase;
 use OCP\IDateTimeFormatter;
 use OCA\Postmag\Db\AliasMapper;
@@ -89,6 +90,8 @@ class AliasServiceTest extends TestCase {
     ];
     
     private $service;
+    private $appName = "postmag";
+    private $config;
     private $dateTimeFormatter;
     private $mapper;
     private $confService;
@@ -96,11 +99,14 @@ class AliasServiceTest extends TestCase {
     private $aliases;
     
     public function setUp(): void {
+        $this->config = $this->createMock(IConfig::class);
         $this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
         $this->mapper = $this->createMock(AliasMapper::class);
         $this->confService = $this->createMock(ConfigService::class);
         
         $this->service = new AliasService(
+            $this->appName,
+            $this->config,
             $this->dateTimeFormatter,
             $this->mapper,
             $this->confService
@@ -370,6 +376,19 @@ class AliasServiceTest extends TestCase {
         }
         
         $this->assertTrue($caught, "Not found exception of database was not handled.");
+    }
+
+    public function testGetLastModified(): void {
+        // Mocking
+        $this->config->expects($this->once())
+            ->method('getAppValue')
+            ->with($this->appName, 'lastModified', '0')
+            ->willReturn(strval($this->aliases[1]->getLastModified()));
+
+        // Test method
+        $ret = $this->service->getLastModified();
+
+        $this->assertSame($ret, strval($this->aliases[1]->getLastModified()), "Last modified doesn't return the last modified timestamp.");
     }
 
     public function testMaxResultsAllowed(): void {

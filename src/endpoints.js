@@ -189,3 +189,20 @@ export async function postmagDeleteAlias(id) {
     else
         return alias.data;
 }
+
+export function postmagPutSendTest(id) {
+    const url = generateUrl('apps/postmag/mail/sendtest/' + id.toString());
+
+    axios.put(url)
+        .then(function(response) {
+            showSuccess(t("postmag", "Sent test message to alias."));
+        })
+        .catch(function (error) {
+            if(error.response) {
+                showError(t("postmag", "Error on sending test message ({status}).", {status: error.response.status}));
+            }
+            else {
+                showError(t("postmag", "Error on sending test message (unknown error)."));
+            }
+        });
+}

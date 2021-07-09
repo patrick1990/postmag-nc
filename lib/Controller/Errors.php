@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace OCA\Postmag\Controller;
 
 use Closure;
+use OCA\Postmag\Service\Exceptions\MailException;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 use OCA\Postmag\Service\Exceptions\UnexpectedDatabaseResponseException;
@@ -116,6 +117,16 @@ trait Errors {
             ],
             $getCallback,
             $setCallback
+        );
+    }
+
+    protected function handleMailSendTestException(Closure $callback): JSONResponse {
+        return $this->handleServiceException(
+            [
+                UnexpectedDatabaseResponseException::class => Http::STATUS_NOT_FOUND,
+                MailException::class => Http::STATUS_BAD_GATEWAY
+            ],
+            $callback
         );
     }
     

@@ -79,12 +79,13 @@ class MailService {
         // Send test mail
         try {
             $errors = $this->mailer->send($message);
-            if (!empty($errors)) {
-                throw new Exceptions\MailRecipientException('Email could not be sent to some recipients.');
-            }
         }
         catch (\Exception $e) {
             throw new Exceptions\MailException($e->getMessage());
+        }
+
+        if (!empty($errors)) {
+            throw new Exceptions\MailRecipientException('Email could not be sent to some recipients.');
         }
 
         return array('recipient' => $toMail);

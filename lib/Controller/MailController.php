@@ -47,7 +47,7 @@ class MailController extends Controller {
      */
     public function sendTest(int $id) {
         return $this->handleMailSendTestException(function() use ($id) {
-            $this->service->sendTest($id, $this->userId);
+            return $this->service->sendTest($id, $this->userId);
         });
     }
 

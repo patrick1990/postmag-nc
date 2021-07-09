@@ -36,7 +36,6 @@
 		"file-loader": "^6.2.0",
 		"css-loader": "^5.0.2",
 		"sass-loader": "^11.0.1",
-
 		"@nextcloud/router": "^1.2.0",
 		"@nextcloud/axios": "^1.6.0",
 		"@nextcloud/l10n": "^1.4.1",
@@ -48,6 +47,7 @@
 		"@babel/eslint-parser": "^7.12.17",
 		"@nextcloud/eslint-plugin": "^2.0.0",
 		"eslint": "^7.20.0",
-		"babel-eslint": "^10.1.0"
+		"babel-eslint": "^10.1.0",
+		"maildev": "^1.1.0"
 	}
 }

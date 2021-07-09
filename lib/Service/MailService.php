@@ -64,11 +64,12 @@ class MailService {
         $template = $this->mailer->createEMailTemplate('postmag.sendtest');
         $template->setSubject($this->l->t('Postmag test message'));
         $template->addHeader();
-        $template->addHeading($this->l->t('Test message'));
-        $template->addBodyText($this->l->t('This is a test message for your Postmag alias %1$s.', [$toMail]));
+        $template->addHeading($this->l->t('Postmag test message'));
+        $template->addBodyText($this->l->t('This is a test message for your alias'));
+        $template->addBodyText($toMail);
         $template->addBodyText($this->l->t('If you have received it, your alias works as expected.'));
-        $template->addBodyText($this->l->t('If you don\'t know why you have received this message, contact your administrator.'));
-        $template->addFooter($this->l->t('Postmag - Your postfix mail alias generator.'));
+        $template->addBodyText($this->l->t('If you have not expected this message, please contact your administrator.'));
+        $template->addFooter();
 
         // Create test message
         $message = $this->mailer->createMessage();

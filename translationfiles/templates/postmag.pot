@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-06-17 19:34+0200\n"
+"POT-Creation-Date: 2021-07-10 15:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,24 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: /home/patrick/PHPStormProjects/postmag-nc/lib/Service/MailService.php:65
+#: /home/patrick/PHPStormProjects/postmag-nc/lib/Service/MailService.php:67
+msgid "Postmag test message"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/lib/Service/MailService.php:68
+msgid "This is a test message for your alias"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/lib/Service/MailService.php:70
+msgid "If you have received it, your alias works as expected."
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/lib/Service/MailService.php:71
+msgid ""
+"If you have not expected this message, please contact your administrator."
+msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/specialAppInfoFakeDummyForL10nScript.php:2
 msgid "Postmag"
@@ -33,214 +51,231 @@ msgid ""
 "aliases can be generated via the occ command line tool."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:134
+#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:154
 msgid "Please input a valid alias name."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:138
+#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:158
 msgid "Please input a valid email address."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:142
+#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:162
 msgid "Please input a valid comment."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:205
+#: /home/patrick/PHPStormProjects/postmag-nc/src/aliasListHandler.js:225
 msgid "Copied alias to clipboard!"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:11
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:31
 msgid "Error on Postmag config load ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:14
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:34
 msgid "Error on Postmag config load (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:35
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:55
 msgid "Postmag settings changed successfully!"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:39
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:59
 msgid "Error on Postmag settings change ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:42
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:62
 msgid "Error on Postmag settings change (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:52
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:72
 msgid "Error on Postmag user info load ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:55
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:75
 msgid "Error on Postmag user info load (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:73
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:93
 msgid "Error on Postmag alias load ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:76
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:96
 msgid "Error on Postmag alias load (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:97
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:117
 msgid "Error on alias creation ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:100
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:120
 msgid "Error on alias creation (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:116
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:136
 msgid "Error on alias read ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:119
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:139
 msgid "Error on alias read (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:140
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:160
 msgid "Error on alias update ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:143
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:163
 msgid "Error on alias update (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:159
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:179
 msgid "Error on alias delete ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:162
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:182
 msgid "Error on alias delete (unknown error)."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:6
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:23
-msgid "Welcome to Postmag!"
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:198
+msgid "Sent test message to alias."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:7
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:24
-msgid "Your postfix mail alias generator."
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:202
+msgid "Error on sending test message ({status})."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:9
-msgid "You don't have any mail aliases yet."
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:10
-msgid "Go on by pressing the new alias button."
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:21
-msgid "Copy alias"
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:22
-msgid "Delete alias"
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:205
+msgid "Error on sending test message (unknown error)."
 msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:26
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:16
-msgid "Enabled"
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:43
+msgid "Welcome to Postmag!"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:27
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:44
+msgid "Your postfix mail alias generator."
 msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:29
-msgid "Created"
+msgid "You don't have any mail aliases yet."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:32
-msgid "Last Modified"
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:35
-msgid "Alias name"
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:38
-msgid "Send to address"
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:30
+msgid "Go on by pressing the new alias button."
 msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:41
-msgid "Comment"
+msgid "Copy alias"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:46
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:116
-msgid "Apply"
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:42
+msgid "Send test message"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:43
+msgid "Delete alias"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:47
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:36
+msgid "Enabled"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:50
+msgid "Created"
 msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:53
-msgid "Delete {aliasHead}?"
-msgstr ""
-
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:55
-msgid "Are you sure you want to delete this alias?"
+msgid "Last Modified"
 msgstr ""
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:56
+msgid "Alias name"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:59
+msgid "Send to address"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:62
+msgid "Comment"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:67
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:139
+msgid "Apply"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:74
+msgid "Delete {aliasHead}?"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:76
+msgid "Are you sure you want to delete this alias?"
+msgstr ""
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:77
 msgid "Deleted aliases cannot be restored."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:57
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:78
 msgid ""
 "Consider disabling the alias if you don't want to receive mails via it "
 "anymore."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:59
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:80
 msgid "Yes"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:60
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:81
 msgid "No"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:81
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:10
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:103
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:161
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:30
 msgid "New alias"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:84
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:85
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:106
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:107
 msgid "Now"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:92
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:114
 msgid "Create"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:15
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:35
 msgid "All aliases"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:17
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:37
 msgid "Disabled"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:25
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:45
 msgid "Loading..."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:7
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:27
 msgid "Postmag settings"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:8
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:28
 msgid "Set your target mail domain and alias id lengths."
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:10
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:30
 msgid "Target mail domain"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:17
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:37
 msgid "Length of user alias ids (only for new users)"
 msgstr ""
 
-#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:25
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:45
 msgid "Length of alias ids (only for new aliases)"
 msgstr ""

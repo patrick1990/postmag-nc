@@ -117,7 +117,7 @@ export function setAliasForm(alias, userInfo, config) {
         // Edit alias mode
         $("#postmagAliasFormCopy").prop("disabled", false);
         $("#postmagAliasFormDelete").prop("disabled", false);
-        $("#postmagAliasFormSendTest").prop("disabled", false);
+        $("#postmagAliasFormSendTest").prop("disabled", !alias["enabled"]);
         $("#postmagAliasFormEnabled").prop("disabled", false);
         $("#postmagAliasFormAliasName").prop("disabled", true);
         $("#postmagAliasFormSendTo").prop("disabled", false);

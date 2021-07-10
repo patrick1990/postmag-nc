@@ -39,6 +39,7 @@ function templateAliasForm(config) {
         '<p id="postmagAliasFormAlias" class="postmag-space-above"></p>' +
         '<div class="postmag-space-above">' +
         '<button id="postmagAliasFormCopy" type="button">' + t("postmag", "Copy alias")+ '</button>' +
+        '<button id="postmagAliasFormSendTest" type="button">' + t("postmag", "Send test message") + '</button>' +
         '<button id="postmagAliasFormDelete" type="button">' + t("postmag", "Delete alias") + '</button>' +
         '<input id="postmagAliasFormId" type="hidden">' +
         '</div>' +
@@ -91,6 +92,7 @@ export function setAliasForm(alias, userInfo, config) {
         // Enable/Disable fields
         $("#postmagAliasFormCopy").prop("disabled", true);
         $("#postmagAliasFormDelete").prop("disabled", true);
+        $("#postmagAliasFormSendTest").prop("disabled", true);
         $("#postmagAliasFormEnabled").prop("disabled", true);
         $("#postmagAliasFormAliasName").prop("disabled", false);
         $("#postmagAliasFormSendTo").prop("disabled", false);
@@ -115,6 +117,7 @@ export function setAliasForm(alias, userInfo, config) {
         // Edit alias mode
         $("#postmagAliasFormCopy").prop("disabled", false);
         $("#postmagAliasFormDelete").prop("disabled", false);
+        $("#postmagAliasFormSendTest").prop("disabled", !alias["enabled"]);
         $("#postmagAliasFormEnabled").prop("disabled", false);
         $("#postmagAliasFormAliasName").prop("disabled", true);
         $("#postmagAliasFormSendTo").prop("disabled", false);

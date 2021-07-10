@@ -29,7 +29,7 @@ import {
 	postmagGetConfig,
 	postmagGetUserInfo,
 	postmagPostAlias,
-	postmagPutAlias
+	postmagPutAlias, postmagPutSendTest
 } from "./endpoints";
 import {
 	contentBaseLoaded,
@@ -223,6 +223,13 @@ $(async function() {
 		function(e) {
 			navigator.clipboard.writeText($("#postmagAliasFormAlias").text());
 			showSuccess(t("postmag", "Copied alias to clipboard!"));
+		}
+	);
+	$("body").on("click",
+		"#postmagAliasFormSendTest",
+		function(e) {
+			let id = $("input#postmagAliasFormId").val();
+			postmagPutSendTest(id);
 		}
 	);
 })

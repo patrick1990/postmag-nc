@@ -60,6 +60,8 @@ class Alias extends Entity {
             'enabled' => $this->enabled,
             'created' => $formatter->formatDateTime($this->created, 'short', 'medium'),
             'last_modified' => $formatter->formatDateTime($this->lastModified, 'short', 'medium'),
+            'created_utc' => $this->created,
+            'last_modified_utc' => $this->lastModified
         ];
     }
     

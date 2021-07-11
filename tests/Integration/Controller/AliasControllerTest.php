@@ -119,6 +119,8 @@ class AliasControllerTest extends TestCase {
                         $actual['last_modified'],
                         strval($actual['id']).' has not the expected last modified timestamp'
                         );
+                    $this->assertSame($expected->getCreated(), $actual['created_utc'], strval($actual['id']).' has not the expected created utc timestamp');
+                    $this->assertSame($expected->getLastModified(), $actual['last_modified_utc'], strval($actual['id']).' has not the expected last modified utc timestamp');
                     
                     $found = true;
                     break;
@@ -160,6 +162,8 @@ class AliasControllerTest extends TestCase {
             $ret->getData()['last_modified'],
             'Alias has not the expected last modified timestamp'
             );
+        $this->assertSame($now->getTimestamp(), $ret->getData()['created_utc'], 'Alias has not the expected created utc timestamp');
+        $this->assertSame($now->getTimestamp(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testRead() {
@@ -183,6 +187,8 @@ class AliasControllerTest extends TestCase {
             $ret->getData()['last_modified'],
             'Alias has not the expected last modified timestamp'
         );
+        $this->assertSame($this->aliases[0]->getCreated(), $ret->getData()['created_utc'],'Alias has not the expected created utc timestamp');
+        $this->assertSame($this->aliases[0]->getLastModified(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testReadNotFound() {
@@ -219,6 +225,8 @@ class AliasControllerTest extends TestCase {
             $ret->getData()['last_modified'],
             'Alias has not the expected last modified timestamp'
             );
+        $this->assertSame($this->aliases[0]->getCreated(), $ret->getData()['created_utc'], 'Alias has not the expected created utc timestamp');
+        $this->assertSame($now->getTimestamp(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testUpdateNotFound() {
@@ -257,6 +265,8 @@ class AliasControllerTest extends TestCase {
             $ret->getData()['last_modified'],
             'Alias has not the expected last modified timestamp'
             );
+        $this->assertSame($alias->getCreated(), $ret->getData()['created_utc'], 'Alias has not the expected created utc timestamp');
+        $this->assertSame($alias->getLastModified(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testDeleteNotFound() {

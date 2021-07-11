@@ -60,6 +60,8 @@ class AliasControllerTest extends TestCase {
         $this->aliases[0]['enabled'] = true;
         $this->aliases[0]['created'] = '2020-01-01 12:34:56';
         $this->aliases[0]['last_modified'] = '2020-02-02 12:34:56';
+        $this->aliases[0]['created_utc'] = 1577878496;
+        $this->aliases[0]['last_modified_utc'] = 1580643296;
         
         $this->aliases[1]['id'] = 236;
         $this->aliases[1]['user_id'] = 'jane';
@@ -70,6 +72,8 @@ class AliasControllerTest extends TestCase {
         $this->aliases[1]['enabled'] = true;
         $this->aliases[1]['created'] = '2020-05-12 12:34:56';
         $this->aliases[1]['last_modified'] = '2020-08-10 12:34:56';
+        $this->aliases[1]['created_utc'] = 1589279696;
+        $this->aliases[1]['last_modified_utc'] = 1597055696;
     }
     
     public function testIndex() {
@@ -81,8 +85,8 @@ class AliasControllerTest extends TestCase {
                 if ($alias['user_id'] === $userId) {
                     $ret[] = $alias;
                 }
-                return $ret;
             }
+            return $ret;
         };
         
         $this->service->expects($this->once())
@@ -91,7 +95,7 @@ class AliasControllerTest extends TestCase {
         
         // Test method
         $ret = $this->controller->index($firstResult, $maxResults);
-            
+
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame($findAll($firstResult, $maxResults, $this->userId), $ret->getData(), 'Did not return the expected aliases.');

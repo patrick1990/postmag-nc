@@ -180,6 +180,8 @@ class AliasServiceTest extends TestCase {
         $this->assertSame($this->aliases[0]->getEnabled(), $ret[0]['enabled'], 'not the expected enabled state.');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret[0]['created'], 'not the expected created timestamp.');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret[0]['last_modified'], 'not the expected last modified timestamp.');
+        $this->assertSame($this->aliases[0]->getCreated(), $ret[0]['created_utc'], 'not the expected created utc timestamp.');
+        $this->assertSame($this->aliases[0]->getLastModified(), $ret[0]['last_modified_utc'], 'not the expected created utc timestamp.');
     }
     
     public function testCreate(): void {
@@ -218,9 +220,12 @@ class AliasServiceTest extends TestCase {
         
         // Check timestamps
         // Unit tests are that fast, that this now timestamp is equal to the now timestamp in service->create. I'm sure...
-        $now = $this->formatDTCallback((new \DateTime("now"))->getTimestamp(), 'short', 'medium');
+        $nowUTC = (new \DateTime("now"))->getTimestamp();
+        $now = $this->formatDTCallback($nowUTC, 'short', 'medium');
         $this->assertSame($now, $ret['created'], 'created timestamp not set correctly.');
         $this->assertSame($now, $ret['last_modified'], 'last modified timestamp not set correctly.');
+        $this->assertSame($nowUTC, $ret['created_utc'], 'created utc timestamp not set correctly.');
+        $this->assertSame($nowUTC, $ret['last_modified_utc'], 'last modified utc timestamp not set correctly.');
         
         // Check other data
         $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');
@@ -249,6 +254,8 @@ class AliasServiceTest extends TestCase {
         $this->assertSame($this->aliases[0]->getEnabled(), $ret['enabled'], 'not the expected enabled state.');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret['created'], 'not the expected created timestamp.');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret['last_modified'], 'not the expected last modified timestamp.');
+        $this->assertSame($this->aliases[0]->getCreated(), $ret['created_utc'], 'not the expected created utc timestamp.');
+        $this->assertSame($this->aliases[0]->getLastModified(), $ret['last_modified_utc'], 'not the expected last modified utc timestamp.');
     }
 
     public function testFindNotFound() {
@@ -294,9 +301,12 @@ class AliasServiceTest extends TestCase {
         
         // Check timestamps
         // Unit tests are that fast, that this now timestamp is equal to the now timestamp in service->create. I'm sure...
-        $now = $this->formatDTCallback((new \DateTime("now"))->getTimestamp(), 'short', 'medium');
+        $nowUTC = (new \DateTime("now"))->getTimestamp();
+        $now = $this->formatDTCallback($nowUTC, 'short', 'medium');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret['created'], 'created timestamp was changed.');
         $this->assertSame($now, $ret['last_modified'], 'last modified timestamp not set correctly.');
+        $this->assertSame($this->aliases[0]->getCreated(), $ret['created_utc'], 'created utc timestamp was changed.');
+        $this->assertSame($nowUTC, $ret['last_modified_utc'], 'last modified utc timestamp not set correctly.');
         
         // Check other data
         $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');
@@ -350,6 +360,8 @@ class AliasServiceTest extends TestCase {
         // Check timestamps
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret['created'], 'created timestamp was changed.');
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret['last_modified'], 'last modified timestamp was changed.');
+        $this->assertSame($this->aliases[0]->getCreated(), $ret['created_utc'], 'created utc timestamp was changed.');
+        $this->assertSame($this->aliases[0]->getLastModified(), $ret['last_modified_utc'], 'last modified utc timestamp was changed.');
         
         // Check other data
         $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');

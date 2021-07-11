@@ -44,7 +44,9 @@ class ConfigServiceTest extends TestCase {
         'aliasIdLenMax' => ConfigService::MAX_ALIAS_ID_LEN,
         'aliasNameLenMax' => ConfigService::MAX_ALIAS_NAME_LEN,
         'toMailLenMax' => ConfigService::MAX_TO_MAIL_LEN,
-        'commentLenMax' => ConfigService::MAX_COMMENT_LEN
+        'commentLenMax' => ConfigService::MAX_COMMENT_LEN,
+        'readyTime' => ConfigService::DEF_READY_TIME,
+        'readyTimeMin' => ConfigService::MIN_READY_TIME
     ];
     
     // Define test cases for settings
@@ -83,6 +85,16 @@ class ConfigServiceTest extends TestCase {
             ConfigService::MAX_ALIAS_ID_LEN + 1
         ]
     ];
+    private const READY_TIME_TEST_CASES = [
+        "allowed" => [
+            ConfigService::DEF_READY_TIME,
+            ConfigService::MIN_READY_TIME,
+            2*ConfigService::DEF_READY_TIME
+        ],
+        "notAllowed" => [
+            ConfigService::MIN_READY_TIME - 1
+        ]
+    ];
     
     private $service;
     private $appName = "postmag";
@@ -99,12 +111,12 @@ class ConfigServiceTest extends TestCase {
     
     public function testGetConfDefault(): void {
         // Mocking
-        $this->config->expects($this->exactly(3))
+        $this->config->expects($this->exactly(4))
             ->method('getAppValue')
             ->with(
                 $this->appName,
-                $this->logicalOr('targetDomain', 'userAliasIdLen', 'aliasIdLen'),
-                $this->logicalOr(ConfigService::DEF_DOMAIN, ConfigService::DEF_USER_ALIAS_ID_LEN, ConfigService::DEF_ALIAS_ID_LEN)
+                $this->logicalOr('targetDomain', 'userAliasIdLen', 'aliasIdLen', 'readyTime'),
+                $this->logicalOr(ConfigService::DEF_DOMAIN, ConfigService::DEF_USER_ALIAS_ID_LEN, ConfigService::DEF_ALIAS_ID_LEN, ConfigService::DEF_READY_TIME)
             )
             ->willReturnCallback(function($appName, $key, $default) {
                 return $default;
@@ -244,6 +256,49 @@ class ConfigServiceTest extends TestCase {
             }
         }
         
+        // Prevent test of beeing useless in case of all length are rejected.
+        $this->assertTrue(true);
+    }
+
+    public function testSetReadyTimeAllowed(): void {
+        foreach (self::READY_TIME_TEST_CASES["allowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+
+            // Mocking
+            $this->config->expects($this->once())
+                ->method('setAppValue')
+                ->with($this->appName, 'readyTime', $testcase);
+
+            // Test method
+            try {
+                $this->service->setReadyTime($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $this->assertTrue(false, strval($testcase)." was not accepted as ready time.");
+            }
+        }
+    }
+
+    public function testSetReadyTimeNotAllowed(): void {
+        foreach (self::READY_TIME_TEST_CASES["notAllowed"] as $testcase) {
+            // Reset test
+            $this->setUp();
+
+            // Test method
+            $caught = false;
+            try {
+                $this->service->setReadyTime($testcase);
+            }
+            catch (ValueBoundException $e) {
+                $caught = true;
+            }
+
+            if (!$caught) {
+                $this->assertTrue(false, strval($testcase)." was accepted as ready time.");
+            }
+        }
+
         // Prevent test of beeing useless in case of all length are rejected.
         $this->assertTrue(true);
     }

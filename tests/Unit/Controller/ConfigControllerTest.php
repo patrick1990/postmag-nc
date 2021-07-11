@@ -65,6 +65,7 @@ class ConfigControllerTest extends TestCase {
         $newDomain = 'mydomain.org';
         $newUserAliasIdLen = 6;
         $newAliasIdLen = 5;
+        $newReadyTime = 10;
         
         // Mocking
         $this->service->expects($this->once())
@@ -78,13 +79,17 @@ class ConfigControllerTest extends TestCase {
         $this->service->expects($this->once())
             ->method('setAliasIdLen')
             ->with($newAliasIdLen);
-        
+
+        $this->service->expects($this->once())
+            ->method('setReadyTime')
+            ->with($newReadyTime);
             
-        $getConf = function() use ($newDomain, $newUserAliasIdLen, $newAliasIdLen) {
+        $getConf = function() use ($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime) {
             $ret = ConfigServiceTest::CONF_DEFAULTS;
             $ret['domain'] = $newDomain;
             $ret['userAliasIdLen'] = $newUserAliasIdLen;
             $ret['aliasIdLen'] = $newAliasIdLen;
+            $ret['readyTime'] = $newReadyTime;
             
             return $ret;
         };
@@ -93,7 +98,7 @@ class ConfigControllerTest extends TestCase {
             ->willReturnCallback($getConf);
         
         // Test method
-        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
@@ -104,6 +109,7 @@ class ConfigControllerTest extends TestCase {
         $newDomain = '.org';
         $newUserAliasIdLen = 6;
         $newAliasIdLen = 5;
+        $newReadyTime = 10;
         $exceptionMsg = 'Domain not valid.';
         
         // Mocking
@@ -119,9 +125,13 @@ class ConfigControllerTest extends TestCase {
         $this->service->expects($this->any())
             ->method('setAliasIdLen')
             ->with($newAliasIdLen);
+
+        $this->service->expects($this->any())
+            ->method('setReadyTime')
+            ->with($newReadyTime);
         
         // Test method
-        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
@@ -132,6 +142,7 @@ class ConfigControllerTest extends TestCase {
         $newDomain = 'mydomain.org';
         $newUserAliasIdLen = 20;
         $newAliasIdLen = 5;
+        $newReadyTime = 10;
         $exceptionMsg = 'Length not valid.';
         
         // Mocking
@@ -147,9 +158,13 @@ class ConfigControllerTest extends TestCase {
         $this->service->expects($this->any())
             ->method('setAliasIdLen')
             ->with($newAliasIdLen);
+
+        $this->service->expects($this->any())
+            ->method('setReadyTime')
+            ->with($newReadyTime);
         
         // Test method
-        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
@@ -160,6 +175,7 @@ class ConfigControllerTest extends TestCase {
         $newDomain = 'mydomain.org';
         $newUserAliasIdLen = 6;
         $newAliasIdLen = 20;
+        $newReadyTime = 10;
         $exceptionMsg = 'Length not valid.';
         
         // Mocking
@@ -175,10 +191,47 @@ class ConfigControllerTest extends TestCase {
             ->method('setAliasIdLen')
             ->with($newAliasIdLen)
             ->willThrowException(new ValueBoundException($exceptionMsg));
+
+        $this->service->expects($this->any())
+            ->method('setReadyTime')
+            ->with($newReadyTime);
         
         // Test method
-        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
         
+        $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
+        $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
+        $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');
+    }
+
+    public function testSetConfReadyTimeException(): void {
+        $newDomain = 'mydomain.org';
+        $newUserAliasIdLen = 6;
+        $newAliasIdLen = 5;
+        $newReadyTime = -1;
+        $exceptionMsg = 'Ready time not valid.';
+
+        // Mocking
+        $this->service->expects($this->any())
+            ->method('setTargetDomain')
+            ->with($newDomain);
+
+        $this->service->expects($this->any())
+            ->method('setUserAliasIdLen')
+            ->with($newUserAliasIdLen);
+
+        $this->service->expects($this->any())
+            ->method('setAliasIdLen')
+            ->with($newAliasIdLen);
+
+        $this->service->expects($this->any())
+            ->method('setReadyTime')
+            ->with($newReadyTime)
+            ->willThrowException(new ValueBoundException($exceptionMsg));
+
+        // Test method
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
+
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_BAD_REQUEST, $ret->getStatus(), 'HTTP status should be BAD_REQUEST.');
         $this->assertSame(['message' => $exceptionMsg], $ret->getData(), 'Did not return the exception message.');

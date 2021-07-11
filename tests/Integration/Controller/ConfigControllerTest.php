@@ -56,7 +56,8 @@ class ConfigControllerTest extends TestCase {
         $this->controller->setConf(
             $this->confCache['domain'],
             $this->confCache['userAliasIdLen'],
-            $this->confCache['aliasIdLen']
+            $this->confCache['aliasIdLen'],
+            $this->confCache['readyTime']
             );
         
         parent::tearDown();
@@ -78,14 +79,16 @@ class ConfigControllerTest extends TestCase {
         $newDomain = 'mydomain.org';
         $newUserAliasIdLen = 6;
         $newAliasIdLen = 5;
+        $newReadyTime = 10;
         
-        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen);
+        $ret = $this->controller->setConf($newDomain, $newUserAliasIdLen, $newAliasIdLen, $newReadyTime);
         
         $this->assertTrue($ret instanceof JSONResponse, 'Result should be a JSON response.');
         $this->assertSame(Http::STATUS_OK, $ret->getStatus(), 'HTTP status should be OK.');
         $this->assertSame($newDomain, $ret->getData()['domain'], 'Did not return the expected domain.');
         $this->assertSame($newUserAliasIdLen, $ret->getData()['userAliasIdLen'], 'Did not return the expected user alias id len.');
         $this->assertSame($newAliasIdLen, $ret->getData()['aliasIdLen'], 'Did not return the expected alias id len.');
+        $this->assertSame($newReadyTime, $ret->getData()['readyTime'], 'Did not return the expected ready time.');
     }
     
 }

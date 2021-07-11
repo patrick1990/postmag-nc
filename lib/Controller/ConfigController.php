@@ -50,13 +50,17 @@ class ConfigController extends Controller {
 	
 	/**
 	 * @param string $domain
+     * @param int $userAliasIdLen
+     * @param int $aliasIdLen
+     * @param int $readyTime
 	 */
-	public function setConf(string $domain, int $userAliasIdLen, int $aliasIdLen) {
+	public function setConf(string $domain, int $userAliasIdLen, int $aliasIdLen, int $readyTime) {
 	    return $this->handleConfigException(
-	        function () use ($domain, $userAliasIdLen, $aliasIdLen) {
+	        function () use ($domain, $userAliasIdLen, $aliasIdLen, $readyTime) {
 	            $this->service->setTargetDomain($domain);
 	            $this->service->setUserAliasIdLen($userAliasIdLen);
 	            $this->service->setAliasIdLen($aliasIdLen);
+	            $this->service->setReadyTime($readyTime);
 	        },
 	        function () {
 	            return $this->service->getConf();

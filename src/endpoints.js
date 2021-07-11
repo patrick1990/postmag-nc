@@ -42,12 +42,13 @@ export async function postmagGetConfig() {
         return config.data;
 }
 
-export function postmagPutConfig(domain, userAliasIdLen, aliasIdLen) {
+export function postmagPutConfig(domain, userAliasIdLen, aliasIdLen, readyTime) {
     const url = generateUrl('apps/postmag/config');
     const req = {
         domain: domain,
         userAliasIdLen: userAliasIdLen,
-        aliasIdLen: aliasIdLen
+        aliasIdLen: aliasIdLen,
+        readyTime: readyTime
     };
 
     axios.put(url, req)

@@ -49,4 +49,11 @@ script('postmag', 'settingsAdmin');
 		min="<?php p($_['aliasIdLenMin']); ?>"
 		max="<?php p($_['aliasIdLenMax']); ?>"
         required/><br/>
+
+    <label for="postmagReadyTime"><?php p($l->t('Time until alias changes are valid (ready time in seconds)')); ?></label><br/>
+    <input id="postmagReadyTime"
+       type="number"
+       value="<?php p($_['readyTime']); ?>"
+       min="<?php p($_['readyTimeMin']); ?>"
+       required/><br/>
 </div>

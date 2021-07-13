@@ -44,6 +44,9 @@ class ConfigService {
     public const MAX_TO_MAIL_LEN = 256;
     public const MAX_COMMENT_LEN = 40;
     public const MAX_ALIAS_RESULTS = 30;
+
+    public const MIN_READY_TIME = 0;
+    public const DEF_READY_TIME = 60;
     
     private $config;
     private $appName;
@@ -68,7 +71,9 @@ class ConfigService {
             'aliasNameLenMax' => self::MAX_ALIAS_NAME_LEN,
             'toMailLenMax' => self::MAX_TO_MAIL_LEN,
             'commentLenMax' => self::MAX_COMMENT_LEN,
-            'maxAliasResults' => self::MAX_ALIAS_RESULTS
+            'maxAliasResults' => self::MAX_ALIAS_RESULTS,
+            'readyTime' => $this->getReadyTime(),
+            'readyTimeMin' => self::MIN_READY_TIME
         );
     }
     
@@ -82,6 +87,10 @@ class ConfigService {
     
     public function getAliasIdLen(): int {
         return (int)$this->config->getAppValue($this->appName, 'aliasIdLen', self::DEF_ALIAS_ID_LEN);
+    }
+
+    public function getReadyTime(): int {
+        return (int)$this->config->getAppValue($this->appName, 'readyTime', self::DEF_READY_TIME);
     }
     
     /**
@@ -113,5 +122,15 @@ class ConfigService {
             throw new Exceptions\ValueBoundException("Alias id length has to be between ".self::MIN_USER_ALIAS_ID_LEN." and ".self::MAX_USER_ALIAS_ID_LEN);
             
         $this->config->setAppValue($this->appName, 'aliasIdLen', $len);
+    }
+
+    /**
+     * @param int $readyTime
+     */
+    public function setReadyTime(int $readyTime) {
+        if($readyTime < self::MIN_READY_TIME)
+            throw new Exceptions\ValueBoundException("Ready time has to be not lower than ".self::MIN_READY_TIME);
+
+        $this->config->setAppValue($this->appName, 'readyTime', $readyTime);
     }
 }

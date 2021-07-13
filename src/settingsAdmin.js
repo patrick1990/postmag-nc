@@ -24,18 +24,20 @@ import { postmagPutConfig } from "./endpoints";
 
 $(function() {
 	$("body").on("change",
-		"input#postmagDomain, input#postmagUserAliasIdLen, input#postmagAliasIdLen",
+		"input#postmagDomain, input#postmagUserAliasIdLen, input#postmagAliasIdLen, input#postmagReadyTime",
 		function(e){
 			const domain = $("input#postmagDomain");
 			const userAliasIdLen = $("input#postmagUserAliasIdLen");
 			const aliasIdLen = $("input#postmagAliasIdLen");
+			const readyTime = $("input#postmagReadyTime");
 
 			if(
 				domain[0].validity.valid &&
 				userAliasIdLen[0].validity.valid &&
-				aliasIdLen[0].validity.valid
+				aliasIdLen[0].validity.valid &&
+				readyTime[0].validity.valid
 			){
-				postmagPutConfig(domain.val(), userAliasIdLen.val(), aliasIdLen.val());
+				postmagPutConfig(domain.val(), userAliasIdLen.val(), aliasIdLen.val(), readyTime.val());
 			}
 		}
 	)

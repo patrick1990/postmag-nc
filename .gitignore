@@ -3,6 +3,7 @@
 .idea
 .settings
 .phpunit.result.cache
+translationfiles/*/postmag.mo
 TODO.md
 
 js

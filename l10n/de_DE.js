@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabled" : "Aktiviert",
     "Created" : "Erstellt",
     "Last Modified" : "Zuletzt geändert",
+    "Ready" : "Bereit",
     "Alias name" : "Alias-Name",
     "Send to address" : "Ziel-Adresse",
     "Comment" : "Notizen",
@@ -54,7 +55,9 @@ OC.L10N.register(
     "No" : "Nein",
     "New alias" : "Neuer Alias",
     "Now" : "Jetzt",
+    "_%n second after creation_::_%n seconds after creation_" : ["%n Sekunde nach Erstellung","%n Sekunden nach Erstellung"],
     "Create" : "Anlegen",
+    "_In %n second_::_In %n seconds_" : ["In %n Sekunde","In %n Sekunden"],
     "All aliases" : "Alle Aliases",
     "Disabled" : "Deaktiviert",
     "Loading..." : "Lade...",
@@ -62,6 +65,7 @@ OC.L10N.register(
     "Set your target mail domain and alias id lengths." : "Konfigurieren Sie Ihre Ziel-Domäne und wählen Sie die Längen der Alias IDs.",
     "Target mail domain" : "Ziel-Mail-Domäne",
     "Length of user alias ids (only for new users)" : "Länge der User Alias IDs (nur bei neuen Benutzern)",
-    "Length of alias ids (only for new aliases)" : "Länge der Alias IDs (nur bei neuen Aliases)"
+    "Length of alias ids (only for new aliases)" : "Länge der Alias IDs (nur bei neuen Aliases)",
+    "Time until alias changes are valid (ready time in seconds)" : "Zeit bis Änderungen an Aliases gültig sind (in Sekunden)"
 },
 "nplurals=2; plural=(n != 1);");

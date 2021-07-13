@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Nextcloud 3.14159\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-07-10 15:41+0200\n"
-"PO-Revision-Date: 2021-07-10 15:53+0200\n"
+"POT-Creation-Date: 2021-07-13 20:48+0200\n"
+"PO-Revision-Date: 2021-07-13 20:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -81,75 +81,75 @@ msgstr "Fehler beim Laden der Konfiguration ({status})"
 msgid "Error on Postmag config load (unknown error)."
 msgstr "Fehler beim Laden der Konfiguration (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:55
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:56
 msgid "Postmag settings changed successfully!"
 msgstr "Einstellungen erfolgreich geändert!"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:59
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:60
 msgid "Error on Postmag settings change ({status})."
 msgstr "Fehler beim Ändern der Einstellungen ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:62
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:63
 msgid "Error on Postmag settings change (unknown error)."
 msgstr "Fehler beim Ändern der Einstellungen (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:72
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:73
 msgid "Error on Postmag user info load ({status})."
 msgstr "Fehler beim Laden der Benutzerinformationen ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:75
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:76
 msgid "Error on Postmag user info load (unknown error)."
 msgstr "Fehler beim Laden der Benutzerinformationen (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:93
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:94
 msgid "Error on Postmag alias load ({status})."
 msgstr "Fehler beim Laden der Aliases ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:96
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:97
 msgid "Error on Postmag alias load (unknown error)."
 msgstr "Fehler beim Laden der Aliases (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:117
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:118
 msgid "Error on alias creation ({status})."
 msgstr "Fehler beim Anlegen des Aliases ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:120
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:121
 msgid "Error on alias creation (unknown error)."
 msgstr "Fehler beim Anlegen des Aliases (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:136
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:137
 msgid "Error on alias read ({status})."
 msgstr "Fehler beim Lesen des Aliases ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:139
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:140
 msgid "Error on alias read (unknown error)."
 msgstr "Fehler beim Lesen des Aliases (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:160
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:161
 msgid "Error on alias update ({status})."
 msgstr "Fehler beim Aktualisieren des Aliases ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:163
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:164
 msgid "Error on alias update (unknown error)."
 msgstr "Fehler beim Aktualisieren des Aliases (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:179
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:180
 msgid "Error on alias delete ({status})."
 msgstr "Fehler beim Löschen des Aliases ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:182
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:183
 msgid "Error on alias delete (unknown error)."
 msgstr "Fehler beim Löschen des Aliases (unbekannt)."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:198
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:199
 msgid "Sent test message to alias."
 msgstr "Testnachricht gesendet."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:202
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:203
 msgid "Error on sending test message ({status})."
 msgstr "Fehler beim Senden der Testnachricht ({status})."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:205
+#: /home/patrick/PHPStormProjects/postmag-nc/src/endpoints.js:206
 msgid "Error on sending test message (unknown error)."
 msgstr "Fehler beim Senden der Testnachricht (unbekannt)."
 
@@ -197,35 +197,39 @@ msgid "Last Modified"
 msgstr "Zuletzt geändert"
 
 #: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:56
+msgid "Ready"
+msgstr "Bereit"
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:59
 msgid "Alias name"
 msgstr "Alias-Name"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:59
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:62
 msgid "Send to address"
 msgstr "Ziel-Adresse"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:62
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:65
 msgid "Comment"
 msgstr "Notizen"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:67
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:139
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:70
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:151
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:74
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:77
 msgid "Delete {aliasHead}?"
 msgstr "{aliasHead} löschen?"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:76
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:79
 msgid "Are you sure you want to delete this alias?"
 msgstr "Sind Sie sicher, dass Sie diesen Alias löschen möchten?"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:77
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:80
 msgid "Deleted aliases cannot be restored."
 msgstr "Gelöschte Aliases können nicht wiederhergestellt werden."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:78
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:81
 msgid ""
 "Consider disabling the alias if you don't want to receive mails via it "
 "anymore."
@@ -233,28 +237,41 @@ msgstr ""
 "Aliases können auch deaktiviert werden, wenn Sie keine E-Mails mehr über sie "
 "empfangen möchten."
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:80
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:83
 msgid "Yes"
 msgstr "Ja"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:81
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:84
 msgid "No"
 msgstr "Nein"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:103
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:161
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:106
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:203
 #: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:30
 msgid "New alias"
 msgstr "Neuer Alias"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:106
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:107
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:109
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:110
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:168
 msgid "Now"
 msgstr "Jetzt"
 
-#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:114
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:113
+msgid "%n second after creation"
+msgid_plural "%n seconds after creation"
+msgstr[0] "%n Sekunde nach Erstellung"
+msgstr[1] "%n Sekunden nach Erstellung"
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:124
 msgid "Create"
 msgstr "Anlegen"
+
+#: /home/patrick/PHPStormProjects/postmag-nc/src/templates.js:175
+msgid "In %n second"
+msgid_plural "In %n seconds"
+msgstr[0] "In %n Sekunde"
+msgstr[1] "In %n Sekunden"
 
 #: /home/patrick/PHPStormProjects/postmag-nc/templates/index.php:35
 msgid "All aliases"
@@ -288,3 +305,7 @@ msgstr "Länge der User Alias IDs (nur bei neuen Benutzern)"
 #: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:45
 msgid "Length of alias ids (only for new aliases)"
 msgstr "Länge der Alias IDs (nur bei neuen Aliases)"
+
+#: /home/patrick/PHPStormProjects/postmag-nc/templates/settingsAdmin.php:53
+msgid "Time until alias changes are valid (ready time in seconds)"
+msgstr "Zeit bis Änderungen an Aliases gültig sind (in Sekunden)"

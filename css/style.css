@@ -20,6 +20,14 @@
 	float: right;
 }
 
+.postmag-ready {
+	color: green;
+}
+
+.postmag-notReady {
+	color: orange;
+}
+
 #postmagAliasFormAliasName,
 #postmagAliasFormSendTo,
 #postmagAliasFormComment

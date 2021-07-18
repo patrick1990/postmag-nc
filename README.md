@@ -22,7 +22,18 @@ Every alias will be of the format
 alias_name.alias_id.user_alias_id@your_domain.com
 ```
 
-your_domain is configurable by the administrator.
+your_domain.com is configurable by the administrator.
+
+## App settings
+
+Postmag gives the admin of your Nextcloud instance some options to configure the app. You find the settings in the "Additional settings" section of Nextcloud.
+
+![](screenshots/settings.png)
+
+* Target mail domain: This is your domain for which the users can generate aliases. It is the your_domain.com part of the aliases.
+* Length of the user alias ids: Length of the user_alias_id part of the aliases. This affects only new users of your instance. The user_alias_id part never changes for existing users. But if your instance grows you can increase this value if you like.
+* Length of alias ids: Length of the alias_id part of the aliases. This affects only new aliases of the users. Existing aliases never changes.
+* Time until alias changes are valid: This setting is useful if you pull the postmag:aliases command (see below) in regular intervals to update your mail server config (for instance via a crontab trigger). You can than make the time until the next trigger visible to the user. For doing this, set the time interval here in seconds. If you don't need this feature, just set this setting to 0.
 
 ## OCC Commands
 

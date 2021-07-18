@@ -24,6 +24,23 @@ alias_name.alias_id.user_alias_id@your_domain.com
 
 your_domain.com is configurable by the administrator.
 
+## Alias form
+
+Postmag gives the users of your Nextcloud instance an easy form to create aliases of your domain.
+
+![](screenshots/aliasform.png)
+
+* Copy alias: Copies the current alias to clipboard.
+* Send test message: Send a test mail to the current alias.
+* Delete alias: Delete this alias. Deleted aliases can not be restored and thus not be activated again. Consider disabling aliases if you don't want to receive messages via this alias anymore.
+* Enabled: If the alias is enabled, the user receives mails via it.
+* Created: Timestamp of creation of this alias.
+* Last Modified: Timestamp of last modification.
+* Ready: Shows the user, if the set settings of this alias are already valid. See "Time until alias changes are valid" in the settings section below for more information.
+* Alias name: The alias_name part of the alias. This can be chosen by the user at the creation of the alias, but it can't be changed afterwards.
+* Send to address: The target mail address of this alias.
+* Comment: A comment that the user can choose for further information. This has no technical purpose, it's just an information for the user.
+
 ## App settings
 
 Postmag gives the admin of your Nextcloud instance some options to configure the app. You find the settings in the "Additional settings" section of Nextcloud.

@@ -22,7 +22,35 @@ Every alias will be of the format
 alias_name.alias_id.user_alias_id@your_domain.com
 ```
 
-your_domain is configurable by the administrator.
+your_domain.com is configurable by the administrator.
+
+## Alias form
+
+Postmag gives the users of your Nextcloud instance an easy form to create aliases of your domain.
+
+![](screenshots/aliasform.png)
+
+* Copy alias: Copies the current alias to clipboard.
+* Send test message: Send a test mail to the current alias.
+* Delete alias: Delete this alias. Deleted aliases can not be restored and thus not be activated again. Consider disabling aliases if you don't want to receive messages via this alias anymore.
+* Enabled: If the alias is enabled, the user receives mails via it.
+* Created: Timestamp of creation of this alias.
+* Last Modified: Timestamp of last modification.
+* Ready: Shows the user, if the set settings of this alias are already valid. See "Time until alias changes are valid" in the settings section below for more information.
+* Alias name: The alias_name part of the alias. This can be chosen by the user at the creation of the alias, but it can't be changed afterwards.
+* Send to address: The target mail address of this alias.
+* Comment: A comment that the user can choose for further information. This has no technical purpose, it's just an information for the user.
+
+## App settings
+
+Postmag gives the admin of your Nextcloud instance some options to configure the app. You find the settings in the "Additional settings" section of Nextcloud.
+
+![](screenshots/settings.png)
+
+* Target mail domain: This is your domain for which the users can generate aliases. It is the your_domain.com part of the aliases.
+* Length of the user alias ids: Length of the user_alias_id part of the aliases. This affects only new users of your instance. The user_alias_id part never changes for existing users. But if your instance grows you can increase this value if you like.
+* Length of alias ids: Length of the alias_id part of the aliases. This affects only new aliases of the users. Existing aliases never changes.
+* Time until alias changes are valid: This setting is useful if you pull the postmag:aliases command (see below) in regular intervals to update your mail server config (for instance via a crontab trigger). You can than make the time until the next trigger visible to the user. For doing this, set the time interval here in seconds. If you don't need this feature, just set this setting to 0.
 
 ## OCC Commands
 

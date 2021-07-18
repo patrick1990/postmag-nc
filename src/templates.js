@@ -90,12 +90,14 @@ export function templateDeleteForm(id, aliasHead) {
 export function setAliasForm(alias, userInfo, config) {
     templateAliasForm(config);
 
+    // Set disable state of test mail button and ready message
+    templateReadyMessage(alias, config);
+
     if (alias === undefined) {
         // New alias mode
         // Enable/Disable fields
         $("#postmagAliasFormCopy").prop("disabled", true);
         $("#postmagAliasFormDelete").prop("disabled", true);
-        $("#postmagAliasFormSendTest").prop("disabled", true);
         $("#postmagAliasFormEnabled").prop("disabled", true);
         $("#postmagAliasFormAliasName").prop("disabled", false);
         $("#postmagAliasFormSendTo").prop("disabled", false);
@@ -108,13 +110,6 @@ export function setAliasForm(alias, userInfo, config) {
         $("#postmagAliasFormEnabled").prop("checked", true);
         $("#postmagAliasFormCreated").text(t("postmag", "Now"));
         $("#postmagAliasFormLastModified").text(t("postmag", "Now"));
-        $("#postmagAliasFormReadyMessage").text(n(
-            "postmag",
-            "%n second after creation",
-            "%n seconds after creation",
-            config['readyTime']));
-        $("#postmagAliasFormReadyMessage").removeClass("postmag-ready");
-        $("#postmagAliasFormReadyMessage").removeClass("postmag-notReady");
         $("#postmagAliasFormAliasName").prop("value", "");
         if(userInfo["email_set"] === "true")
             $("#postmagAliasFormSendTo").prop("value", userInfo["email"]);
@@ -124,9 +119,6 @@ export function setAliasForm(alias, userInfo, config) {
         $("#postmagAliasFormApply").text(t("postmag", "Create"));
     }
     else {
-        // Set disable state of test mail button and ready message
-        templateReadyMessage(alias, config);
-
         // Edit alias mode
         $("#postmagAliasFormCopy").prop("disabled", false);
         $("#postmagAliasFormDelete").prop("disabled", false);
@@ -153,32 +145,46 @@ export function setAliasForm(alias, userInfo, config) {
 }
 
 function templateReadyMessage(alias, config) {
-    const timeTillReady = config["readyTime"] - parseInt(Date.now()/1000) + alias["last_modified_utc"];
-    const ready = timeTillReady <= 0;
-
-    // Disable test mail button depending on if the alias is ready
-    $("#postmagAliasFormSendTest").prop("disabled", !alias["enabled"] || !ready);
-
     // Clear timeout if there is one already running
-    if(templateReadyMessage.timeoutId !== undefined) {
+    if (templateReadyMessage.timeoutId !== undefined) {
         window.clearTimeout(templateReadyMessage.timeoutId);
     }
 
-    if(ready) {
-        $("#postmagAliasFormReadyMessage").text(t("postmag", "Now"));
-        $("#postmagAliasFormReadyMessage").addClass("postmag-ready");
-        $("#postmagAliasFormReadyMessage").removeClass("postmag-notReady");
-    }
-    else {
+    // New alias mode
+    if(alias === undefined) {
+        $("#postmagAliasFormSendTest").prop("disabled", true);
+
         $("#postmagAliasFormReadyMessage").text(n(
             "postmag",
-            "In %n second",
-            "In %n seconds",
-            timeTillReady));
+            "%n second after creation",
+            "%n seconds after creation",
+            config['readyTime']));
         $("#postmagAliasFormReadyMessage").removeClass("postmag-ready");
-        $("#postmagAliasFormReadyMessage").addClass("postmag-notReady");
+        $("#postmagAliasFormReadyMessage").removeClass("postmag-notReady");
+    }
+    // Edit alias mode
+    else {
+        const timeTillReady = config["readyTime"] - parseInt(Date.now() / 1000) + alias["last_modified_utc"];
+        const ready = timeTillReady <= 0;
 
-        templateReadyMessage.timeoutId = window.setTimeout(templateReadyMessage, 1000, alias, config);
+        // Disable test mail button depending on if the alias is ready
+        $("#postmagAliasFormSendTest").prop("disabled", !alias["enabled"] || !ready);
+
+        if (ready) {
+            $("#postmagAliasFormReadyMessage").text(t("postmag", "Now"));
+            $("#postmagAliasFormReadyMessage").addClass("postmag-ready");
+            $("#postmagAliasFormReadyMessage").removeClass("postmag-notReady");
+        } else {
+            $("#postmagAliasFormReadyMessage").text(n(
+                "postmag",
+                "In %n second",
+                "In %n seconds",
+                timeTillReady));
+            $("#postmagAliasFormReadyMessage").removeClass("postmag-ready");
+            $("#postmagAliasFormReadyMessage").addClass("postmag-notReady");
+
+            templateReadyMessage.timeoutId = window.setTimeout(templateReadyMessage, 1000, alias, config);
+        }
     }
 }
 

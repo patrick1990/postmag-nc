@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## Version 1.2.0
+
+### feature
+
+* add github action for packaging app (#31)
+
+## Version 1.1.4
+
+### feature
+
+* create changelog file (#26)
+* run app tests on pr into dev (#27)
+* add github action for checking semantic labels (#28)
+* add github action for implementing release cycle (#29)
+
 ## Version 1.1.2
 
 ### bug

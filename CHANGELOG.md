@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.3.0
+
+### feature
+
+* enable dependabot (#32)
+
 ## Version 1.2.0
 
 ### feature

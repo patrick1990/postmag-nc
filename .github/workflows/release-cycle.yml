@@ -1,0 +1,124 @@
+#
+# @author Patrick Greyson
+#
+# Postmag - Postfix mail alias generator for Nextcloud
+# Copyright (C) 2021
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Workflow for the release cycle
+name: release-cycle
+
+on:
+  # Triggers the workflow every 2nd of the month
+  schedule:
+    - cron: '0 4 2 * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  push-release-to-main:
+    runs-on: ubuntu-latest
+    env:
+      git_user: 'github-actions[bot]'
+      git_email: 'github-actions[bot]@users.noreply.github.com'
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+          fetch-depth: 0
+          
+      - name: Get author of last commit
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "author_last_commit=$(git log -1 --format='%an')" >> $GITHUB_ENV
+          
+      - name: No new code
+        if: ${{ env.author_last_commit == env.git_user }}
+        run: |
+          echo "No new code to release."
+          exit 1
+          
+      - name: Get repository ownership
+        run: |
+          echo "workflow_owner=$(echo ${{ github.repository }} | cut -f1 -d/)" >> $GITHUB_ENV
+          echo "workflow_repo=$(echo ${{ github.repository }} | cut -f2- -d/)" >> $GITHUB_ENV
+    
+      - name: Run app tests
+        env:
+          INPUT_OWNER: ${{ env.workflow_owner }}
+          INPUT_REPO: ${{ env.workflow_repo }}
+          INPUT_GITHUB_TOKEN: ${{ secrets.PAT_PUBLIC_REPOS }}
+          INPUT_REF: dev
+          INPUT_WORKFLOW_FILE_NAME: run-app-tests.yml
+          INPUT_WAITING_INTERVAL: 30
+          INPUT_INPUTS: '{"ref": "dev"}'
+        run: |
+          cd /tmp
+          wget https://raw.githubusercontent.com/patrick1990/trigger-workflow-and-wait/master/entrypoint.sh
+          chmod u+x entrypoint.sh
+          ./entrypoint.sh
+      
+      - name: Check for CHANGELOG.md
+        run: echo "changelogmd=$(if [ -f $GITHUB_WORKSPACE/CHANGELOG.md ]; then echo True; else echo False; fi)" >> $GITHUB_ENV
+        
+      # To initialize CHANGELOG.md on the first run, this step is only run, if CHANGELOG.md exists. This guarantees a clean first run of this CI process.
+      - name: Update CHANGELOG.json and app version
+        if: ${{ env.changelogmd == 'True' }}
+        run: |
+          app_version_old=$(echo $(grep -o '<version>[0-9]*\.[0-9]*\.[0-9]*</version>' $GITHUB_WORKSPACE/appinfo/info.xml) | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
+          app_version_new=$(python $GITHUB_WORKSPACE/.github/scripts/updateChangelog.py \
+                                     $GITHUB_WORKSPACE/.github/config/semantic_labels.json \
+                                     $GITHUB_WORKSPACE/CHANGELOG.json \
+                                     $app_version_old \
+                                     "$(git log --format='%s' --after="$(git log --format='%an,%ci' | grep -F '${{ env.git_user }}' | head -1 | cut -f2 -d,)" | head -n -1)")
+          sed -i "s/<version>$app_version_old<\/version>/<version>$app_version_new<\/version>/g" $GITHUB_WORKSPACE/appinfo/info.xml
+          echo "app_version_new=$app_version_new" >> $GITHUB_ENV
+
+      - name: Initial app version update
+        if: ${{ env.changelogmd == 'False' }}
+        run: |
+          app_version_old=$(echo $(grep -o '<version>[0-9]*\.[0-9]*\.[0-9]*</version>' $GITHUB_WORKSPACE/appinfo/info.xml) | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
+          app_version_new="$(echo $app_version_old | cut -f-2 -d.).$(( $(echo $app_version_old | cut -f3 -d.) + 1 ))"
+          sed -i "s/<version>$app_version_old<\/version>/<version>$app_version_new<\/version>/g" $GITHUB_WORKSPACE/appinfo/info.xml
+          echo "app_version_new=$app_version_new" >> $GITHUB_ENV
+
+      - name: Generate CHANGELOG.md
+        run: |
+          python $GITHUB_WORKSPACE/.github/scripts/genMdChangelog.py \
+                   $GITHUB_WORKSPACE/.github/config/semantic_labels.json \
+                   $GITHUB_WORKSPACE/CHANGELOG.json \
+                   > $GITHUB_WORKSPACE/CHANGELOG.md
+      
+      - name: Config Git user and mail
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config --global user.name '${{ env.git_user }}'
+          git config --global user.email '${{ env.git_email }}'
+      
+      - name: Commit new release
+        run: |
+          cd $GITHUB_WORKSPACE
+          git commit -a -m "Update app version to ${{ env.app_version_new }}"
+          git push
+      
+      - name: Merge dev into main
+        run: |
+          cd $GITHUB_WORKSPACE
+          git checkout main
+          git merge dev
+          git push

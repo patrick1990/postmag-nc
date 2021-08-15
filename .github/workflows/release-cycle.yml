@@ -110,6 +110,12 @@ jobs:
           git config --global user.name '${{ env.git_user }}'
           git config --global user.email '${{ env.git_email }}'
       
+      - name: Add new CHANGELOG.md (initial run)
+        if: ${{ env.changelogmd == 'False' }}
+        run: |
+          cd $GITHUB_WORKSPACE
+          git add $GITHUB_WORKSPACE/CHANGELOG.md
+      
       - name: Commit new release
         run: |
           cd $GITHUB_WORKSPACE

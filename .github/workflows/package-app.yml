@@ -1,0 +1,62 @@
+#
+# @author Patrick Greyson
+#
+# Postmag - Postfix mail alias generator for Nextcloud
+# Copyright (C) 2021
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Workflow for the app packaging
+name: package-app
+
+on:
+  push:
+    branches: [ main ]
+    
+  workflow_dispatch:
+
+jobs:
+  package-app:
+    runs-on: ubuntu-latest
+    env:
+      krankerl: 'https://github.com/ChristophWurst/krankerl/releases/download/v0.13.1/krankerl_0.13.1_amd64.deb'
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          
+      - name: Download and install krankerl
+        run: |
+          cd /tmp
+          wget ${{ env.krankerl }}
+          sudo dpkg -i $(echo ${{ env.krankerl }} | rev | cut -f1 -d/ | rev)
+          
+      - name: Install Python deps
+        run: pip install uritemplate
+      
+      - name: Package app
+        run: |
+          cd $GITHUB_WORKSPACE
+          make package
+          
+      - name: Get app version
+        run: echo "app_version=$(echo $(grep -o '<version>[0-9]*\.[0-9]*\.[0-9]*</version>' $GITHUB_WORKSPACE/appinfo/info.xml) | grep -o '[0-9]*\.[0-9]*\.[0-9]*')" >> $GITHUB_ENV
+
+      - name: Create release on Github
+        run: |
+          cd /tmp
+          python $GITHUB_WORKSPACE/.github/scripts/genMdChangelog.py $GITHUB_WORKSPACE/.github/config/semantic_labels.json $GITHUB_WORKSPACE/CHANGELOG.json ${{ env.app_version }} > changelog.md
+          python $GITHUB_WORKSPACE/.github/scripts/createRelease.py ${{ github.token }} ${{ env.app_version }} $GITHUB_WORKSPACE/build/artifacts/postmag.tar.gz "$(cat changelog.md)"

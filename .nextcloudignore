@@ -16,6 +16,8 @@ screenshots
 /vendor
 
 /.eslintrc.js
+/CHANGELOG.json
+/CHANGELOG.md
 /composer.*
 /Makefile
 /package.json

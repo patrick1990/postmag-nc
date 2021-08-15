@@ -1,0 +1,171 @@
+#
+# @author Patrick Greyson
+#
+# Postmag - Postfix mail alias generator for Nextcloud
+# Copyright (C) 2021
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Workflow for running app tests
+name: run-app-tests
+
+on:
+  pull_request:
+    branches: [ dev ]
+    
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref (branch/tag/SHA) to run tests on.'
+        required: true
+        default: 'dev'
+
+jobs:
+  get-supported-nc-versions:
+    runs-on: ubuntu-20.04
+    outputs:
+      nc-versions: ${{ steps.output.outputs.ncversions }}
+    steps:
+      - name: Checkout app code (from dispatch input)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
+      
+      - name: Checkout app code (from SHA)
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+    
+      - name: Get min version
+        run: echo "NC_MIN_VERSION=$(grep -o '<nextcloud.*min-version=\"[0-9]*\".*max-version=\"[0-9]*\"/>' $GITHUB_WORKSPACE/appinfo/info.xml | grep -o 'min-version=\"[0-9]*\"' | grep -o '[0-9]*')" >> $GITHUB_ENV
+        
+      - name: Get max version
+        run: echo "NC_MAX_VERSION=$(grep -o '<nextcloud.*min-version=\"[0-9]*\".*max-version=\"[0-9]*\"/>' $GITHUB_WORKSPACE/appinfo/info.xml | grep -o 'max-version=\"[0-9]*\"' | grep -o '[0-9]*')" >> $GITHUB_ENV
+        
+      - name: Set output
+        id: output
+        run: |
+          ncversions="{\"include\":["
+          for i in {${{ env.NC_MIN_VERSION }}..${{ env.NC_MAX_VERSION }}}; do
+            phpversion=$(grep -o "$i,.*" $GITHUB_WORKSPACE/.github/config/run-app-tests/php_versions.csv | cut -d, -f2)
+            if [ "$phpversion" == "" ]; then
+              phpversion=$(grep -o "default,.*" $GITHUB_WORKSPACE/.github/config/run-app-tests/php_versions.csv | cut -d, -f2)
+            fi
+            ncversions="$ncversions{\"nc-version\": \"$i\", \"php-version\": \"$phpversion\"}"
+            if [ "$i" -eq "${{ env.NC_MAX_VERSION }}" ]; then
+              ncversions="$ncversions]}"
+            else
+              ncversions="$ncversions,"
+            fi
+          done
+          echo "$ncversions"
+          echo "::set-output name=ncversions::$ncversions"
+        
+      - name: Cleanup workspace
+        run: rm -rf $GITHUB_WORKSPACE/*
+    
+  run-tests:
+    runs-on: ubuntu-20.04
+    needs: [get-supported-nc-versions]
+    strategy:
+      matrix: ${{ fromJSON(needs.get-supported-nc-versions.outputs.nc-versions) }}
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE
+      - name: Checkout nextcloud code
+        uses: actions/checkout@v2
+        with:
+          repository: nextcloud/server
+          ref: 'stable${{ matrix.nc-version }}'
+          path: '${{ matrix.nc-version }}/nextcloud'
+          
+      - name: Checkout nextcloud 3rdparty deps
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
+          git submodule update --init
+      
+      - name: Checkout app code (from dispatch input)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
+          path: '${{ matrix.nc-version }}/postmag'
+      
+      - name: Checkout app code (from SHA)
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+          path: '${{ matrix.nc-version }}/postmag'
+          
+      - name: Set php version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+        
+      - name: Setup nextcloud
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
+          php occ maintenance:install --no-interaction --admin-user="admin" --admin-pass="admin" --data-dir="$GITHUB_WORKSPACE/data"
+          
+      - name: Configure nextcloud
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
+          php occ config:system:set debug --value=true --type=boolean
+          php occ config:system:set trusted_domains 0 --value="localhost:8080"
+          php occ config:system:set overwrite.cli.url --value="http://localhost:8080"
+          php occ config:system:set loglevel --value=0 --type=integer
+          php occ config:system:set mail_from_address --value=cloud
+          php occ config:system:set mail_smtpmode --value=smtp
+          php occ config:system:set mail_sendmailmode --value=smtp
+          php occ config:system:set mail_domain --value=domain.com
+          php occ config:system:set mail_smtphost --value=127.0.0.1
+          php occ config:system:set mail_smtpport --value=1025
+          
+      - name: Enable postmag
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
+          ln -s $GITHUB_WORKSPACE/$NC_VERSION/postmag apps/postmag
+          php occ app:enable postmag
+          
+      - name: Install app deps
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
+          make install-deps-dev
+      
+      - name: Build app
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
+          make build-dev
+          
+      - name: Test app
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
+          node_modules/.bin/maildev --silent &
+          NC_PATH=$GITHUB_WORKSPACE/$NC_VERSION/nextcloud make test

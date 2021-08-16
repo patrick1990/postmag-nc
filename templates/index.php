@@ -32,9 +32,9 @@ script('postmag', 'aliasListHandler')
         </div>
 
         <ul class="with-icon">
-            <li><a id="postmagAliasFilterAll" href="#" class="icon-user active"><?php p($l->t('All aliases')); ?></a></li>
-            <li><a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark"><?php p($l->t('Enabled')); ?></a></li>
-            <li><a id="postmagAliasFilterDisabled" href="#" class="icon-close"><?php p($l->t('Disabled')); ?></a></li>
+            <li><a id="postmagAliasFilterAll" href="#" class="icon-user svg active"><?php p($l->t('All aliases')); ?></a></li>
+            <li><a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark svg"><?php p($l->t('Enabled')); ?></a></li>
+            <li><a id="postmagAliasFilterDisabled" href="#" class="icon-close svg"><?php p($l->t('Disabled')); ?></a></li>
         </ul>
 	</div>
 

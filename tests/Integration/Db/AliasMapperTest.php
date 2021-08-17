@@ -156,7 +156,7 @@ class AliasMapperTest extends TestCase {
                 $this->testAliases[0]->getUserId(),
                 $this->testAliases[0]->getAliasName()
                 ),
-            'Alias id was allready present but not found.'
+            'Alias id was already present but not found.'
             );
         $this->assertFalse(
             $this->mapper->containsAliasId(

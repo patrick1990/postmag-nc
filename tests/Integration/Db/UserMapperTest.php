@@ -26,8 +26,6 @@ namespace OCA\Postmag\Tests\Integration\Db;
 use Test\TestCase;
 use OCP\AppFramework\App;
 use OCA\Postmag\Db\User;
-use OCA\Postmag\Share\Random;
-use OCA\Postmag\Service\ConfigService;
 
 /**
  * @group DB
@@ -55,7 +53,7 @@ class UserMapperTest extends TestCase {
         // Create test user
         $this->testUser = new User();
         $this->testUser->setUserId($this->userId);
-        $this->testUser->setUserAliasId(Random::hexString(ConfigService::DEF_USER_ALIAS_ID_LEN));
+        $this->testUser->setUserAliasId('2a9f');
         
         // Insert user into database
         $this->insertedUser = $this->mapper->insert($this->testUser);

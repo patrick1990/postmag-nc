@@ -41,24 +41,21 @@ jobs:
         with:
           ref: dev
           fetch-depth: 0
+          token: ${{ secrets.PAT_PUBLIC_REPOS }}
           
       - name: Get author of last commit
         run: |
           cd $GITHUB_WORKSPACE
           echo "author_last_commit=$(git log -1 --format='%an')" >> $GITHUB_ENV
           
-      - name: No new code
-        if: ${{ env.author_last_commit == env.git_user }}
-        run: |
-          echo "No new code to release."
-          exit 1
-          
       - name: Get repository ownership
+        if: ${{ env.author_last_commit != env.git_user }}
         run: |
           echo "workflow_owner=$(echo ${{ github.repository }} | cut -f1 -d/)" >> $GITHUB_ENV
           echo "workflow_repo=$(echo ${{ github.repository }} | cut -f2- -d/)" >> $GITHUB_ENV
     
       - name: Run app tests
+        if: ${{ env.author_last_commit != env.git_user }}
         env:
           INPUT_OWNER: ${{ env.workflow_owner }}
           INPUT_REPO: ${{ env.workflow_repo }}
@@ -74,11 +71,12 @@ jobs:
           ./entrypoint.sh
       
       - name: Check for CHANGELOG.md
+        if: ${{ env.author_last_commit != env.git_user }}
         run: echo "changelogmd=$(if [ -f $GITHUB_WORKSPACE/CHANGELOG.md ]; then echo True; else echo False; fi)" >> $GITHUB_ENV
         
       # To initialize CHANGELOG.md on the first run, this step is only run, if CHANGELOG.md exists. This guarantees a clean first run of this CI process.
       - name: Update CHANGELOG.json and app version
-        if: ${{ env.changelogmd == 'True' }}
+        if: ${{ (env.author_last_commit != env.git_user) && (env.changelogmd == 'True') }}
         run: |
           app_version_old=$(echo $(grep -o '<version>[0-9]*\.[0-9]*\.[0-9]*</version>' $GITHUB_WORKSPACE/appinfo/info.xml) | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
           app_version_new=$(python $GITHUB_WORKSPACE/.github/scripts/updateChangelog.py \
@@ -89,8 +87,8 @@ jobs:
           sed -i "s/<version>$app_version_old<\/version>/<version>$app_version_new<\/version>/g" $GITHUB_WORKSPACE/appinfo/info.xml
           echo "app_version_new=$app_version_new" >> $GITHUB_ENV
 
-      - name: Initial app version update
-        if: ${{ env.changelogmd == 'False' }}
+      - name: App version update (initial run)
+        if: ${{ (env.author_last_commit != env.git_user) && (env.changelogmd == 'False') }}
         run: |
           app_version_old=$(echo $(grep -o '<version>[0-9]*\.[0-9]*\.[0-9]*</version>' $GITHUB_WORKSPACE/appinfo/info.xml) | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
           app_version_new="$(echo $app_version_old | cut -f-2 -d.).$(( $(echo $app_version_old | cut -f3 -d.) + 1 ))"
@@ -98,6 +96,7 @@ jobs:
           echo "app_version_new=$app_version_new" >> $GITHUB_ENV
 
       - name: Generate CHANGELOG.md
+        if: ${{ env.author_last_commit != env.git_user }}
         run: |
           python $GITHUB_WORKSPACE/.github/scripts/genMdChangelog.py \
                    $GITHUB_WORKSPACE/.github/config/semantic_labels.json \
@@ -105,24 +104,27 @@ jobs:
                    > $GITHUB_WORKSPACE/CHANGELOG.md
       
       - name: Config Git user and mail
+        if: ${{ env.author_last_commit != env.git_user }}
         run: |
           cd $GITHUB_WORKSPACE
           git config --global user.name '${{ env.git_user }}'
           git config --global user.email '${{ env.git_email }}'
       
       - name: Add new CHANGELOG.md (initial run)
-        if: ${{ env.changelogmd == 'False' }}
+        if: ${{ (env.author_last_commit != env.git_user) && (env.changelogmd == 'False') }}
         run: |
           cd $GITHUB_WORKSPACE
           git add $GITHUB_WORKSPACE/CHANGELOG.md
       
       - name: Commit new release
+        if: ${{ env.author_last_commit != env.git_user }}
         run: |
           cd $GITHUB_WORKSPACE
           git commit -a -m "Update app version to ${{ env.app_version_new }}"
           git push
       
       - name: Merge dev into main
+        if: ${{ env.author_last_commit != env.git_user }}
         run: |
           cd $GITHUB_WORKSPACE
           git checkout main

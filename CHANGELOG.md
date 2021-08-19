@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 1.3.1
+
+### bug
+
+* add pat to release cycle to trigger auto app packaging (#44)
+* allow boolean fields to be nullable for oracle (#43)
+* make php tests more robust on timestamp and id checks (#42)
+* use svg icons for navigation bar to avoid overlapping labels (#40)
+
 ## Version 1.3.0
 
 ### feature

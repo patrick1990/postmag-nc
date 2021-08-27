@@ -35,7 +35,7 @@ with open(semanticLabelPath, 'r') as semanticLabelFile:
 # print version changelog function
 def printVersionChangelog(log: dict, version: str):
   sys.stdout.write("## Version " + version + "\n\n")
-  for label in (semanticLabels[::-1] + ["other"]):
+  for label in (semanticLabels["major"] + semanticLabels["minor"] + semanticLabels["patch"] + ["other"]):
     if label in log[version]:
       sys.stdout.write("### " + label + "\n\n")
       for change in log[version][label]:

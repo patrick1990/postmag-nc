@@ -1,6 +1,5 @@
-[
-  "dependencies",
-  "bug",
-  "feature",
-  "major"
-]
+{
+  "major": ["major"],
+  "minor": ["feature"],
+  "patch": ["bug", "dependencies"]
+}

@@ -42,10 +42,12 @@ with open(changelogPath, 'r') as changelogFile:
   changelog = json.load(changelogFile)
 
 # add new commits to changelog
-newLvlId = -1
+levels = ["patch", "minor", "major"]
+newLevel = levels[0]
 newChanges = {}
 for msg in commitMsg:
-  commitLvl = "other"
+  commitLabel = "other"
+  commitLevel = levels[0]
 
   # Search for id of PR in commit message (squash merges)
   pr = re.findall("\(#[0-9]+\)", msg)
@@ -61,31 +63,32 @@ for msg in commitMsg:
      
     prLabels = response.json()["labels"]
 
-    # what is the sementic level of the PR?
-    for semanticLabel in semanticLabels:
-      if semanticLabel in [prLabel["name"] for prLabel in prLabels]:
-        commitLvl = semanticLabel
+    # what is the semantic level of the PR?
+    for level in levels:
+      for semanticLabel in semanticLabels[level][::-1]:
+        if semanticLabel in [prLabel["name"] for prLabel in prLabels]:
+          commitLabel = semanticLabel
+          commitLevel = level
         
-    if commitLvl == "other":
+    if commitLabel == "other":
       # No semantic labels attached --> Error
       sys.stderr.write("No semantic labels found on PR " + pr + "\n")
       sys.exit(1)
 
   # Add commit message to changelog
-  if commitLvl in newChanges:
-    newChanges[commitLvl].append(msg)
+  if commitLabel in newChanges:
+    newChanges[commitLabel].append(msg)
   else:
-    newChanges[commitLvl] = [msg]
+    newChanges[commitLabel] = [msg]
 
   # Update version level
-  commitLvlId = -1 if commitLvl not in semanticLabels else semanticLabels.index(commitLvl)
-  newLvlId = max(commitLvlId, newLvlId)
+  newLevel = levels[max(levels.index(commitLevel), levels.index(newLevel))]
 
 # Calc new version
-major, minor, bug = version.split(".")
-if newLvlId <= 1:
-  newVersion = major + "." + minor + "." + str(int(bug)+1)
-elif newLvlId <= 2:
+major, minor, patch = version.split(".")
+if newLevel == level[0]:
+  newVersion = major + "." + minor + "." + str(int(patch)+1)
+elif newLevel == level[1]:
   newVersion = major + "." + str(int(minor)+1) + ".0"
 else:
   newVersion = str(int(major)+1) + ".0.0"

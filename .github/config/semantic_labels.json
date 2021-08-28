@@ -1,5 +1,5 @@
 {
-  "major": ["major"],
+  "major": ["nextcloud", "major"],
   "minor": ["feature"],
   "patch": ["bug", "dependencies"]
 }

@@ -86,9 +86,9 @@ for msg in commitMsg:
 
 # Calc new version
 major, minor, patch = version.split(".")
-if newLevel == level[0]:
+if newLevel == levels[0]:
   newVersion = major + "." + minor + "." + str(int(patch)+1)
-elif newLevel == level[1]:
+elif newLevel == levels[1]:
   newVersion = major + "." + str(int(minor)+1) + ".0"
 else:
   newVersion = str(int(major)+1) + ".0.0"

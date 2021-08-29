@@ -66,7 +66,7 @@ jobs:
     needs: [check-status]
     if: ${{ needs.check-status.outputs.createpr == 'True' }}
     env:
-      ncversion: needs.check-status.outputs.ncversion
+      ncversion: ${{ needs.check-status.outputs.ncversion }}
     steps:
       - name: Checkout dev branch
         uses: actions/checkout@v2

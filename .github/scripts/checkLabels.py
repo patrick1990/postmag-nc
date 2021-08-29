@@ -42,11 +42,12 @@ if response.status_code != 200:
   sys.exit(1)
 
 prLabels = response.json()["labels"]
-for semanticLabel in semanticLabels:
-  if semanticLabel in [prLabel["name"] for prLabel in prLabels]:
-    # Semantic label found --> Exit successfully
-    sys.stdout.write("Found label " + semanticLabel + " on PR " + prId + "\n")
-    sys.exit(0)
+for level in semanticLabels:
+    for semanticLabel in semanticLabels[level]:
+      if semanticLabel in [prLabel["name"] for prLabel in prLabels]:
+        # Semantic label found --> Exit successfully
+        sys.stdout.write("Found label " + semanticLabel + " on PR " + prId + "\n")
+        sys.exit(0)
 
 # No semantic labels attached --> Error
 sys.stderr.write("No semantic labels found on PR " + prId + "\n")

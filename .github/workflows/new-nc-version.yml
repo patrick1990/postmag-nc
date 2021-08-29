@@ -1,0 +1,100 @@
+#
+# @author Patrick Greyson
+#
+# Postmag - Postfix mail alias generator for Nextcloud
+# Copyright (C) 2021
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Workflow for checking for new nc versions to support
+name: new-nc-version
+
+on:
+  # Trigger the workflow every day at 5:30am
+  schedule:
+    - cron: '30 5 * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  label: "nextcloud"
+  base: "dev"
+  versions: 3
+  git_user: 'github-actions[bot]'
+  git_email: 'github-actions[bot]@users.noreply.github.com'
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    outputs:
+      ncversion: ${{ steps.getncversion.outputs.ncversion }}
+      createpr: ${{ steps.status.outputs.createpr }}
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: Get current supported NC version
+        id: getncversion
+        run: |
+          ncversion=$(( $(grep -o '<nextcloud.*min-version=\"[0-9]*\".*max-version=\"[0-9]*\"/>' $GITHUB_WORKSPACE/appinfo/info.xml | grep -o 'max-version=\"[0-9]*\"' | grep -o '[0-9]*') + 1 ))
+          echo "ncversion=$ncversion" >> $GITHUB_ENV
+          echo "::set-output name=ncversion::$ncversion"
+
+      - name: Check for open version PRs and NC version
+        id: status
+        run: echo "::set-output name=createpr::$(python $GITHUB_WORKSPACE/.github/scripts/newNCVersion.py ${{ github.token }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }})"
+
+      - name: Cleanup workspace
+        run: rm -rf $GITHUB_WORKSPACE/*
+
+  create-pr:
+    runs-on: ubuntu-latest
+    needs: [check-status]
+    if: ${{ needs.check-status.outputs.createpr == 'True' }}
+    env:
+      ncversion: ${{ needs.check-status.outputs.ncversion }}
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: Config Git user and mail
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config --global user.name '${{ env.git_user }}'
+          git config --global user.email '${{ env.git_email }}'
+
+      - name: Branch name
+        run: echo "BRANCH_NAME=nc${{ env.ncversion }}-$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+
+      - name: Create branch
+        run: |
+          cd $GITHUB_WORKSPACE
+          git checkout -b ${{ env.BRANCH_NAME }}
+
+      - name: Update info.xml
+        run: sed -i "s/<nextcloud.*min-version=\"[0-9]*\".*max-version=\"[0-9]*\"\/>/<nextcloud min-version=\"$(( ${{ env.ncversion }} - ${{ env.versions }} + 1 ))\" max-version=\"$(( ${{ env.ncversion }} ))\"\/>/g" $GITHUB_WORKSPACE/appinfo/info.xml
+
+      - name: Commit new info.xml
+        run: |
+          cd $GITHUB_WORKSPACE
+          git commit -a -m "Support for NC version ${{ env.ncversion }}"
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
+      - name: Create PR
+        run: python $GITHUB_WORKSPACE/.github/scripts/prNCVersion.py ${{ secrets.PAT_PUBLIC_REPOS }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }} ${{ env.BRANCH_NAME }}

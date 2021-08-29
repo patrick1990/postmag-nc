@@ -97,4 +97,4 @@ jobs:
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
       - name: Create PR
-        run: python $GITHUB_WORKSPACE/.github/scripts/prNCVersion.py ${{ github.token }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }} ${{ env.BRANCH_NAME }}
+        run: python $GITHUB_WORKSPACE/.github/scripts/prNCVersion.py ${{ secrets.PAT_PUBLIC_REPOS }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }} ${{ env.BRANCH_NAME }}

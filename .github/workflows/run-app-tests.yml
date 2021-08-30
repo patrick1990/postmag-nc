@@ -32,8 +32,27 @@ on:
         default: 'dev'
 
 jobs:
+  check-parallel-runs:
+    runs-on: ubuntu-latest
+    outputs:
+      parallelruns: ${{ steps.check.outputs.parallelruns }}
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: Check for parallel runs
+        id: check
+        run: echo "::set-output name=parallelruns::$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})"
+
+      - name: Cleanup workspace
+        run: rm -rf $GITHUB_WORKSPACE/*
+
   get-supported-nc-versions:
     runs-on: ubuntu-20.04
+    needs: [ check-parallel-runs ]
+    if: ${{ needs.check-parallel-runs.outputs.parallelruns == 'False' }}
     outputs:
       nc-versions: ${{ steps.output.outputs.ncversions }}
     steps:
@@ -79,7 +98,8 @@ jobs:
     
   run-tests:
     runs-on: ubuntu-20.04
-    needs: [get-supported-nc-versions]
+    needs: [ check-parallel-runs, get-supported-nc-versions ]
+    if: ${{ needs.check-parallel-runs.outputs.parallelruns == 'False' }}
     strategy:
       matrix: ${{ fromJSON(needs.get-supported-nc-versions.outputs.nc-versions) }}
     steps:

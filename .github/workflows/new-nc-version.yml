@@ -36,8 +36,27 @@ env:
   git_email: 'github-actions[bot]@users.noreply.github.com'
 
 jobs:
+  check-parallel-runs:
+    runs-on: ubuntu-latest
+    outputs:
+      parallelruns: ${{ steps.check.outputs.parallelruns }}
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: Check for parallel runs
+        id: check
+        run: echo "::set-output name=parallelruns::$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})"
+
+      - name: Cleanup workspace
+        run: rm -rf $GITHUB_WORKSPACE/*
+
   check-status:
     runs-on: ubuntu-latest
+    needs: [ check-parallel-runs ]
+    if: ${{ needs.check-parallel-runs.outputs.parallelruns == 'False' }}
     outputs:
       ncversion: ${{ steps.getncversion.outputs.ncversion }}
       createpr: ${{ steps.status.outputs.createpr }}
@@ -63,8 +82,8 @@ jobs:
 
   create-pr:
     runs-on: ubuntu-latest
-    needs: [check-status]
-    if: ${{ needs.check-status.outputs.createpr == 'True' }}
+    needs: [ check-parallel-runs, check-status ]
+    if: ${{ (needs.check-parallel-runs.outputs.parallelruns == 'False') && (needs.check-status.outputs.createpr == 'True') }}
     env:
       ncversion: ${{ needs.check-status.outputs.ncversion }}
     steps:

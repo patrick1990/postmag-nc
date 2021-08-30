@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Version 1.4.0
+
+### feature
+
+* Automatic PR to support new NC versions (#48)
+
+### bug
+
+* Prevent parallel Github Actions workflow runs (#49)
+
 ## Version 1.3.1
 
 ### bug

@@ -42,5 +42,13 @@
       "make php tests more robust on timestamp and id checks (#42)",
       "use svg icons for navigation bar to avoid overlapping labels (#40)"
     ]
+  },
+  "1.4.0": {
+    "bug": [
+      "Prevent parallel Github Actions workflow runs (#49)"
+    ],
+    "feature": [
+      "Automatic PR to support new NC versions (#48)"
+    ]
   }
 }

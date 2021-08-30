@@ -26,7 +26,7 @@ import time
 token = sys.argv[1]
 
 # Some configs
-workflowEndpoint = "https://api.github.com/repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/workflows/" + os.environ["GITHUB_WORKFLOW"] +".yml/runs?status=in_progress"
+workflowEndpoint = "https://api.github.com/repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/workflows/" + os.environ["GITHUB_WORKFLOW"] +".yml/runs"
 headers = {
   "Accept": "application/vnd.github.v3+json",
   "Authorization": "Bearer " + token
@@ -37,24 +37,25 @@ sys.stderr.write("Wait 30s for other potential runs...\n")
 time.sleep(30)
 
 # Search for parallel runs
-page = 0
-workflows = [None]
-while len(workflows) != 0:
-  page = page+1
-  response = requests.get(workflowEndpoint + "&page=" + str(page), headers=headers)
-  if response.status_code != 200:
-    # No successful response --> Error
-    sys.stderr.write("Got no successful response from Github API to list workflows.\n")
-    sys.exit(1)
+for status in ["queued", "in_progress"]:
+  page = 0
+  workflows = [None]
+  while len(workflows) != 0:
+    page = page+1
+    response = requests.get(workflowEndpoint + "?status=" + status + "&page=" + str(page), headers=headers)
+    if response.status_code != 200:
+      # No successful response --> Error
+      sys.stderr.write("Got no successful response from Github API to list workflows.\n")
+      sys.exit(1)
 
-  workflows = response.json()["workflow_runs"]
-  for workflow in workflows:
-    if str(workflow["head_sha"]) == str(os.environ["GITHUB_SHA"]):
-      # Parallel run found. Stop me if my run number is higher.
-      if int(workflow["run_number"]) < int(os.environ["GITHUB_RUN_NUMBER"]):
-        sys.stderr.write("Parallel run with smaller run number found. Stop me!\n")
-        sys.stdout.write("True")
-        sys.exit(0)
+    workflows = response.json()["workflow_runs"]
+    for workflow in workflows:
+      if str(workflow["head_sha"]) == str(os.environ["GITHUB_SHA"]):
+        # Parallel run found. Stop me if my run number is higher.
+        if int(workflow["run_number"]) < int(os.environ["GITHUB_RUN_NUMBER"]):
+          sys.stderr.write("Parallel run with smaller run number found. Stop me!\n")
+          sys.stdout.write("True")
+          sys.exit(0)
 
 sys.stderr.write("No parallel runs found (Or I'm the first run).\n")
 sys.stdout.write("False")

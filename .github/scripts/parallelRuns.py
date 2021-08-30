@@ -49,7 +49,9 @@ for status in ["queued", "in_progress"]:
       sys.exit(1)
 
     workflows = response.json()["workflow_runs"]
+    sys.stderr.write(" - Me    #" + str(os.environ["GITHUB_RUN_NUMBER"]) + ": SHA " + str(os.environ["GITHUB_SHA"]) + "\n")
     for workflow in workflows:
+      sys.stderr.write(" - Other #" + str(workflow["run_number"]) + ": SHA " + str(workflow["head_sha"]) + "\n")
       if str(workflow["head_sha"]) == str(os.environ["GITHUB_SHA"]):
         # Parallel run found. Stop me if my run number is higher.
         if int(workflow["run_number"]) < int(os.environ["GITHUB_RUN_NUMBER"]):

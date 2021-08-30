@@ -26,6 +26,7 @@ import time
 token = sys.argv[1]
 
 # Some configs
+runEndpoint = "https://api.github.com/repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/runs/" + str(os.environ["GITHUB_RUN_ID"])
 workflowEndpoint = "https://api.github.com/repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/workflows/" + os.environ["GITHUB_WORKFLOW"] +".yml/runs"
 headers = {
   "Accept": "application/vnd.github.v3+json",
@@ -35,6 +36,14 @@ headers = {
 # Sleep a little bit to wait for parallel runs to start
 sys.stderr.write("Wait 30s for other potential runs...\n")
 time.sleep(30)
+
+# Since GITHUB_SHA holds the sha of the merge branch for pull requests, we get the head sha from the workflows api
+response = requests.get(runEndpoint, headers=headers)
+if response.status_code != 200:
+  # No successful response --> Error
+  sys.stderr.write("Got no successful response from Github API to get workflow run.\n")
+  sys.exit(1)
+mySHA = str(response.json()["head_sha"])
 
 # Search for parallel runs
 for status in ["queued", "in_progress"]:
@@ -49,10 +58,10 @@ for status in ["queued", "in_progress"]:
       sys.exit(1)
 
     workflows = response.json()["workflow_runs"]
-    sys.stderr.write(" - Me    #" + str(os.environ["GITHUB_RUN_NUMBER"]) + ": SHA " + str(os.environ["GITHUB_SHA"]) + "\n")
+    sys.stderr.write(" - Me    #" + str(os.environ["GITHUB_RUN_NUMBER"]) + ": SHA " + mySHA + "\n")
     for workflow in workflows:
       sys.stderr.write(" - Other #" + str(workflow["run_number"]) + ": SHA " + str(workflow["head_sha"]) + "\n")
-      if str(workflow["head_sha"]) == str(os.environ["GITHUB_SHA"]):
+      if str(workflow["head_sha"]) == mySHA:
         # Parallel run found. Stop me if my run number is higher.
         if int(workflow["run_number"]) < int(os.environ["GITHUB_RUN_NUMBER"]):
           sys.stderr.write("Parallel run with smaller run number found. Stop me!\n")

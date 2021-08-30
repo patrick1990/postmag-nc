@@ -26,8 +26,27 @@ on:
     types: [ opened, reopened, synchronize, labeled, unlabeled ]
     
 jobs:
+  check-parallel-runs:
+    runs-on: ubuntu-latest
+    outputs:
+      parallelruns: ${{ steps.check.outputs.parallelruns }}
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: Check for parallel runs
+        id: check
+        run: echo "::set-output name=parallelruns::$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})"
+
+      - name: Cleanup workspace
+        run: rm -rf $GITHUB_WORKSPACE/*
+
   check-labels:
     runs-on: ubuntu-latest
+    needs: [ check-parallel-runs ]
+    if: ${{ needs.check-parallel-runs.outputs.parallelruns == 'False' }}
     steps:
       # Checks-out repository under $GITHUB_WORKSPACE
       - name: Checkout app code

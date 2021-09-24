@@ -72,8 +72,24 @@ $(async function() {
 	else {
 		templateContentBase();
 		templateAliasList(aliasList, showEnabled,  showDisabled);
-		setActiveAlias(aliasList[0]["id"]);
-		setAliasForm(aliasList[0], userInfo, config);
+
+		// Set active alias
+		const searchParams = new URLSearchParams(window.location.search);
+		if(searchParams.has("id")) {
+			// Postmag was queried with an id (for instance the user has used Nextcloud global search)
+			setActiveAlias(parseInt(searchParams.get("id"), 10));
+			for (let i in aliasList) {
+				if (aliasList[i]["id"] === parseInt(searchParams.get("id"), 10)) {
+					setAliasForm(aliasList[i], userInfo, config);
+					break;
+				}
+			}
+		}
+		else {
+			// Postmag was queried without an id (for instance the user just opened the app)
+			setActiveAlias(aliasList[0]["id"]);
+			setAliasForm(aliasList[0], userInfo, config);
+		}
 	}
 
 	// ==== HANDLERS ====

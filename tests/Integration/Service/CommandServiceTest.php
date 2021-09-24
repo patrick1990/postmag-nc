@@ -23,12 +23,11 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Integration\Service;
 
-use Test\TestCase;
-use OCP\AppFramework\App;
-use OCA\Postmag\Db\Alias;
-use OCA\Postmag\Share\Random;
-use OCA\Postmag\Service\ConfigService;
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Db\User;
+use OCA\Postmag\Service\ConfigService;
+use OCA\Postmag\Share\Random;
+use Test\TestCase;
 
 /**
  * @group DB
@@ -46,7 +45,7 @@ class CommandServiceTest extends TestCase {
     
     public function setUp(): void {
         parent::setUp();
-        $app = new App('postmag');
+        $app = new Application();
         $container = $app->getContainer();
         
         $this->service = $container->get('OCA\Postmag\Service\CommandService');

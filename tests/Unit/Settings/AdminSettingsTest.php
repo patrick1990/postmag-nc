@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Settings;
 
+use OCA\Postmag\AppInfo\Application;
 use PHPUnit\Framework\TestCase;
 use OCA\Postmag\Service\ConfigService;
 use OCA\Postmag\Settings\AdminSettings;
@@ -38,7 +39,7 @@ class AdminSettingsTest extends TestCase {
     public function setUp(): void {
         $this->service = $this->createMock(ConfigService::class);
         
-        $this->settings = new AdminSettings('postmag', $this->service);
+        $this->settings = new AdminSettings(Application::APP_ID, $this->service);
     }
     
     public function testGetSection() {

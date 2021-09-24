@@ -23,6 +23,7 @@ declare (strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
+use OCA\Postmag\AppInfo\Application;
 use PHPUnit\Framework\TestCase;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -40,7 +41,7 @@ class PageControllerTest extends TestCase {
 		$request = $this->getMockBuilder('OCP\IRequest')->getMock();
 
 		$this->controller = new PageController(
-			'postmag', $request, $this->userId
+			Application::APP_ID, $request, $this->userId
 		);
 	}
 

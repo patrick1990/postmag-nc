@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
+use OCA\Postmag\AppInfo\Application;
 use PHPUnit\Framework\TestCase;
 use OCP\IRequest;
 use OCA\Postmag\Service\UserService;
@@ -41,7 +42,7 @@ class UserControllerTest extends TestCase {
         $this->request = $this->createMock(IRequest::class);
         $this->service = $this->createMock(UserService::class);
         
-        $this->controller = new UserController('postmag', $this->request, $this->service, $this->userId);
+        $this->controller = new UserController(Application::APP_ID, $this->request, $this->service, $this->userId);
     }
     
     public function testGetInfoMailSet(): void {

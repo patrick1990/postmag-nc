@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Service;
 
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
 use OCP\IConfig;
 use PHPUnit\Framework\TestCase;
@@ -90,7 +91,7 @@ class AliasServiceTest extends TestCase {
     ];
     
     private $service;
-    private $appName = "postmag";
+    private $appName = Application::APP_ID;
     private $config;
     private $dateTimeFormatter;
     private $mapper;

@@ -55,9 +55,12 @@ class AliasMapper extends QBMapper {
             $qb->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)));
         }
 
+        $qb->orderBy('alias_name')
+            ->addOrderBy('alias_id')
+            ->addOrderBy('user_id');
+
         if ($firstResult !== null && $maxResults !== null) {
-            $qb->orderBy('alias_name')->addOrderBy('alias_id')
-                ->setFirstResult($firstResult)
+            $qb->setFirstResult($firstResult)
                 ->setMaxResults($maxResults);
         }
 

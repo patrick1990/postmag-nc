@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace OCA\Postmag\Search;
 
 use OCA\Postmag\AppInfo\Application;
+use OCA\Postmag\Db\Alias;
+use OCA\Postmag\Service\AliasService;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -36,10 +38,15 @@ class Provider implements IProvider {
 
     private IL10N $l;
     private IURLGenerator $urlGenerator;
+    private AliasService $aliasService;
 
-    public function __construct(IL10N $l, IURLGenerator $urlGenerator) {
+    public function __construct(IL10N $l,
+                                IURLGenerator $urlGenerator,
+                                AliasService $aliasService)
+    {
         $this->l = $l;
         $this->urlGenerator = $urlGenerator;
+        $this->aliasService = $aliasService;
     }
 
     public function getId(): string {
@@ -59,16 +66,28 @@ class Provider implements IProvider {
     }
 
     public function search(IUser $user, ISearchQuery $query): SearchResult {
-        return SearchResult::complete(
+        $offset = ($query->getCursor() ?? 0);
+        $limit = $query->getLimit();
+
+        $results = array_slice($this->aliasService->search($query->getTerm(), $user->getUID()), $offset, $limit);
+
+        return SearchResult::paginated(
             $this->getName(),
-            [
-                new SearchResultEntry(
-                    $this->urlGenerator->imagePath(Application::APP_ID, "app-dark.svg"),
-                    "Postmag Test",
-                    "Subline",
-                    $this->urlGenerator->linkToRoute(Application::APP_ID . ".page.index")
-                )
-            ]
+            array_map(
+                function (array $res) {
+                    return new SearchResultEntry(
+                        $this->urlGenerator->imagePath(Application::APP_ID, "app-dark.svg"),
+                        $res['alias_name'] . "." . $res['alias_id'],
+                        $res['comment'],
+                        $this->urlGenerator->linkToRoute(Application::APP_ID . ".page.index",
+                            [
+                                "id" => $res['id']
+                            ])
+                    );
+                },
+                $results
+            ),
+            $offset + count($results)
         );
     }
 }

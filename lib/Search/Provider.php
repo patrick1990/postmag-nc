@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace OCA\Postmag\Search;
 
 use OCA\Postmag\AppInfo\Application;
-use OCA\Postmag\Db\Alias;
 use OCA\Postmag\Service\AliasService;
 use OCP\IL10N;
 use OCP\IURLGenerator;

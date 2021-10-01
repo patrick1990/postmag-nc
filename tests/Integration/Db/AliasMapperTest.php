@@ -23,9 +23,9 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Integration\Db;
 
-use Test\TestCase;
-use OCP\AppFramework\App;
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Db\Alias;
+use Test\TestCase;
 
 /**
  * @group DB
@@ -40,7 +40,7 @@ class AliasMapperTest extends TestCase {
     
     public function setUp(): void {
         parent::setUp();
-        $app = new App('postmag');
+        $app = new Application();
         $container = $app->getContainer();
         
         // replace user id

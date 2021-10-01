@@ -23,11 +23,11 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Integration\Controller;
 
-use Test\TestCase;
-use OCP\AppFramework\App;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http;
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Tests\Unit\Service\ConfigServiceTest;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use Test\TestCase;
 
 class ConfigControllerTest extends TestCase {
     
@@ -38,7 +38,7 @@ class ConfigControllerTest extends TestCase {
     
     public function setUp(): void {
         parent::setUp();
-        $app = new App('postmag');
+        $app = new Application();
         $container = $app->getContainer();
         
         // replace user id

@@ -21,30 +21,26 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\Postmag\Tests\Integration;
+namespace OCA\Postmag\AppInfo;
 
-use OCA\Postmag\AppInfo\Application;
-use Test\TestCase;
+use OCA\Postmag\Search\Provider;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
+class Application extends App implements IBootstrap {
 
-/**
- * This test shows how to make a small Integration Test. Query your class
- * directly from the container, only pass in mocks if needed and run your tests
- * against the database
- */
-class AppTest extends TestCase {
+    public const APP_ID = "postmag";
 
-    private $container;
-
-    public function setUp(): void {
-        parent::setUp();
-        $app = new Application();
-        $this->container = $app->getContainer();
+    public function __construct(array $urlParams = []) {
+        parent::__construct(self::APP_ID, $urlParams);
     }
 
-    public function testAppInstalled() {
-        $appManager = $this->container->get('OCP\App\IAppManager');
-        $this->assertTrue($appManager->isInstalled(Application::APP_ID), 'Postmag is not installed in Nextcloud.');
+    public function register(IRegistrationContext $context): void {
+        $context->registerSearchProvider(Provider::class);
     }
+
+    public function boot(IBootContext $context): void {}
 
 }

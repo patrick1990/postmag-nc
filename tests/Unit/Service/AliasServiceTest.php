@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Service;
 
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
 use OCP\IConfig;
 use PHPUnit\Framework\TestCase;
@@ -90,7 +91,7 @@ class AliasServiceTest extends TestCase {
     ];
     
     private $service;
-    private $appName = "postmag";
+    private $appName = Application::APP_ID;
     private $config;
     private $dateTimeFormatter;
     private $mapper;
@@ -170,7 +171,7 @@ class AliasServiceTest extends TestCase {
         // Test method
         $ret = $this->service->findAll($firstResult, $maxResults, 'john');
         
-        $this->assertSame(1, count($ret), 'find all returns not the expected count of aliases');
+        $this->assertSame(1, count($ret), 'find all does not return the expected count of aliases');
         $this->assertSame($this->aliases[0]->getId(), $ret[0]['id'], 'not the expected id.');
         $this->assertSame($this->aliases[0]->getUserId(), $ret[0]['user_id'], 'not the expected user id.');
         $this->assertSame($this->aliases[0]->getAliasId(), $ret[0]['alias_id'], 'not the expected alias id.');
@@ -182,6 +183,59 @@ class AliasServiceTest extends TestCase {
         $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret[0]['last_modified'], 'not the expected last modified timestamp.');
         $this->assertSame($this->aliases[0]->getCreated(), $ret[0]['created_utc'], 'not the expected created utc timestamp.');
         $this->assertSame($this->aliases[0]->getLastModified(), $ret[0]['last_modified_utc'], 'not the expected created utc timestamp.');
+    }
+
+    public function testSearch(): void {
+        // Mocking
+        $findAll = function($firstResult, $maxResults, $userId) {
+            foreach ($this->aliases as $alias) {
+                if ($alias->getUserId() === $userId) {
+                    $ret[] = $alias;
+                }
+                return $ret;
+            }
+        };
+
+        $this->mapper->expects($this->once())
+            ->method('findAll')
+            ->willReturnCallback($findAll);
+
+        // Test method
+        $ret = $this->service->search('New alias', 'john');
+
+        $this->assertSame(1, count($ret), 'search does not return the expected count of aliases');
+        $this->assertSame($this->aliases[0]->getId(), $ret[0]['id'], 'not the expected id.');
+        $this->assertSame($this->aliases[0]->getUserId(), $ret[0]['user_id'], 'not the expected user id.');
+        $this->assertSame($this->aliases[0]->getAliasId(), $ret[0]['alias_id'], 'not the expected alias id.');
+        $this->assertSame($this->aliases[0]->getAliasName(), $ret[0]['alias_name'], 'not the expected alias name.');
+        $this->assertSame($this->aliases[0]->getToMail(), $ret[0]['to_mail'], 'not the expected to mail.');
+        $this->assertSame($this->aliases[0]->getComment(), $ret[0]['comment'], 'not the expected comment.');
+        $this->assertSame($this->aliases[0]->getEnabled(), $ret[0]['enabled'], 'not the expected enabled state.');
+        $this->assertSame($this->formatDTCallback($this->aliases[0]->getCreated(), 'short', 'medium'), $ret[0]['created'], 'not the expected created timestamp.');
+        $this->assertSame($this->formatDTCallback($this->aliases[0]->getLastModified(), 'short', 'medium'), $ret[0]['last_modified'], 'not the expected last modified timestamp.');
+        $this->assertSame($this->aliases[0]->getCreated(), $ret[0]['created_utc'], 'not the expected created utc timestamp.');
+        $this->assertSame($this->aliases[0]->getLastModified(), $ret[0]['last_modified_utc'], 'not the expected created utc timestamp.');
+    }
+
+    public function testSearchNotFound(): void {
+        // Mocking
+        $findAll = function($firstResult, $maxResults, $userId) {
+            foreach ($this->aliases as $alias) {
+                if ($alias->getUserId() === $userId) {
+                    $ret[] = $alias;
+                }
+                return $ret;
+            }
+        };
+
+        $this->mapper->expects($this->once())
+            ->method('findAll')
+            ->willReturnCallback($findAll);
+
+        // Test method
+        $ret = $this->service->search('Something', 'john');
+
+        $this->assertSame(0, count($ret), 'search should not find any aliases');
     }
     
     public function testCreate(): void {

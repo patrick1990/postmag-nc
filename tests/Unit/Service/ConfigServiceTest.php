@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Service;
 
+use OCA\Postmag\AppInfo\Application;
 use PHPUnit\Framework\TestCase;
 use OCA\Postmag\Service\ConfigService;
 use OCP\IConfig;
@@ -97,7 +98,7 @@ class ConfigServiceTest extends TestCase {
     ];
     
     private $service;
-    private $appName = "postmag";
+    private $appName = Application::APP_ID;
     private $config;
     
     public function setUp(): void {

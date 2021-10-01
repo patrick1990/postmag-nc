@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
+use OCA\Postmag\AppInfo\Application;
 use PHPUnit\Framework\TestCase;
 use OCP\IRequest;
 use OCA\Postmag\Controller\ConfigController;
@@ -44,7 +45,7 @@ class ConfigControllerTest extends TestCase {
         $this->request = $this->createMock(IRequest::class);
         $this->service = $this->createMock(ConfigService::class);
         
-        $this->controller = new ConfigController('postmag', $this->request, $this->service, $this->userId);
+        $this->controller = new ConfigController(Application::APP_ID, $this->request, $this->service, $this->userId);
     }
     
     public function testGetConf(): void {

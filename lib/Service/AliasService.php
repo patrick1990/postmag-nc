@@ -72,6 +72,28 @@ class AliasService {
         });
         return $ret;
     }
+
+    public function search(string $query, string $userId): array {
+        $queryArr = preg_split('/\s+/', $query);
+
+        $ret = array_filter(
+            $this->mapper->findAll(null, null, $userId),
+            function (Alias $alias) use ($queryArr): bool {
+                foreach ($queryArr as $q) {
+                    if (stripos($alias->getAliasName(), $q) !== false)
+                        return true;
+                    elseif (stripos($alias->getComment(), $q) !== false)
+                        return true;
+                }
+                return false;
+            }
+        );
+
+        array_walk($ret, function (&$value, $key) {
+            $value = $value->serialize($this->dateTimeFormatter);
+        });
+        return array_values($ret);
+    }
     
     private function checkParameters(string $aliasName = null,
                                      string $toMail = null,

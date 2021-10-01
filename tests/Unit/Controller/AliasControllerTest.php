@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Unit\Controller;
 
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Service\Exceptions\ValueBoundException;
 use PHPUnit\Framework\TestCase;
 use OCP\IRequest;
@@ -47,7 +48,7 @@ class AliasControllerTest extends TestCase {
         $this->request = $this->createMock(IRequest::class);
         $this->service = $this->createMock(AliasService::class);
         
-        $this->controller = new AliasController('postmag', $this->request, $this->service, $this->userId);
+        $this->controller = new AliasController(Application::APP_ID, $this->request, $this->service, $this->userId);
         
         $this->aliases = [[], []];
         

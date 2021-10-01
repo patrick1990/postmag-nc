@@ -23,13 +23,11 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Integration\Controller;
 
-use Test\TestCase;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\App;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http;
+use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Db\User;
-use OCA\Postmag\Service\ConfigService;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use Test\TestCase;
 
 /**
  * @group DB
@@ -45,7 +43,7 @@ class UserControllerTest extends TestCase {
     
     public function setUp(): void {
         parent::setUp();
-        $app = new App('postmag');
+        $app = new Application();
         $container = $app->getContainer();
         
         // replace user id

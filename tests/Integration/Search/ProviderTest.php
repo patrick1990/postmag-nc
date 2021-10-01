@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Postmag\Tests\Integration\Search;
 
+use InvalidArgumentException;
 use OCA\Postmag\AppInfo\Application;
 use OCA\Postmag\Db\Alias;
 use OCA\Postmag\Service\ConfigService;
@@ -214,6 +215,10 @@ class ProviderTest extends TestCase {
             public function setEMailAddress($mailAddress) {}
             public function getQuota() { return ''; }
             public function setQuota($quota) {}
+            public function getSystemEMailAddress(): ?string { return null; }
+            public function getPrimaryEMailAddress(): ?string { return null; }
+            public function setSystemEMailAddress(string $mailAddress): void {}
+            public function setPrimaryEMailAddress(string $mailAddress): void {}
         };
     }
 

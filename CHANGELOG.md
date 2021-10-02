@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.5.0
+
+### feature
+
+* Connect to Nextcloud unified search (#60)
+
 ## Version 1.4.0
 
 ### feature

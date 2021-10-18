@@ -18,7 +18,8 @@
 		"build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
 		"dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
 		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
-		"lint": "eslint --ext .js,.vue src"
+		"lint": "eslint --ext .js,.vue src",
+		"test": "node tests/System/runTests.js"
 	},
 	"browserslist": [
 		"extends @nextcloud/browserslist-config"

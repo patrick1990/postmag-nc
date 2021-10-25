@@ -136,6 +136,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+
+      - name: Set node version
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          nvm install 12
         
       - name: Setup nextcloud
         env:

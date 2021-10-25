@@ -183,10 +183,19 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           make build-dev
           
+      - name: Install selenium webdriver
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
+          node_modules/.bin/webdriver-manager update
+
       - name: Test app
         env:
           NC_VERSION: ${{ matrix.nc-version }}
         run: |
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           node_modules/.bin/maildev --silent &
+          node_modules/.bin/webdriver-manager start &
+          php -S localhost:8080 -t $GITHUB_WORKSPACE/$NC_VERSION/nextcloud &
           NC_PATH=$GITHUB_WORKSPACE/$NC_VERSION/nextcloud make test

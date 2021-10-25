@@ -168,7 +168,7 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
           ln -s $GITHUB_WORKSPACE/$NC_VERSION/postmag apps/postmag
           php occ app:enable postmag
-          
+
       - name: Install app deps
         env:
           NC_VERSION: ${{ matrix.nc-version }}
@@ -183,6 +183,13 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           make build-dev
           
+      - name: Install firefox for frontend tests
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          sudo apt update
+          sudo apt install firefox
+
       - name: Install selenium webdriver
         env:
           NC_VERSION: ${{ matrix.nc-version }}

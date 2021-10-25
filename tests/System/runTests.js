@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {Example} = require("./test.js");
+const {Example} = require("./journeys/example.js");
 
 async function runTests() {
     await new Example().run();

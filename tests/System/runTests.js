@@ -19,8 +19,10 @@
  */
 
 const {Example} = require("./journeys/example.js");
+const {NoAliases} = require("./journeys/noAliases");
 
 async function runTests() {
+    await new NoAliases().run();
     await new Example().run();
 }
 

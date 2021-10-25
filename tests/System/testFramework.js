@@ -134,6 +134,18 @@ class AbstractTest {
     }
 
     /**
+     * Browse to postmagn.
+     *
+     * @returns {Promise<void>} promise for browsing to postmag
+     */
+    async goToPostmag() {
+        // Go to postmag
+        this.logger("Browse to postmag.");
+        await this._driver.get(this._nextcloudUrl + "/apps/postmag");
+        await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), 5000);
+    }
+
+    /**
      * Run test candidate.
      *
      * @param {boolean} login (optional) login to nextcloud on true (default: true)
@@ -171,6 +183,13 @@ class AbstractTest {
 
     logger(message) {
         console.log(" = " + message);
+    }
+
+    assert(condition, message) {
+        if (!condition) {
+            this.logger("Assertion error: " + message);
+            throw new Error(message);
+        }
     }
 }
 

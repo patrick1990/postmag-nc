@@ -4,7 +4,7 @@
 # * make
 # * composer
 # * npm
-# * node
+# * node (minimum version: 12)
 # * krankerl (https://github.com/ChristophWurst/krankerl)
 
 app_name=postmag

@@ -19,7 +19,7 @@
 		"dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
 		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
 		"lint": "eslint --ext .js,.vue src",
-		"test": "node tests/System/runTests.js"
+		"test": "node --unhandled-rejections=strict tests/System/runTests.js"
 	},
 	"browserslist": [
 		"extends @nextcloud/browserslist-config"
@@ -51,6 +51,6 @@
 		"babel-eslint": "^10.1.0",
 		"maildev": "^1.1.0",
 		"selenium-webdriver": "^4.0.0-rc-2",
-		"geckodriver": "^2.0.4"
+		"webdriver-manager": "^12.1.8"
 	}
 }

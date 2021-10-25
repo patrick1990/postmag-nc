@@ -18,12 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {By, Key} = require("selenium-webdriver");
+const {AbstractTest} = require("./testFramework");
 
-module.exports.example = async function(driver, logger) {
+class Example extends AbstractTest {
 
-    let title = await driver.getTitle();
-    logger('Title is: ' + title);
+    _name = "example";
+
+    _test = async function () {
+        let title = await this._driver.getTitle();
+        this.logger('Title is: ' + title)
+    }
 
 }
+
+module.exports.Example = Example;
  

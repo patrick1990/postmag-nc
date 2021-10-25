@@ -20,21 +20,21 @@
 
 const {Builder, By, Key, Capabilities, until} = require("selenium-webdriver");
 
-class TestExecutor {
+class AbstractTest {
     /**
-     * @property {string} name name of the test
+     * @property {string} name (abstract) name of the test
      */
-    #name;
+    _name = undefined;
 
     /**
-     * @property {function(!WebDriver, function(string))} test test candidate
+     * @property {function()} test (abstract) test candidate
      */
-    #test;
+    _test = undefined;
 
     /**
      * @property {WebDriver} driver selenium web driver
      */
-    #driver;
+    _driver;
 
     /**
      * @property {string} loginUser user for login to nextcloud
@@ -49,7 +49,7 @@ class TestExecutor {
     /**
      * @property {string} nextcloudUrl url to nextcloud
      */
-    #nextcloudUrl;
+    _nextcloudUrl;
 
     /**
      * @property {string} seleniumServerUrl url to selenium server
@@ -59,26 +59,24 @@ class TestExecutor {
     /**
      * Constructor for Test executor.
      *
-     * @param {string} name name of the test
-     * @param {function (!WebDriver, function(string))} test test candidate (first argument takes webdriver, second argument takes logger function)
      * @param {string} loginUser (optional) user for login to nextcloud (default: admin)
      * @param {string} loginPassword (optional) password for login to nextcloud (default: admin)
      * @param {string} nextcloudUrl (optional) url to nextcloud (default: http://localhost:8080/index.php)
      * @param {string} seleniumServerUrl (optional) url to selenium server (default: webdriver-manager - http://localhost:4444/wd/hub)
      */
     constructor(
-        name,
-        test,
         loginUser = "admin",
         loginPassword = "admin",
         nextcloudUrl = "http://localhost:8080/index.php",
         seleniumServerUrl = "http://localhost:4444/wd/hub"
     ) {
-        this.#name = name;
-        this.#test = test;
+        if (this.constructor === AbstractTest) {
+            throw new TypeError("This class cannot be instantiated.");
+        }
+
         this.#loginUser = loginUser;
         this.#loginPassword = loginPassword;
-        this.#nextcloudUrl = nextcloudUrl;
+        this._nextcloudUrl = nextcloudUrl;
         this.#seleniumServerUrl = seleniumServerUrl;
     }
 
@@ -92,7 +90,7 @@ class TestExecutor {
 
         let capabilities = Capabilities.firefox();
 
-        this.#driver = new Builder()
+        this._driver = new Builder()
             .usingServer(this.#seleniumServerUrl)
             .withCapabilities(capabilities)
             .build();
@@ -106,8 +104,8 @@ class TestExecutor {
     async tearDown() {
         this.logger("Tear down web driver.");
 
-        if (this.#driver !== undefined)
-            await this.#driver.quit();
+        if (this._driver !== undefined)
+            await this._driver.quit();
     }
 
     /**
@@ -116,18 +114,18 @@ class TestExecutor {
      * @returns {Promise<void>} promise for nextcloud login.
      */
     async login() {
-        if (this.#driver !== undefined) {
+        if (this._driver !== undefined) {
             this.logger("Browse to login page.")
-            await this.#driver.get(this.#nextcloudUrl + "/login");
+            await this._driver.get(this._nextcloudUrl + "/login");
 
             this.logger("Type in login info.")
-            await this.#driver.findElement(By.id("user")).sendKeys(this.#loginUser);
-            await this.#driver.findElement(By.id("password")).sendKeys(this.#loginPassword, Key.RETURN);
+            await this._driver.findElement(By.id("user")).sendKeys(this.#loginUser);
+            await this._driver.findElement(By.id("password")).sendKeys(this.#loginPassword, Key.RETURN);
 
             this.logger("Wait for page refresh after login.")
-            await this.#driver.wait(until.stalenessOf(this.#driver.findElement(By.id("password"))), 5000)
+            await this._driver.wait(until.stalenessOf(this._driver.findElement(By.id("password"))), 5000)
                 .then(
-                    () => this.#driver.wait(function (driver) {
+                    () => this._driver.wait(function (driver) {
                         return driver.executeScript('return document.readyState === "complete"');
                     }, 5000)
                 );
@@ -142,21 +140,29 @@ class TestExecutor {
      * @returns {Promise<void>} promise for test run.
      */
     async run(login = true) {
+        // Check if name and test was implemented
+        if (this._name === undefined) {
+            throw new TypeError("Tests have to have a name.");
+        }
+        if (this._test === undefined) {
+            throw new TypeError("Tests have to have an implemented test.")
+        }
+
         this.loggerHead();
 
         await this.setUp();
         if (login)
             await this.login();
-        await this.#test(this.#driver, this.logger);
+        await this._test();
         await this.tearDown();
 
         this.loggerFooter();
     }
 
     loggerHead() {
-        console.log(" " + (new Array(this.#name.length + 14).join("=")));
-        console.log(" = Run test " + this.#name + " = ");
-        console.log(" " + (new Array(this.#name.length + 14).join("=")));
+        console.log(" " + (new Array(this._name.length + 14).join("=")));
+        console.log(" = Run test " + this._name + " = ");
+        console.log(" " + (new Array(this._name.length + 14).join("=")));
     }
 
     loggerFooter() {
@@ -168,5 +174,5 @@ class TestExecutor {
     }
 }
 
-module.exports.TestExecutor = TestExecutor;
+module.exports.AbstractTest = AbstractTest;
  

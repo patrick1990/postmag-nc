@@ -18,12 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {TestExecutor} = require("./testFramework");
-const {example} = require("./test.js");
+const {Example} = require("./test.js");
 
 async function runTests() {
-    await new TestExecutor("example", example).run();
-    await new TestExecutor("example2", example).run();
+    await new Example().run();
 }
 
 runTests();

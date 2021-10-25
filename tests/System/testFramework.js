@@ -65,8 +65,8 @@ class AbstractTest {
      * @param {string} seleniumServerUrl (optional) url to selenium server (default: webdriver-manager - http://localhost:4444/wd/hub)
      */
     constructor(
-        loginUser = "admin",
-        loginPassword = "admin",
+        loginUser = "selenium",
+        loginPassword = "selenium",
         nextcloudUrl = "http://localhost:8080/index.php",
         seleniumServerUrl = "http://localhost:4444/wd/hub"
     ) {

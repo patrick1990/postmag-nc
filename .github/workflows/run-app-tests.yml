@@ -159,6 +159,7 @@ jobs:
           php occ config:system:set mail_domain --value=domain.com
           php occ config:system:set mail_smtphost --value=127.0.0.1
           php occ config:system:set mail_smtpport --value=1025
+          OC_PASS=selenium php occ user:add --password-from-env selenium
           
       - name: Enable postmag
         env:

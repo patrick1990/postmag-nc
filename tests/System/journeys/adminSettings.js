@@ -28,7 +28,7 @@ class AdminSettings extends AbstractTest {
     static idAliasIdLen = "postmagAliasIdLen";
     static idReadyTime = "postmagReadyTime";
 
-    _name = "noAliases";
+    _name = "adminSettings";
 
     constructor() {
         // To test admin settings, we have to login as admin

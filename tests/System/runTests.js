@@ -18,12 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {Example} = require("./journeys/example");
 const {AdminSettings} = require("./journeys/adminSettings")
 const {NoAliases} = require("./journeys/noAliases");
 
 async function runTests() {
-    await new Example().run();
     await new AdminSettings().run();
     await new NoAliases().run();
 }

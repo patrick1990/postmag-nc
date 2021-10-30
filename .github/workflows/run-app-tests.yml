@@ -174,6 +174,7 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
           ln -s $GITHUB_WORKSPACE/$NC_VERSION/postmag apps/postmag
           php occ app:enable postmag
+          php occ config:app:set postmag readyTime --value=5
 
       - name: Install app deps
         env:

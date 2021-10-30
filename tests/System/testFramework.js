@@ -67,11 +67,6 @@ class AbstractTest {
     #seleniumServerUrl;
 
     /**
-     * @property {number} readyTime time until aliases are set to ready
-     */
-    static _readyTime = 5;
-
-    /**
      * Constructor for Test executor.
      *
      * @param {string} loginUser (optional) user for login to nextcloud (default: admin)
@@ -210,7 +205,7 @@ class AbstractTest {
         }
         catch (e) {
             testFail = true;
-            console.error(" E Assertion error: " + e.message);
+            console.error(" EEEE Assertion error: " + e.message);
         }
         await this._tearDown();
 

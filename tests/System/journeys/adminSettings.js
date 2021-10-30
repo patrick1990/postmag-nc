@@ -46,13 +46,8 @@ class AdminSettings extends AbstractTest {
     }
 
     _tearDown = async function() {
-        // reset settings - but stay on the chosen ready time for tests.
-        await this.setSettingsData({
-            domain: this.origData["domain"],
-            userAliasIdLen: this.origData["userAliasIdLen"],
-            aliasIdLen: this.origData["aliasIdLen"],
-            readyTime: AbstractTest._readyTime
-        });
+        // reset settings
+        await this.setSettingsData(this.origData);
     }
 
     _test = async function () {
@@ -61,7 +56,7 @@ class AdminSettings extends AbstractTest {
             domain: "test." + this.origData["domain"],
             userAliasIdLen: this.origData["userAliasIdLen"] - 1,
             aliasIdLen: this.origData["aliasIdLen"] - 1,
-            readyTime: AbstractTest._readyTime
+            readyTime: this.origData["readyTime"] - 1
         };
         this.printSettingsData("expected", expData);
 

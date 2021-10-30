@@ -1,0 +1,130 @@
+/**
+ * @author Patrick Greyson
+ *
+ * Postmag - Postfix mail alias generator for Nextcloud
+ * Copyright (C) 2021
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+const {AbstractTest} = require("../testFramework");
+const {By, Key, until} = require("selenium-webdriver");
+
+class AdminSettings extends AbstractTest {
+
+    static idDomain = "postmagDomain";
+    static idUserAliasIdLen = "postmagUserAliasIdLen";
+    static idAliasIdLen = "postmagAliasIdLen";
+    static idReadyTime = "postmagReadyTime";
+
+    _name = "noAliases";
+
+    constructor() {
+        // To test admin settings, we have to login as admin
+        super("admin", "admin");
+    }
+
+    _test = async function () {
+        await this.goToAdminSettings();
+
+        // get original settings data
+        const origData = await this.getSettingsData();
+        this.printSettingsData("original", origData);
+
+        // define expected data
+        const expData = {
+            domain: "test." + origData["domain"],
+            userAliasIdLen: origData["userAliasIdLen"] - 1,
+            aliasIdLen: origData["aliasIdLen"] - 1,
+            readyTime: AbstractTest._readyTime
+        };
+        this.printSettingsData("expected", expData);
+
+        // set expected values
+        await this.setSettingsData(expData);
+
+        // reload settings
+        await this.goToAdminSettings();
+
+        // get settings values
+        const testData = await this.getSettingsData();
+        this.printSettingsData("test", testData);
+
+        // reset settings - but stay on the chosen ready time for tests.
+        await this.setSettingsData({
+            domain: origData["domain"],
+            userAliasIdLen: origData["userAliasIdLen"],
+            aliasIdLen: origData["aliasIdLen"],
+            readyTime: AbstractTest._readyTime
+        });
+
+        // Assertion
+        this.assert(testData["domain"] === expData["domain"], "The domain was not saved correctly.");
+        this.assert(testData["userAliasIdLen"] === expData["userAliasIdLen"], "The user alias id len was not saved correctly.");
+        this.assert(testData["aliasIdLen"] === expData["aliasIdLen"], "The alias id len was not saved correctly.");
+        this.assert(testData["readyTime"] === expData["readyTime"], "The ready time was not saved correctly.");
+
+    }
+
+    async getSettingsData() {
+        const domain = await this._driver.findElement(By.id(AdminSettings.idDomain)).getAttribute("value");
+        const userAliasIdLen = await this._driver.findElement(By.id(AdminSettings.idUserAliasIdLen)).getAttribute("value");
+        const aliasIdLen = await this._driver.findElement(By.id(AdminSettings.idAliasIdLen)).getAttribute("value");
+        const readyTime = await this._driver.findElement(By.id(AdminSettings.idReadyTime)).getAttribute("value");
+
+        return {
+            domain: domain,
+            userAliasIdLen: Number(userAliasIdLen),
+            aliasIdLen: Number(aliasIdLen),
+            readyTime: Number(readyTime)
+        }
+    }
+
+    async setSettingsData(data) {
+        await this.setSingleSetting(AdminSettings.idDomain, data["domain"]);
+        await this.setSingleSetting(AdminSettings.idUserAliasIdLen, data["userAliasIdLen"]);
+        await this.setSingleSetting(AdminSettings.idAliasIdLen, data["aliasIdLen"]);
+        await this.setSingleSetting(AdminSettings.idReadyTime, data["readyTime"], true);
+    }
+
+    async setSingleSetting(id, data, sendEnter = false) {
+        if(sendEnter) {
+            // Set text field
+            await this._driver.findElement(By.id(id)).clear()
+                .then(() => this._driver.findElement(By.id(id)).sendKeys(data, Key.ENTER));
+
+            // Wait for sending the data to backend
+            await this._driver.wait(until.elementLocated(By.className("dialogs")), 5000)
+                .then(
+                    () => this._driver.wait(until.stalenessOf(this._driver.findElement(By.className("dialogs"))), 10000)
+                );
+        }
+        else {
+            // Set text field
+            await this._driver.findElement(By.id(id)).clear()
+                .then(() => this._driver.findElement(By.id(id)).sendKeys(data));
+        }
+    }
+
+    async printSettingsData(name, data) {
+        this.logger("Print " + name);
+        this.logger("   domain: " + data["domain"]);
+        this.logger("   userAliasIdLen: " + data["userAliasIdLen"].toString());
+        this.logger("   aliasIdLen: " + data["aliasIdLen"].toString());
+        this.logger("   readyTime: " + data["readyTime"].toString());
+    }
+
+}
+
+module.exports.AdminSettings = AdminSettings;

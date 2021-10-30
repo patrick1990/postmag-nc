@@ -57,6 +57,11 @@ class AbstractTest {
     #seleniumServerUrl;
 
     /**
+     * @property {number} readyTime time until aliases are set to ready
+     */
+    static _readyTime = 5;
+
+    /**
      * Constructor for Test executor.
      *
      * @param {string} loginUser (optional) user for login to nextcloud (default: admin)
@@ -134,7 +139,7 @@ class AbstractTest {
     }
 
     /**
-     * Browse to postmagn.
+     * Browse to postmag.
      *
      * @returns {Promise<void>} promise for browsing to postmag
      */
@@ -143,6 +148,18 @@ class AbstractTest {
         this.logger("Browse to postmag.");
         await this._driver.get(this._nextcloudUrl + "/apps/postmag");
         await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), 5000);
+    }
+
+    /**
+     * Browse to admin settings.
+     *
+     * @returns {Promise<void>} promise for browsing to admin settings
+     */
+    async goToAdminSettings() {
+        // Go to admin settings
+        this.logger("Browse to admin settings.");
+        await this._driver.get(this._nextcloudUrl + "/settings/admin/additional");
+        await this._driver.wait(until.elementLocated(By.id("postmag")), 5000);
     }
 
     /**

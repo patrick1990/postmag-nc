@@ -27,6 +27,16 @@ class AbstractTest {
     _name = undefined;
 
     /**
+     * @property {function()} setUp (abstract) setup before test
+     */
+    _setUp = undefined;
+
+    /**
+     * @property {function()} tearDown (abstract) teardown after test
+     */
+    _tearDown = undefined;
+
+    /**
      * @property {function()} test (abstract) test candidate
      */
     _test = undefined;
@@ -90,7 +100,7 @@ class AbstractTest {
      *
      * @returns {Promise<void>} promise for driver generation.
      */
-    async setUp() {
+    async driverSetUp() {
         this.logger("Setup web driver.");
 
         let capabilities = Capabilities.firefox();
@@ -106,7 +116,7 @@ class AbstractTest {
      *
      * @returns {Promise<void>} promise for driver tear down.
      */
-    async tearDown() {
+    async driverTearDown() {
         this.logger("Tear down web driver.");
 
         if (this._driver !== undefined)
@@ -166,26 +176,51 @@ class AbstractTest {
      * Run test candidate.
      *
      * @param {boolean} login (optional) login to nextcloud on true (default: true)
-     * @returns {Promise<void>} promise for test run.
+     * @returns {Promise<boolean>} promise for test run. returns if test failed.
      */
     async run(login = true) {
         // Check if name and test was implemented
         if (this._name === undefined) {
             throw new TypeError("Tests have to have a name.");
         }
+        if (this._setUp === undefined) {
+            throw new TypeError("Tests have to have a setup routine.")
+        }
+        if (this._tearDown === undefined) {
+            throw new TypeError("Tests have to have a teardown routine.")
+        }
         if (this._test === undefined) {
             throw new TypeError("Tests have to have an implemented test.")
         }
 
+        let testFail = false;
+
+        // Log Head
         this.loggerHead();
 
-        await this.setUp();
+        // Driver setup and login
+        await this.driverSetUp();
         if (login)
             await this.login();
-        await this._test();
-        await this.tearDown();
 
+        // Perform test
+        await this._setUp();
+        try {
+            await this._test();
+        }
+        catch (e) {
+            testFail = true;
+            console.error(" E Assertion error: " + e.message);
+        }
+        await this._tearDown();
+
+        // Driver teardown
+        await this.driverTearDown();
+
+        // Log footer
         this.loggerFooter();
+
+        return testFail;
     }
 
     loggerHead() {
@@ -204,7 +239,6 @@ class AbstractTest {
 
     assert(condition, message) {
         if (!condition) {
-            this.logger("Assertion error: " + message);
             throw new Error(message);
         }
     }

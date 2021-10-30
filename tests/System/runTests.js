@@ -22,8 +22,15 @@ const {AdminSettings} = require("./journeys/adminSettings")
 const {NoAliases} = require("./journeys/noAliases");
 
 async function runTests() {
-    await new AdminSettings().run();
-    await new NoAliases().run();
+    let testFail = false;
+
+    testFail = await new AdminSettings().run() || testFail;
+    testFail = await new NoAliases().run() || testFail;
+
+    if (testFail)
+        process.exit(1);
+    else
+        process.exit();
 }
 
 runTests();

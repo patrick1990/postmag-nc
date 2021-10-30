@@ -25,14 +25,18 @@ class NoAliases extends AbstractTest {
 
     _name = "noAliases";
 
-    _test = async function () {
+    _setUp = async function() {
         await this.goToPostmag();
 
         await this._driver.wait(until.elementTextContains(
             this._driver.findElement(By.id("app-content")),
             "You don't have any mail aliases yet."
         ), 5000);
+    }
 
+    _tearDown = async function() {}
+
+    _test = async function () {
         // get app content
         let noAliasMsg = await this._driver.findElement(By.id("app-content")).getText();
         let noAliasMsgExpected = "Welcome to Postmag!\n" +
@@ -43,7 +47,6 @@ class NoAliases extends AbstractTest {
             noAliasMsg === noAliasMsgExpected,
             "Postmag does not show the expected message if there are no aliases."
         );
-
     }
 
 }

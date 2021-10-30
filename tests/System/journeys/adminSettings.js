@@ -28,6 +28,8 @@ class AdminSettings extends AbstractTest {
     static idAliasIdLen = "postmagAliasIdLen";
     static idReadyTime = "postmagReadyTime";
 
+    origData;
+
     _name = "adminSettings";
 
     constructor() {
@@ -35,18 +37,30 @@ class AdminSettings extends AbstractTest {
         super("admin", "admin");
     }
 
-    _test = async function () {
+    _setUp = async function () {
         await this.goToAdminSettings();
 
         // get original settings data
-        const origData = await this.getSettingsData();
-        this.printSettingsData("original", origData);
+        this.origData = await this.getSettingsData();
+        this.printSettingsData("original", this.origData);
+    }
 
+    _tearDown = async function() {
+        // reset settings - but stay on the chosen ready time for tests.
+        await this.setSettingsData({
+            domain: this.origData["domain"],
+            userAliasIdLen: this.origData["userAliasIdLen"],
+            aliasIdLen: this.origData["aliasIdLen"],
+            readyTime: AbstractTest._readyTime
+        });
+    }
+
+    _test = async function () {
         // define expected data
         const expData = {
-            domain: "test." + origData["domain"],
-            userAliasIdLen: origData["userAliasIdLen"] - 1,
-            aliasIdLen: origData["aliasIdLen"] - 1,
+            domain: "test." + this.origData["domain"],
+            userAliasIdLen: this.origData["userAliasIdLen"] - 1,
+            aliasIdLen: this.origData["aliasIdLen"] - 1,
             readyTime: AbstractTest._readyTime
         };
         this.printSettingsData("expected", expData);
@@ -60,14 +74,6 @@ class AdminSettings extends AbstractTest {
         // get settings values
         const testData = await this.getSettingsData();
         this.printSettingsData("test", testData);
-
-        // reset settings - but stay on the chosen ready time for tests.
-        await this.setSettingsData({
-            domain: origData["domain"],
-            userAliasIdLen: origData["userAliasIdLen"],
-            aliasIdLen: origData["aliasIdLen"],
-            readyTime: AbstractTest._readyTime
-        });
 
         // Assertion
         this.assert(testData["domain"] === expData["domain"], "The domain was not saved correctly.");

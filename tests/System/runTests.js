@@ -21,6 +21,7 @@
 const {AdminSettings} = require("./journeys/adminSettings")
 const {NoAliases} = require("./journeys/noAliases");
 const {CreateAliases} = require("./journeys/createAliases");
+const {ReadyTime} = require("./journeys/readyTime");
 
 async function runTests() {
     let testFail = false;
@@ -28,6 +29,7 @@ async function runTests() {
     testFail = await new AdminSettings().run() || testFail;
     testFail = await new NoAliases().run() || testFail;
     testFail = await new CreateAliases().run() || testFail;
+    testFail = await new ReadyTime().run() || testFail;
 
     if (testFail)
         process.exit(1);

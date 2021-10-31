@@ -20,12 +20,14 @@
 
 const {AdminSettings} = require("./journeys/adminSettings")
 const {NoAliases} = require("./journeys/noAliases");
+const {CreateAliases} = require("./journeys/createAliases");
 
 async function runTests() {
     let testFail = false;
 
     testFail = await new AdminSettings().run() || testFail;
     testFail = await new NoAliases().run() || testFail;
+    testFail = await new CreateAliases().run() || testFail;
 
     if (testFail)
         process.exit(1);

@@ -125,34 +125,43 @@ class AbstractTest {
      */
     async login() {
         if (this._driver !== undefined) {
-            this.logger("Browse to login page.")
+            this.logger("Browse to login page.");
             await this._driver.get(this._nextcloudUrl + "/login");
 
-            this.logger("Type in login info.")
+            this.logger("Type in login info.");
+            const passwordField = await this._driver.findElement(By.id("password"));
             await this._driver.findElement(By.id("user")).sendKeys(this.#loginUser);
-            await this._driver.findElement(By.id("password")).sendKeys(this.#loginPassword, Key.RETURN);
+            await passwordField.sendKeys(this.#loginPassword, Key.RETURN);
 
-            this.logger("Wait for page refresh after login.")
-            await this._driver.wait(until.stalenessOf(this._driver.findElement(By.id("password"))), 5000)
+            this.logger("Wait for page refresh after login.");
+            await this._driver.wait(until.stalenessOf(passwordField), 5000)
                 .then(
                     () => this._driver.wait(function (driver) {
                         return driver.executeScript('return document.readyState === "complete"');
-                    }, 5000)
+                    }, 10000)
                 );
-            this.logger("Login done!")
+            this.logger("Login done!");
         }
     }
 
     /**
      * Browse to postmag.
      *
+     * @param {boolean} waitForNoAliases (optional) wait for empty alias page (default: true)
      * @returns {Promise<void>} promise for browsing to postmag
      */
-    async goToPostmag() {
+    async goToPostmag(waitForNoAliases = true) {
         // Go to postmag
         this.logger("Browse to postmag.");
         await this._driver.get(this._nextcloudUrl + "/apps/postmag");
         await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), 5000);
+
+        if(waitForNoAliases) {
+            await this._driver.wait(until.elementTextContains(
+                this._driver.findElement(By.id("app-content")),
+                "You don't have any mail aliases yet."
+            ), 5000);
+        }
     }
 
     /**
@@ -165,6 +174,53 @@ class AbstractTest {
         this.logger("Browse to admin settings.");
         await this._driver.get(this._nextcloudUrl + "/settings/admin/additional");
         await this._driver.wait(until.elementLocated(By.id("postmag")), 5000);
+    }
+
+    /**
+     * Creates an alias in Postmag.
+     *
+     * @param alias JSON containing aliasName, sendTo and comment information.
+     * @returns {Promise<number>} Returns the id of the created alias.
+     */
+    async createAlias(alias) {
+        // Push new alias button
+        await this._driver.findElement(By.id("postmagNewAlias")).click();
+        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
+        const newAliasId = await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value");
+        if (newAliasId !== "-1")
+            throw new Error("Alias id on forms for new aliases should be -1!");
+
+        // Type in alias information
+        await this._driver.findElement(By.id("postmagAliasFormAliasName")).sendKeys(alias["aliasName"]);
+        await this._driver.findElement(By.id("postmagAliasFormSendTo")).sendKeys(alias["sendTo"]);
+        await this._driver.findElement(By.id("postmagAliasFormComment")).sendKeys(alias["comment"]);
+        await this._driver.findElement(By.id("postmagAliasFormApply")).click();
+        await this._driver.wait(
+            until.elementTextContains(
+                this._driver.findElement(By.id("postmagAliasFormHead")),
+                alias["aliasName"]),
+            5000);
+
+        // Return alias id
+        return Number(await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value"));
+    }
+
+    async deleteAlias(aliasId) {
+        // Go to the specified id
+        await this._driver.get(this._nextcloudUrl + "/apps/postmag?id=" + aliasId.toString());
+        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
+        const formAliasId = await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value");
+        if (Number(formAliasId) !== aliasId)
+            throw new Error("Alias id on form was not the queried id " + aliasId.toString() + "!");
+
+        // Click delete button
+        await this._driver.findElement(By.id("postmagAliasFormDelete")).click();
+        await this._driver.wait(until.elementLocated(By.id("postmagDeleteFormYes")), 5000);
+
+        // Click confirm button
+        const confirmButton = await this._driver.findElement(By.id("postmagDeleteFormYes"));
+        await confirmButton.click();
+        await this._driver.wait(until.stalenessOf(confirmButton), 5000);
     }
 
     /**

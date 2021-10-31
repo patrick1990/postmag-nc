@@ -118,7 +118,7 @@ class AdminSettings extends AbstractTest {
         }
     }
 
-    async printSettingsData(name, data) {
+    printSettingsData(name, data) {
         this.logger("Print " + name);
         this.logger("   domain: " + data["domain"]);
         this.logger("   userAliasIdLen: " + data["userAliasIdLen"].toString());

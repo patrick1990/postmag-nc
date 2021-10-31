@@ -27,11 +27,6 @@ class NoAliases extends AbstractTest {
 
     _setUp = async function() {
         await this.goToPostmag();
-
-        await this._driver.wait(until.elementTextContains(
-            this._driver.findElement(By.id("app-content")),
-            "You don't have any mail aliases yet."
-        ), 5000);
     }
 
     _tearDown = async function() {}

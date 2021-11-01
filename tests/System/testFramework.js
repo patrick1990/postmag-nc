@@ -19,6 +19,7 @@
  */
 
 const {Builder, By, Key, Capabilities, until} = require("selenium-webdriver");
+const {StaleElementReferenceError} = require("selenium-webdriver/lib/error");
 
 class AbstractTest {
     /**
@@ -119,6 +120,80 @@ class AbstractTest {
     }
 
     /**
+     * Stable selenium wait for text is.
+     *
+     * Sometimes Seleniums findElement returns an old element that is deleted and newly created by my (not optimal)
+     * frontend. This method tries to get the new generated elements, when the found elements are stale.
+     *
+     * @param {!By} by element to check for string identity
+     * @param {string} str string to check
+     * @param {string} attribute (optional) attribute of element to check (if undefined, text is checked)
+     * @returns {Promise<void>} promise to perform the code
+     */
+    async stableWaitElementTextIs(by, str, attribute = undefined) {
+        let checkAttribute = undefined;
+        if (attribute !== undefined) {
+            checkAttribute = async function (driver, by, expStr, attribute) {
+                const testStr = await driver.findElement(by).getAttribute(attribute);
+                return testStr === expStr;
+            };
+        }
+
+        try {
+            if (checkAttribute === undefined)
+                await this._driver.wait(until.elementTextIs(this._driver.findElement(by), str), 5000);
+            else
+                await this._driver.wait((driver) => checkAttribute(driver, by, str, attribute), 5000);
+        }
+        catch (e) {
+            if(e instanceof StaleElementReferenceError) {
+                if (checkAttribute === undefined)
+                    await this._driver.wait(until.elementLocated(by), 5000)
+                        .then(() => this._driver.wait(
+                            until.elementTextIs(this._driver.findElement(by), str),
+                            5000
+                        ));
+                else
+                    // Maybe this is not needed? checkAttribute finds the queried element on every run.
+                    await this._driver.wait(until.elementLocated(by), 5000)
+                        .then(() => this._driver.wait(
+                            (driver) => checkAttribute(driver, by, str, attribute),
+                            5000
+                        ));
+            }
+            else
+                throw e;
+        }
+    }
+
+    /**
+     * Stable selenium wait for text contains.
+     *
+     * Sometimes Seleniums findElement returns an old element that is deleted and newly created by my (not optimal)
+     * frontend. This method tries to get the new generated elements, when the found elements are stale.
+     *
+     * @param {!By} by element to check for substring
+     * @param {string} substr substring to check
+     * @returns {Promise<void>} promise to perform the code
+     */
+    async stableWaitElementTextContains(by, substr) {
+        try {
+            await this._driver.wait(until.elementTextContains(this._driver.findElement(by), substr), 5000);
+        }
+        catch (e) {
+            if(e instanceof StaleElementReferenceError) {
+                await this._driver.wait(until.elementLocated(by), 5000)
+                    .then(() => this._driver.wait(
+                        until.elementTextContains(this._driver.findElement(by), substr),
+                        5000
+                    ));
+            }
+            else
+                throw e;
+        }
+    }
+
+    /**
      * Login to nextcloud instance.
      *
      * @returns {Promise<void>} promise for nextcloud login.
@@ -157,10 +232,7 @@ class AbstractTest {
         await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), 5000);
 
         if(waitForNoAliases) {
-            await this._driver.wait(until.elementTextContains(
-                this._driver.findElement(By.id("app-content")),
-                "You don't have any mail aliases yet."
-            ), 5000);
+            await this.stableWaitElementTextContains(By.id("app-content"), "You don't have any mail aliases yet.");
         }
     }
 
@@ -186,20 +258,14 @@ class AbstractTest {
         // Push new alias button
         await this._driver.findElement(By.id("postmagNewAlias")).click();
         await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
-        const newAliasId = await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value");
-        if (newAliasId !== "-1")
-            throw new Error("Alias id on forms for new aliases should be -1!");
+        await this.stableWaitElementTextIs(By.id("postmagAliasFormId"), "-1", "value");
 
         // Type in alias information
         await this._driver.findElement(By.id("postmagAliasFormAliasName")).sendKeys(alias["aliasName"]);
         await this._driver.findElement(By.id("postmagAliasFormSendTo")).sendKeys(alias["sendTo"]);
         await this._driver.findElement(By.id("postmagAliasFormComment")).sendKeys(alias["comment"]);
         await this._driver.findElement(By.id("postmagAliasFormApply")).click();
-        await this._driver.wait(
-            until.elementTextContains(
-                this._driver.findElement(By.id("postmagAliasFormHead")),
-                alias["aliasName"]),
-            5000);
+        await this.stableWaitElementTextContains(By.id("postmagAliasFormHead"), alias["aliasName"]);
 
         // Return alias id
         return Number(await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value"));
@@ -209,9 +275,7 @@ class AbstractTest {
         // Go to the specified id
         await this._driver.get(this._nextcloudUrl + "/apps/postmag?id=" + aliasId.toString());
         await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
-        const formAliasId = await this._driver.findElement(By.id("postmagAliasFormId")).getAttribute("value");
-        if (Number(formAliasId) !== aliasId)
-            throw new Error("Alias id on form was not the queried id " + aliasId.toString() + "!");
+        await this.stableWaitElementTextIs(By.id("postmagAliasFormId"), aliasId.toString(), "value");
 
         // Click delete button
         await this._driver.findElement(By.id("postmagAliasFormDelete")).click();

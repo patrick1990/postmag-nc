@@ -59,20 +59,8 @@ class CreateAliases extends AbstractTest {
     _test = async function () {
         for(let i = 0; i < this.aliases.length; i++) {
             // Click on alias
-            const oldAliasFormId = await this._driver.findElement(By.id("postmagAliasFormId"));
             await this._driver.findElement(By.id("postmagAliasId_" + this.aliases[i]["id"].toString())).click();
-            await this._driver.wait(until.stalenessOf(oldAliasFormId), 5000)
-                .then(
-                    () => this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000)
-                        .then(
-                            () => this._driver.wait((driver) => async function (driver, expId) {
-                                    const id = await driver.findElement(By.id("postmagAliasFormId")).getAttribute("value");
-                                    return id === expId;
-                                }(driver, this.aliases[i]["id"].toString()),
-                                5000
-                            )
-                        )
-                );
+            await this.stableWaitElementTextIs(By.id("postmagAliasFormId"), this.aliases[i]["id"].toString(), "value");
 
             // Check data
             this.printAliasData("expected", this.aliases[i]);

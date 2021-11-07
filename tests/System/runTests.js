@@ -26,14 +26,15 @@ const {EnableFilter} = require("./journeys/enableFilter");
 const {SendTestmail} = require("./journeys/sendTestmail");
 
 async function runTests() {
+    const headless = !process.env.POSTMAG_SYSTEM_TEST_WITH_HEAD;
     let testFail = false;
 
-    testFail = await new AdminSettings().run() || testFail;
-    testFail = await new NoAliases().run() || testFail;
-    testFail = await new CreateAliases().run() || testFail;
-    testFail = await new ReadyTime().run() || testFail;
-    testFail = await new EnableFilter().run() || testFail;
-    testFail = await new SendTestmail().run() || testFail;
+    testFail = await new AdminSettings().run(headless) || testFail;
+    testFail = await new NoAliases().run(headless) || testFail;
+    testFail = await new CreateAliases().run(headless) || testFail;
+    testFail = await new ReadyTime().run(headless) || testFail;
+    testFail = await new EnableFilter().run(headless) || testFail;
+    testFail = await new SendTestmail().run(headless) || testFail;
 
     if (testFail)
         process.exit(1);

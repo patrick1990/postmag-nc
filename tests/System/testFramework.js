@@ -20,6 +20,7 @@
 
 const {Builder, By, Key, Capabilities, until} = require("selenium-webdriver");
 const {StaleElementReferenceError} = require("selenium-webdriver/lib/error");
+const {Options} = require("selenium-webdriver/firefox");
 
 class AbstractTest {
     /**
@@ -94,17 +95,19 @@ class AbstractTest {
     /**
      * Setup selenium web driver.
      *
+     * @param {boolean} headless create headless driver
      * @returns {Promise<void>} promise for driver generation.
      */
-    async driverSetUp() {
+    async driverSetUp(headless) {
         this.logger("Setup web driver.");
 
-        let capabilities = Capabilities.firefox();
-
-        this._driver = new Builder()
+        let builder = new Builder()
             .usingServer(this.#seleniumServerUrl)
-            .withCapabilities(capabilities)
-            .build();
+            .withCapabilities(Capabilities.firefox());
+
+        this._driver = headless ?
+            builder.setFirefoxOptions(new Options().headless()).build() :
+            builder.build();
     }
 
     /**
@@ -290,10 +293,11 @@ class AbstractTest {
     /**
      * Run test candidate.
      *
+     * @param {boolean} headless (optional) run test headless (default: true)
      * @param {boolean} login (optional) login to nextcloud on true (default: true)
      * @returns {Promise<boolean>} promise for test run. returns if test failed.
      */
-    async run(login = true) {
+    async run(headless = true, login = true) {
         // Check if name and test was implemented
         if (this._name === undefined) {
             throw new TypeError("Tests have to have a name.");
@@ -314,7 +318,7 @@ class AbstractTest {
         this.loggerHead();
 
         // Driver setup and login
-        await this.driverSetUp();
+        await this.driverSetUp(headless);
         if (login)
             await this.login();
 

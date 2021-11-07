@@ -19,8 +19,7 @@
  */
 
 const {AbstractTest} = require("../testFramework");
-const {until, By} = require("selenium-webdriver");
-const {init} = require("selenium-webdriver/testing");
+const {By} = require("selenium-webdriver");
 
 class ReadyTime extends AbstractTest {
 

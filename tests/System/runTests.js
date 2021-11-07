@@ -23,6 +23,7 @@ const {NoAliases} = require("./journeys/noAliases");
 const {CreateAliases} = require("./journeys/createAliases");
 const {ReadyTime} = require("./journeys/readyTime");
 const {EnableFilter} = require("./journeys/enableFilter");
+const {SendTestmail} = require("./journeys/sendTestmail");
 
 async function runTests() {
     let testFail = false;
@@ -32,6 +33,7 @@ async function runTests() {
     testFail = await new CreateAliases().run() || testFail;
     testFail = await new ReadyTime().run() || testFail;
     testFail = await new EnableFilter().run() || testFail;
+    testFail = await new SendTestmail().run() || testFail;
 
     if (testFail)
         process.exit(1);

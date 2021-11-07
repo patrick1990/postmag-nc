@@ -195,7 +195,7 @@ jobs:
           NC_VERSION: ${{ matrix.nc-version }}
         run: |
           sudo apt update
-          sudo apt install firefox
+          sudo apt -y install firefox
 
       - name: Install selenium webdriver
         env:

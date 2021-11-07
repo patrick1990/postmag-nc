@@ -136,6 +136,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+
+      - name: Set node version
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
         
       - name: Setup nextcloud
         env:
@@ -159,6 +164,7 @@ jobs:
           php occ config:system:set mail_domain --value=domain.com
           php occ config:system:set mail_smtphost --value=127.0.0.1
           php occ config:system:set mail_smtpport --value=1025
+          OC_PASS=selenium php occ user:add --password-from-env selenium
           
       - name: Enable postmag
         env:
@@ -167,7 +173,8 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/nextcloud
           ln -s $GITHUB_WORKSPACE/$NC_VERSION/postmag apps/postmag
           php occ app:enable postmag
-          
+          php occ config:app:set postmag readyTime --value=5
+
       - name: Install app deps
         env:
           NC_VERSION: ${{ matrix.nc-version }}
@@ -182,10 +189,26 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           make build-dev
           
+      - name: Install firefox for frontend tests
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          sudo apt update
+          sudo apt -y install firefox
+
+      - name: Install selenium webdriver
+        env:
+          NC_VERSION: ${{ matrix.nc-version }}
+        run: |
+          cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
+          node_modules/.bin/webdriver-manager update
+
       - name: Test app
         env:
           NC_VERSION: ${{ matrix.nc-version }}
         run: |
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           node_modules/.bin/maildev --silent &
+          node_modules/.bin/webdriver-manager start --quiet &
+          php -q -S localhost:8080 -t $GITHUB_WORKSPACE/$NC_VERSION/nextcloud &
           NC_PATH=$GITHUB_WORKSPACE/$NC_VERSION/nextcloud make test

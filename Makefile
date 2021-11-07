@@ -4,6 +4,7 @@
 # * make
 # * composer
 # * npm
+# * node (minimum version: 12)
 # * krankerl (https://github.com/ChristophWurst/krankerl)
 
 app_name=postmag
@@ -55,18 +56,25 @@ install-deps: install-deps-composer install-deps-npm
 install-deps-dev: install-deps-composer-dev install-deps-npm-dev
 
 .PHONY: build
-build: install-deps-dev
+build: install-deps
 	npm run build
 
 .PHONY: build-dev
 build-dev: install-deps-dev
 	npm run dev
 
-.PHONY: test
-test: install-deps-dev
+.PHONY: test-backend
+test-backend: install-deps-composer-dev
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.xml
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c phpunit.integration.xml
+
+.PHONY: test-frontend
+test-frontend: build-dev
 	npm run lint
+	npm run test
+
+.PHONY: test
+test: test-backend test-frontend
 
 .PHONY: package
 package:

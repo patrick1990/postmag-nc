@@ -138,10 +138,9 @@ jobs:
           php-version: ${{ matrix.php-version }}
 
       - name: Set node version
-        env:
-          NC_VERSION: ${{ matrix.nc-version }}
-        run: |
-          nvm install 12
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
         
       - name: Setup nextcloud
         env:

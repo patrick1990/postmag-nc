@@ -23,6 +23,12 @@ const {StaleElementReferenceError} = require("selenium-webdriver/lib/error");
 const {Options} = require("selenium-webdriver/firefox");
 
 class AbstractTest {
+
+    /**
+     * @property {number} defaultWaitTimeout (static) default timeout for selenium waits
+     */
+    static defaultWaitTimeout = 15000;
+
     /**
      * @property {string} name (abstract) name of the test
      */
@@ -144,24 +150,24 @@ class AbstractTest {
 
         try {
             if (checkAttribute === undefined)
-                await this._driver.wait(until.elementTextIs(this._driver.findElement(by), str), 5000);
+                await this._driver.wait(until.elementTextIs(this._driver.findElement(by), str), AbstractTest.defaultWaitTimeout);
             else
-                await this._driver.wait((driver) => checkAttribute(driver, by, str, attribute), 5000);
+                await this._driver.wait((driver) => checkAttribute(driver, by, str, attribute), AbstractTest.defaultWaitTimeout);
         }
         catch (e) {
             if(e instanceof StaleElementReferenceError) {
                 if (checkAttribute === undefined)
-                    await this._driver.wait(until.elementLocated(by), 5000)
+                    await this._driver.wait(until.elementLocated(by), AbstractTest.defaultWaitTimeout)
                         .then(() => this._driver.wait(
                             until.elementTextIs(this._driver.findElement(by), str),
-                            5000
+                            AbstractTest.defaultWaitTimeout
                         ));
                 else
                     // Maybe this is not needed? checkAttribute finds the queried element on every run.
-                    await this._driver.wait(until.elementLocated(by), 5000)
+                    await this._driver.wait(until.elementLocated(by), AbstractTest.defaultWaitTimeout)
                         .then(() => this._driver.wait(
                             (driver) => checkAttribute(driver, by, str, attribute),
-                            5000
+                            AbstractTest.defaultWaitTimeout
                         ));
             }
             else
@@ -181,14 +187,14 @@ class AbstractTest {
      */
     async stableWaitElementTextContains(by, substr) {
         try {
-            await this._driver.wait(until.elementTextContains(this._driver.findElement(by), substr), 5000);
+            await this._driver.wait(until.elementTextContains(this._driver.findElement(by), substr), AbstractTest.defaultWaitTimeout);
         }
         catch (e) {
             if(e instanceof StaleElementReferenceError) {
-                await this._driver.wait(until.elementLocated(by), 5000)
+                await this._driver.wait(until.elementLocated(by), AbstractTest.defaultWaitTimeout)
                     .then(() => this._driver.wait(
                         until.elementTextContains(this._driver.findElement(by), substr),
-                        5000
+                        AbstractTest.defaultWaitTimeout
                     ));
             }
             else
@@ -212,11 +218,11 @@ class AbstractTest {
             await passwordField.sendKeys(this.#loginPassword, Key.RETURN);
 
             this.logger("Wait for page refresh after login.");
-            await this._driver.wait(until.stalenessOf(passwordField), 5000)
+            await this._driver.wait(until.stalenessOf(passwordField), AbstractTest.defaultWaitTimeout)
                 .then(
                     () => this._driver.wait(function (driver) {
                         return driver.executeScript('return document.readyState === "complete"');
-                    }, 10000)
+                    }, 2*AbstractTest.defaultWaitTimeout)
                 );
             this.logger("Login done!");
         }
@@ -232,7 +238,7 @@ class AbstractTest {
         // Go to postmag
         this.logger("Browse to postmag.");
         await this._driver.get(this._nextcloudUrl + "/apps/postmag");
-        await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmagNewAlias")), AbstractTest.defaultWaitTimeout);
 
         if(waitForNoAliases) {
             await this.stableWaitElementTextContains(By.id("app-content"), "You don't have any mail aliases yet.");
@@ -248,7 +254,7 @@ class AbstractTest {
         // Go to admin settings
         this.logger("Browse to admin settings.");
         await this._driver.get(this._nextcloudUrl + "/settings/admin/additional");
-        await this._driver.wait(until.elementLocated(By.id("postmag")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmag")), AbstractTest.defaultWaitTimeout);
     }
 
     /**
@@ -260,7 +266,7 @@ class AbstractTest {
     async createAlias(alias) {
         // Push new alias button
         await this._driver.findElement(By.id("postmagNewAlias")).click();
-        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), AbstractTest.defaultWaitTimeout);
         await this.stableWaitElementTextIs(By.id("postmagAliasFormId"), "-1", "value");
 
         // Type in alias information
@@ -277,17 +283,17 @@ class AbstractTest {
     async deleteAlias(aliasId) {
         // Go to the specified id
         await this._driver.get(this._nextcloudUrl + "/apps/postmag?id=" + aliasId.toString());
-        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), AbstractTest.defaultWaitTimeout);
         await this.stableWaitElementTextIs(By.id("postmagAliasFormId"), aliasId.toString(), "value");
 
         // Click delete button
         await this._driver.findElement(By.id("postmagAliasFormDelete")).click();
-        await this._driver.wait(until.elementLocated(By.id("postmagDeleteFormYes")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmagDeleteFormYes")), AbstractTest.defaultWaitTimeout);
 
         // Click confirm button
         const confirmButton = await this._driver.findElement(By.id("postmagDeleteFormYes"));
         await confirmButton.click();
-        await this._driver.wait(until.stalenessOf(confirmButton), 5000);
+        await this._driver.wait(until.stalenessOf(confirmButton), AbstractTest.defaultWaitTimeout);
     }
 
     /**

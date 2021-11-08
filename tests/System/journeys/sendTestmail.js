@@ -70,7 +70,7 @@ class SendTestmail extends AbstractTest {
         // Go to maildev
         this.logger("Browse to maildev.");
         await this._driver.get(this.maildevUrl);
-        await this._driver.wait(until.elementLocated(By.className("email-list")), 5000);
+        await this._driver.wait(until.elementLocated(By.className("email-list")), AbstractTest.defaultWaitTimeout);
 
         // Check for mail to alias
         await this._driver.wait((driver) => async function(driver, alias){
@@ -83,7 +83,7 @@ class SendTestmail extends AbstractTest {
                     return true;
             }
             return false;
-        }(driver, alias), 10000)
+        }(driver, alias), 3*AbstractTest.defaultWaitTimeout)
             .catch(() => this.assert(
                 false,
                 "No test mail was sent to " + alias + "."

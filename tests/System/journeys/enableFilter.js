@@ -61,14 +61,14 @@ class EnableFilter extends AbstractTest {
     _test = async function () {
         // Disable alias 0
         await this._driver.get(this._nextcloudUrl + "/apps/postmag?id=" + this.aliases[0]["id"].toString());
-        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), 5000);
+        await this._driver.wait(until.elementLocated(By.id("postmagAliasFormId")), AbstractTest.defaultWaitTimeout);
         await this._driver.findElement(By.id("postmagAliasFormEnabled")).click();
         const closeIconsBeforeDisable = await this._driver.findElements(By.className("icon-close"));
         await this._driver.findElement(By.id("postmagAliasFormApply")).click();
         await this._driver.wait((driver) => async function(driver, closeIconCntBeforeDisable) {
             const closeIcons = await driver.findElements(By.className("icon-close"));
             return closeIcons.length === closeIconCntBeforeDisable+1;
-        }(driver, closeIconsBeforeDisable.length));
+        }(driver, closeIconsBeforeDisable.length), 2*AbstractTest.defaultWaitTimeout);
         this.aliases[0]["enabled"] = false;
 
         // Check elements in All-Tab
@@ -87,7 +87,7 @@ class EnableFilter extends AbstractTest {
         await this._driver.wait((driver) => async function(driver, expectedAliasCnt){
             const aliases = await driver.findElement(By.id("postmagAliasListPlaceholder")).findElements(By.tagName("a"));
             return aliases.length === expectedAliasCnt;
-        }(driver, expectedAliases.length), 5000)
+        }(driver, expectedAliases.length), AbstractTest.defaultWaitTimeout)
             .catch(() => this.assert(
                 false,
                 "Alias filter " + tabLinkId + " doesn't yield the expected number of aliases (exp: " + expectedAliases.length.toString() + ")."

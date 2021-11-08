@@ -19,7 +19,7 @@
  */
 
 const {AbstractTest} = require("../testFramework");
-const {until, By} = require("selenium-webdriver");
+const {By} = require("selenium-webdriver");
 
 class NoAliases extends AbstractTest {
 

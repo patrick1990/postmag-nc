@@ -203,6 +203,22 @@ class AbstractTest {
     }
 
     /**
+     * Stable selenium wait for staleness.
+     *
+     * This wait for staleness works via By and not via element (like the stalenessOf function of the until package).
+     * Additionally it times out after two times of the default wait (hopefully this is enough).
+     *
+     * @param {!By} by element to check for staleness.
+     * @param {number} timeout timeout for wait
+     * @returns {Promise<void>} promise to perform the code
+     */
+    async stableWaitForStaleness(by, timeout = 2*AbstractTest.defaultWaitTimeout) {
+        await this._driver.wait((driver) => async function(driver, by){
+            return (await driver.findElements(by)).length === 0;
+        }(driver, by), timeout);
+    }
+
+    /**
      * Login to nextcloud instance.
      *
      * @returns {Promise<void>} promise for nextcloud login.
@@ -213,17 +229,14 @@ class AbstractTest {
             await this._driver.get(this._nextcloudUrl + "/login");
 
             this.logger("Type in login info.");
-            const passwordField = await this._driver.findElement(By.id("password"));
             await this._driver.findElement(By.id("user")).sendKeys(this.#loginUser);
-            await passwordField.sendKeys(this.#loginPassword, Key.RETURN);
+            await this._driver.findElement(By.id("password")).sendKeys(this.#loginPassword, Key.RETURN);
 
             this.logger("Wait for page refresh after login.");
-            await this._driver.wait(until.stalenessOf(passwordField), AbstractTest.defaultWaitTimeout)
-                .then(
-                    () => this._driver.wait(function (driver) {
-                        return driver.executeScript('return document.readyState === "complete"');
-                    }, 2*AbstractTest.defaultWaitTimeout)
-                );
+            await this.stableWaitForStaleness(By.id("password"));
+            await this._driver.wait(function (driver) {
+                return driver.executeScript('return document.readyState === "complete"');
+            }, 2*AbstractTest.defaultWaitTimeout);
             this.logger("Login done!");
         }
     }
@@ -291,9 +304,8 @@ class AbstractTest {
         await this._driver.wait(until.elementLocated(By.id("postmagDeleteFormYes")), AbstractTest.defaultWaitTimeout);
 
         // Click confirm button
-        const confirmButton = await this._driver.findElement(By.id("postmagDeleteFormYes"));
-        await confirmButton.click();
-        await this._driver.wait(until.stalenessOf(confirmButton), AbstractTest.defaultWaitTimeout);
+        await this._driver.findElement(By.id("postmagDeleteFormYes")).click();
+        await this.stableWaitForStaleness(By.id("postmagDeleteFormYes"));
     }
 
     /**

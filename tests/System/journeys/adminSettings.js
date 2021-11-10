@@ -108,7 +108,7 @@ class AdminSettings extends AbstractTest {
             // Wait for sending the data to backend
             await this._driver.wait(until.elementLocated(By.className("dialogs")), AbstractTest.defaultWaitTimeout)
                 .then(
-                    () => this._driver.wait(until.stalenessOf(this._driver.findElement(By.className("dialogs"))), 60000)
+                    () => this.stableWaitForStaleness(By.className("dialogs"), 60000)
                 );
         }
         else {

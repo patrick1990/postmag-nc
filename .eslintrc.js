@@ -13,8 +13,9 @@ module.exports = {
         OCA: false,
         OCP: false
     },
-    parser: "babel-eslint",
+    parser: "@babel/eslint-parser",
     parserOptions: {
-        ecmaVersion: 6
+        ecmaVersion: 6,
+        requireConfigFile: false
     }
 }

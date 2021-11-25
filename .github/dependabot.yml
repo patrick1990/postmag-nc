@@ -27,6 +27,7 @@ updates:
   - package-ecosystem: "composer"
     directory: "/"
     target-branch: "dev"
+    rebase-strategy: "disabled"
     schedule:
       interval: "weekly"
       day: "thursday"
@@ -34,6 +35,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     target-branch: "dev"
+    rebase-strategy: "disabled"
     schedule:
       interval: "weekly"
       day: "thursday"
@@ -41,6 +43,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     target-branch: "dev"
+    rebase-strategy: "disabled"
     schedule:
       interval: "weekly"
       day: "thursday"

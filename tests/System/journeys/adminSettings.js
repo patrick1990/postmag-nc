@@ -27,6 +27,7 @@ class AdminSettings extends AbstractTest {
     static idUserAliasIdLen = "postmagUserAliasIdLen";
     static idAliasIdLen = "postmagAliasIdLen";
     static idReadyTime = "postmagReadyTime";
+    static dialogShowTimeout = 120000;
 
     origData;
 
@@ -108,7 +109,13 @@ class AdminSettings extends AbstractTest {
             // Wait for sending the data to backend
             await this._driver.wait(until.elementLocated(By.className("dialogs")), AbstractTest.defaultWaitTimeout)
                 .then(
-                    () => this.stableWaitForStaleness(By.className("dialogs"), 60000)
+                    () => this.stableWaitForStaleness(By.className("dialogs"), AdminSettings.dialogShowTimeout)
+                        .catch(
+                            (error) => this.logger("Warning: Dialog box didn't disappear till timeout (" + error +").")
+                        )
+                )
+                .catch(
+                    (error) => this.logger("Warning: Dialog box didn't appear till timeout (" + error + ").")
                 );
         }
         else {

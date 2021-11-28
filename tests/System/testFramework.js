@@ -27,7 +27,7 @@ class AbstractTest {
     /**
      * @property {number} defaultWaitTimeout (static) default timeout for selenium waits
      */
-    static defaultWaitTimeout = 15000;
+    static defaultWaitTimeout = 60000;
 
     /**
      * @property {string} name (abstract) name of the test

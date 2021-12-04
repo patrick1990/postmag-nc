@@ -274,8 +274,8 @@ class AliasServiceTest extends TestCase {
         
         // Check timestamps
         $nowUTC = (new \DateTime("now"))->getTimestamp();
-        $this->assertTrue(($nowUTC - $ret['created_utc']) < 10, 'created utc timestamp not set correctly.');
-        $this->assertTrue(($nowUTC - $ret['last_modified_utc']) < 10, 'last modified utc timestamp not set correctly.');
+        $this->assertTrue(abs($nowUTC - $ret['created_utc']) < 10, 'created utc timestamp not set correctly.');
+        $this->assertTrue(abs($nowUTC - $ret['last_modified_utc']) < 10, 'last modified utc timestamp not set correctly.');
         
         // Check other data
         $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');
@@ -352,7 +352,7 @@ class AliasServiceTest extends TestCase {
         // Check timestamps
         $nowUTC = (new \DateTime("now"))->getTimestamp();
         $this->assertSame($this->aliases[0]->getCreated(), $ret['created_utc'], 'created utc timestamp was changed.');
-        $this->assertTrue(($nowUTC - $ret['last_modified_utc']) < 10, 'last modified utc timestamp not set correctly.');
+        $this->assertTrue(abs($nowUTC - $ret['last_modified_utc']) < 10, 'last modified utc timestamp not set correctly.');
         
         // Check other data
         $this->assertSame($this->aliases[0]->getUserId(), $ret['user_id'], 'not the expected user id.');

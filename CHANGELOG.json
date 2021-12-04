@@ -90,5 +90,25 @@
     "feature": [
       "Add selenium frontend tests (#70)"
     ]
+  },
+  "2.0.1": {
+    "bug": [
+      "add tolerance for timestamp checks in integration tests (#108)",
+      "Make dailog box wait on admin settings system test more robust (#105)",
+      "Change dependabot interval to weekly (#103)"
+    ],
+    "dependencies": [
+      "Bump sass from 1.43.5 to 1.44.0 (#106)",
+      "Bump @nextcloud/axios from 1.7.0 to 1.8.0 (#104)",
+      "Bump webpack from 5.64.3 to 5.64.4 (#100)",
+      "Bump sass from 1.43.4 to 1.43.5 (#99)",
+      "Bump webpack from 5.64.2 to 5.64.3 (#98)",
+      "Bump selenium-webdriver from 4.0.0 to 4.1.0 (#95)",
+      "Bump eslint from 8.2.0 to 8.3.0 (#96)",
+      "Bump webpack from 5.64.1 to 5.64.2 (#97)",
+      "Bump @babel/preset-env from 7.16.0 to 7.16.4 (#94)",
+      "Bump webpack from 5.64.0 to 5.64.1 (#93)",
+      "Bump eslint from 7.20.0 to 8.2.0 (#78)"
+    ]
   }
 }

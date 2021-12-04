@@ -153,17 +153,17 @@ class AliasControllerTest extends TestCase {
         $this->assertSame('Fourth alias', $ret->getData()['comment'], 'Alias has not the expected comment');
         $this->assertSame(true, $ret->getData()['enabled'], 'Alias has not the expected enabled state');
         $this->assertSame(
-            $this->dateTimeFormatter->formatDateTime($now->getTimestamp(), 'short', 'medium'),
+            $this->dateTimeFormatter->formatDateTime($ret->getData()['created_utc'], 'short', 'medium'),
             $ret->getData()['created'],
-            'Alias has not the expected created timestamp'
+            'The formatted created timestamp has not the correct format'
             );
         $this->assertSame(
-            $this->dateTimeFormatter->formatDateTime($now->getTimestamp(), 'short', 'medium'),
+            $this->dateTimeFormatter->formatDateTime($ret->getData()['last_modified_utc'], 'short', 'medium'),
             $ret->getData()['last_modified'],
-            'Alias has not the expected last modified timestamp'
+            'The formatted last modified timestamp has not the correct format'
             );
-        $this->assertSame($now->getTimestamp(), $ret->getData()['created_utc'], 'Alias has not the expected created utc timestamp');
-        $this->assertSame($now->getTimestamp(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
+        $this->assertTrue(abs($now->getTimestamp() - $ret->getData()['created_utc']) < 10, 'Alias has not the expected created utc timestamp');
+        $this->assertTrue(abs($now->getTimestamp() - $ret->getData()['last_modified_utc']) < 10, 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testRead() {
@@ -216,17 +216,17 @@ class AliasControllerTest extends TestCase {
         $this->assertSame($newComment, $ret->getData()['comment'], 'Alias has not the expected comment');
         $this->assertSame($newEnabled, $ret->getData()['enabled'], 'Alias has not the expected enabled state');
         $this->assertSame(
-            $this->dateTimeFormatter->formatDateTime($this->aliases[0]->getCreated(), 'short', 'medium'),
+            $this->dateTimeFormatter->formatDateTime($ret->getData()['created_utc'], 'short', 'medium'),
             $ret->getData()['created'],
-            'Alias has not the expected created timestamp'
+            'The formatted created timestamp has not the correct format'
             );
         $this->assertSame(
-            $this->dateTimeFormatter->formatDateTime($now->getTimestamp(), 'short', 'medium'),
+            $this->dateTimeFormatter->formatDateTime($ret->getData()['last_modified_utc'], 'short', 'medium'),
             $ret->getData()['last_modified'],
-            'Alias has not the expected last modified timestamp'
+            'The formatted last modified timestamp has not the correct format'
             );
         $this->assertSame($this->aliases[0]->getCreated(), $ret->getData()['created_utc'], 'Alias has not the expected created utc timestamp');
-        $this->assertSame($now->getTimestamp(), $ret->getData()['last_modified_utc'], 'Alias has not the expected last modified utc timestamp');
+        $this->assertTrue(abs($now->getTimestamp() - $ret->getData()['last_modified_utc']) < 10, 'Alias has not the expected last modified utc timestamp');
     }
 
     public function testUpdateNotFound() {

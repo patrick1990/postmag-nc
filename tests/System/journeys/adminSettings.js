@@ -100,11 +100,12 @@ class AdminSettings extends AbstractTest {
         await this.setSingleSetting(AdminSettings.idReadyTime, data["readyTime"], true);
     }
 
-    async setSingleSetting(id, data, sendEnter = false) {
-        if(sendEnter) {
+    async setSingleSetting(id, data, waitAfterSet = false) {
+        if(waitAfterSet) {
             // Set text field
             await this._driver.findElement(By.id(id)).clear()
-                .then(() => this._driver.findElement(By.id(id)).sendKeys(data, Key.ENTER));
+                .then(() => this._driver.findElement(By.id(id)).sendKeys(data)
+                    .then(() => this._driver.findElement(By.id(id)).sendKeys(Key.ENTER)));
 
             // Wait for sending the data to backend
             await this._driver.wait(until.elementLocated(By.className("dialogs")), AbstractTest.defaultWaitTimeout)

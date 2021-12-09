@@ -36,7 +36,7 @@
 		"babel-loader": "^8.2.3",
 		"file-loader": "^6.2.0",
 		"css-loader": "^6.5.1",
-		"sass-loader": "^12.3.0",
+		"sass-loader": "^12.4.0",
 		"@nextcloud/router": "^2.0.0",
 		"@nextcloud/axios": "^1.8.0",
 		"@nextcloud/l10n": "^1.4.1",

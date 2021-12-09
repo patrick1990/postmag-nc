@@ -97,7 +97,10 @@ class AdminSettings extends AbstractTest {
         await this.setSingleSetting(AdminSettings.idDomain, data["domain"]);
         await this.setSingleSetting(AdminSettings.idUserAliasIdLen, data["userAliasIdLen"]);
         await this.setSingleSetting(AdminSettings.idAliasIdLen, data["aliasIdLen"]);
-        await this.setSingleSetting(AdminSettings.idReadyTime, data["readyTime"], true);
+        await this.setSingleSetting(AdminSettings.idReadyTime, data["readyTime"]);
+
+        // Set a setting twice to update every field at least once. Hopefully this fixes a problem with Github Actions (issue #113)
+        await this.setSingleSetting(AdminSettings.idDomain, data["domain"], true);
     }
 
     async setSingleSetting(id, data, waitAfterSet = false) {

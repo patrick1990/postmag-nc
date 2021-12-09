@@ -36,6 +36,7 @@ updates:
     directory: "/"
     target-branch: "dev"
     rebase-strategy: "disabled"
+    open-pull-requests-limit: 15
     schedule:
       interval: "weekly"
       day: "thursday"

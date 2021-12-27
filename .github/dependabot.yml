@@ -31,7 +31,9 @@ updates:
     schedule:
       interval: "weekly"
       day: "thursday"
-      
+    assignees:
+      - "patrick1990"
+
   - package-ecosystem: "npm"
     directory: "/"
     target-branch: "dev"
@@ -40,6 +42,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "thursday"
+    assignees:
+      - "patrick1990"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -48,4 +52,6 @@ updates:
     schedule:
       interval: "weekly"
       day: "thursday"
+    assignees:
+      - "patrick1990"
 

@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## Version 2.0.2
+
+### bug
+
+* assign dependabot pr to patrick1990 (#124)
+* increase dependabot pull request limit for npm dependencies (#116)
+* set one admin setting twice in system test for github actions (#114)
+
+### dependencies
+
+* Bump phpunit/phpunit from 9.5.10 to 9.5.11 (#125)
+* Bump eslint from 8.4.1 to 8.5.0 (#122)
+* Bump sass from 1.45.0 to 1.45.1 (#121)
+* Bump sass from 1.44.0 to 1.45.0 (#117)
+* Bump @babel/preset-env from 7.16.4 to 7.16.5 (#118)
+* Bump @babel/core from 7.16.0 to 7.16.5 (#119)
+* Bump @babel/eslint-parser from 7.16.3 to 7.16.5 (#120)
+* Bump eslint from 8.4.0 to 8.4.1 (#111)
+* Bump sass-loader from 12.3.0 to 12.4.0 (#112)
+* Bump webpack from 5.64.4 to 5.65.0 (#110)
+* Bump eslint from 8.3.0 to 8.4.0 (#109)
+
 ## Version 2.0.1
 
 ### bug

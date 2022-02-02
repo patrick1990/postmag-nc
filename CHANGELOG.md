@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## Version 2.0.3
+
+### dependencies
+
+* Bump phpunit/phpunit from 9.5.11 to 9.5.13 (#141)
+* Bump webpack-cli from 4.9.1 to 4.9.2 (#143)
+* Bump @babel/core from 7.16.10 to 7.16.12 (#144)
+* Bump webpack from 5.66.0 to 5.67.0 (#142)
+* Bump @babel/preset-env from 7.16.8 to 7.16.11 (#140)
+* Bump eslint from 8.6.0 to 8.7.0 (#139)
+* Bump @babel/core from 7.16.7 to 7.16.10 (#138)
+* Bump sass from 1.48.0 to 1.49.0 (#137)
+* Bump @nextcloud/axios from 1.8.0 to 1.9.0 (#136)
+* Bump @babel/preset-env from 7.16.7 to 7.16.8 (#135)
+* Bump sass from 1.46.0 to 1.48.0 (#134)
+* Bump selenium-webdriver from 4.1.0 to 4.1.1 (#133)
+* Bump webpack from 5.65.0 to 5.66.0 (#132)
+* Bump sass from 1.45.2 to 1.46.0 (#130)
+* Bump @babel/core from 7.16.5 to 7.16.7 (#129)
+* Bump eslint from 8.5.0 to 8.6.0 (#128)
+* Bump @babel/preset-env from 7.16.5 to 7.16.7 (#127)
+* Bump sass from 1.45.1 to 1.45.2 (#126)
+
 ## Version 2.0.2
 
 ### bug

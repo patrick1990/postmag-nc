@@ -25,7 +25,7 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"dependencies": {
-		"webpack": "^5.68.0",
+		"webpack": "^5.69.1",
 		"webpack-cli": "^4.9.2",
 		"webpack-merge": "^5.8.0",
 		"clean-webpack-plugin": "^4.0.0",

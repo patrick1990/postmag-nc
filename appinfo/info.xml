@@ -5,7 +5,7 @@
     <name>Postmag</name>
     <summary>Postfix mail alias generator for Nextcloud</summary>
     <description><![CDATA[This app allows users to generate aliases for their email addresses so that they can use different email addresses for different services on the internet easily. A configuration file for postfix that implements these aliases can be generated via the occ command line tool.]]></description>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
     <licence>agpl</licence>
     <author homepage="https://github.com/patrick1990/postmag-nc">Patrick Greyson</author>
     <namespace>Postmag</namespace>

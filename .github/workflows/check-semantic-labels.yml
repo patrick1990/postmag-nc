@@ -32,7 +32,7 @@ jobs:
       parallelruns: ${{ steps.check.outputs.parallelruns }}
     steps:
       - name: Checkout dev branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: dev
 
@@ -50,7 +50,7 @@ jobs:
     steps:
       # Checks-out repository under $GITHUB_WORKSPACE
       - name: Checkout app code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
     

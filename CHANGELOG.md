@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## Version 2.0.5
+
+### dependencies
+
+* Bump sass from 1.49.9 to 1.49.10 (#172)
+* Bump eslint from 8.11.0 to 8.12.0 (#170)
+* Bump @babel/core from 7.17.7 to 7.17.8 (#169)
+* Bump babel-loader from 8.2.3 to 8.2.4 (#168)
+* Bump @babel/core from 7.17.5 to 7.17.7 (#167)
+* Bump eslint from 8.10.0 to 8.11.0 (#166)
+* Bump phpunit/phpunit from 9.5.18 to 9.5.19 (#165)
+* Bump css-loader from 6.6.0 to 6.7.1 (#164)
+* Bump phpunit/phpunit from 9.5.16 to 9.5.18 (#163)
+* Bump eslint from 8.9.0 to 8.10.0 (#162)
+* Bump sass from 1.49.8 to 1.49.9 (#161)
+* Bump webpack from 5.69.1 to 5.70.0 (#160)
+* Bump actions/checkout from 2 to 3 (#159)
+
 ## Version 2.0.4
 
 ### dependencies

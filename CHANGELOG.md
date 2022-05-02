@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## Version 3.0.0
+
+### nextcloud
+
+* Support for NC version 24 (#181)
+
+### dependencies
+
+* Bump sass from 1.50.1 to 1.51.0 (#187)
+* Bump @nextcloud/axios from 1.9.0 to 1.10.0 (#186)
+* Bump eslint from 8.13.0 to 8.14.0 (#185)
+* Bump selenium-webdriver from 4.1.1 to 4.1.2 (#184)
+* Bump babel-loader from 8.2.4 to 8.2.5 (#183)
+* Bump sass from 1.50.0 to 1.50.1 (#182)
+* Bump eslint from 8.12.0 to 8.13.0 (#180)
+* Bump actions/setup-node from 3.1.0 to 3.1.1 (#179)
+* Bump webpack from 5.70.0 to 5.72.0 (#178)
+* Bump sass from 1.49.10 to 1.50.0 (#177)
+* Bump @babel/core from 7.17.8 to 7.17.9 (#175)
+* Bump phpunit/phpunit from 9.5.19 to 9.5.20 (#174)
+* Bump actions/setup-node from 3.0.0 to 3.1.0 (#173)
+
 ## Version 2.0.5
 
 ### dependencies

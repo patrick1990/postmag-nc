@@ -207,5 +207,25 @@
     "nextcloud": [
       "Support for NC version 24 (#181)"
     ]
+  },
+  "3.0.1": {
+    "dependencies": [
+      "Bump selenium-webdriver from 4.1.2 to 4.2.0 (#207)",
+      "Bump webpack from 5.72.1 to 5.73.0 (#206)",
+      "Bump @babel/core from 7.18.0 to 7.18.2 (#204)",
+      "Bump @babel/eslint-parser from 7.17.0 to 7.18.2 (#205)",
+      "Bump sass from 1.51.0 to 1.52.1 (#203)",
+      "Bump @babel/preset-env from 7.18.0 to 7.18.2 (#202)",
+      "Bump eslint from 8.15.0 to 8.16.0 (#201)",
+      "Bump sass-loader from 12.6.0 to 13.0.0 (#198)",
+      "Bump @babel/core from 7.17.10 to 7.18.0 (#200)",
+      "Bump @babel/preset-env from 7.17.10 to 7.18.0 (#199)",
+      "Bump actions/setup-node from 3.1.1 to 3.2.0 (#194)",
+      "Bump webpack from 5.72.0 to 5.72.1 (#193)",
+      "Bump eslint from 8.14.0 to 8.15.0 (#192)",
+      "Bump @nextcloud/l10n from 1.4.1 to 1.6.0 (#191)",
+      "Bump @babel/preset-env from 7.16.11 to 7.17.10 (#189)",
+      "Bump @babel/core from 7.17.9 to 7.17.10 (#188)"
+    ]
   }
 }

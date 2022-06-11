@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use OCP\Util;
+
 style('postmag', 'style');
-script('postmag', 'aliasListHandler')
+Util::addScript('postmag', 'aliasListHandler');
 ?>
 
 <div id="app">

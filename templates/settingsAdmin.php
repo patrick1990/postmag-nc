@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use OCP\Util;
+
 style('postmag', 'settingsAdmin');
-script('postmag', 'settingsAdmin');
+Util::addScript('postmag', 'settingsAdmin');
 ?>
 
 <div class="section" id="postmag">

@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version 3.1.0
+
+### feature
+
+* Implement navigation counters (#211)
+
+### dependencies
+
+* Bump maildev from 1.1.0 to 2.0.5 (#195)
+* Bump eslint from 8.16.0 to 8.17.0 (#210)
+* Bump sass from 1.52.1 to 1.52.3 (#209)
+* Bump actions/setup-node from 3.2.0 to 3.3.0 (#208)
+
 ## Version 3.0.1
 
 ### dependencies

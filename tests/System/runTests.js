@@ -23,6 +23,7 @@ const {NoAliases} = require("./journeys/noAliases");
 const {CreateAliases} = require("./journeys/createAliases");
 const {ReadyTime} = require("./journeys/readyTime");
 const {EnableFilter} = require("./journeys/enableFilter");
+const {NavigationCounters} = require("./journeys/navigationCounters");
 const {SendTestmail} = require("./journeys/sendTestmail");
 
 async function runTests() {
@@ -34,6 +35,7 @@ async function runTests() {
     testFail = await new CreateAliases().run(headless) || testFail;
     testFail = await new ReadyTime().run(headless) || testFail;
     testFail = await new EnableFilter().run(headless) || testFail;
+    testFail = await new NavigationCounters().run(headless) || testFail;
     testFail = await new SendTestmail().run(headless) || testFail;
 
     if (testFail)

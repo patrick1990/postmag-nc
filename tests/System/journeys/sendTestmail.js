@@ -78,8 +78,8 @@ class SendTestmail extends AbstractTest {
             const mailEntries = await mailList.findElements(By.tagName("li"));
 
             for (let i=0; i<mailEntries.length; i++) {
-                const mailFrom = await mailEntries[i].findElement(By.className("subline-from")).getText();
-                if(mailFrom === alias)
+                const mailTo = await mailEntries[i].findElement(By.className("title-subline")).getText();
+                if(mailTo.includes(alias))
                     return true;
             }
             return false;

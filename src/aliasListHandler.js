@@ -39,7 +39,8 @@ import {
 	templateContentBase,
 	templateDeleteForm,
 	templateNewAlias,
-	templateNoAliases
+	templateNoAliases,
+	setNavigationCounters
 } from "./templates";
 
 async function getAllAliases() {
@@ -66,6 +67,7 @@ $(async function() {
 	let showEnabled = true;
 	let showDisabled = true;
 
+	setNavigationCounters(aliasList);
 	if(aliasList.length === 0) {
 		templateNoAliases();
 	}
@@ -190,6 +192,7 @@ $(async function() {
 			}
 
 			aliasList = await getAllAliases();
+			setNavigationCounters(aliasList);
 			templateAliasList(aliasList, showEnabled,  showDisabled);
 			setActiveAlias(newAlias["id"]);
 			setAliasForm(newAlias, userInfo, config);
@@ -223,6 +226,7 @@ $(async function() {
 
 			// Reload alias list
 			aliasList = await getAllAliases();
+			setNavigationCounters(aliasList);
 
 			if(aliasList.length === 0) {
 				templateNoAliases();

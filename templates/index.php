@@ -19,8 +19,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use OCP\Util;
+
 style('postmag', 'style');
-script('postmag', 'aliasListHandler')
+Util::addScript('postmag', 'aliasListHandler');
 ?>
 
 <div id="app">
@@ -32,9 +34,30 @@ script('postmag', 'aliasListHandler')
         </div>
 
         <ul class="with-icon">
-            <li><a id="postmagAliasFilterAll" href="#" class="icon-user svg active"><?php p($l->t('All aliases')); ?></a></li>
-            <li><a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark svg"><?php p($l->t('Enabled')); ?></a></li>
-            <li><a id="postmagAliasFilterDisabled" href="#" class="icon-close svg"><?php p($l->t('Disabled')); ?></a></li>
+            <li>
+                <a id="postmagAliasFilterAll" href="#" class="icon-user svg active">
+                    <?php p($l->t('All aliases')); ?>
+                    <div class="app-navigation-entry-utils">
+                        <div id="postmagAliasFilterAllCounter" class="app-navigation-entry-utils-counter">0</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark svg">
+                    <?php p($l->t('Enabled')); ?>
+                    <div class="app-navigation-entry-utils">
+                        <div id="postmagAliasFilterEnabledCounter" class="app-navigation-entry-utils-counter">0</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a id="postmagAliasFilterDisabled" href="#" class="icon-close svg">
+                    <?php p($l->t('Disabled')); ?>
+                    <div class="app-navigation-entry-utils">
+                        <div id="postmagAliasFilterDisabledCounter" class="app-navigation-entry-utils-counter">0</div>
+                    </div>
+                </a>
+            </li>
         </ul>
 	</div>
 

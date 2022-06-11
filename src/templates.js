@@ -256,3 +256,16 @@ export function setActiveAlias(id) {
             $(this).removeClass("active");
     });
 }
+
+export function setNavigationCounters(aliasList) {
+    let enabledAliases = 0;
+
+    for(let i in aliasList) {
+        if (aliasList[i]['enabled'])
+            enabledAliases++;
+    }
+
+    $("#postmagAliasFilterAllCounter").text(aliasList.length.toString());
+    $("#postmagAliasFilterEnabledCounter").text(enabledAliases.toString());
+    $("#postmagAliasFilterDisabledCounter").text((aliasList.length - enabledAliases).toString());
+}

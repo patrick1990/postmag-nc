@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## Version 3.1.1
+
+### dependencies
+
+* Bump selenium-webdriver from 4.2.0 to 4.3.0 (#220)
+* Bump @babel/core from 7.18.5 to 7.18.6 (#219)
+* Bump sass-loader from 13.0.0 to 13.0.2 (#218)
+* Bump @babel/preset-env from 7.18.2 to 7.18.6 (#217)
+* Bump eslint from 8.17.0 to 8.18.0 (#216)
+* Bump sass from 1.52.3 to 1.53.0 (#215)
+* Bump phpunit/phpunit from 9.5.20 to 9.5.21 (#214)
+* Bump webpack-cli from 4.9.2 to 4.10.0 (#213)
+* Bump @babel/core from 7.18.2 to 7.18.5 (#212)
+
 ## Version 3.1.0
 
 ### feature

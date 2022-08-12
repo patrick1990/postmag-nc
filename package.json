@@ -42,7 +42,7 @@
 		"@nextcloud/l10n": "^1.6.0",
 		"@nextcloud/dialogs": "^3.1.4",
 		"jquery": "^3.6.0",
-		"sass": "^1.54.2"
+		"sass": "^1.54.4"
 	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.18.9",

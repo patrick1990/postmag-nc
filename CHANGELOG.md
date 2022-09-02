@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## Version 3.1.3
+
+### dependencies
+
+* Bump jquery from 3.6.0 to 3.6.1 (#248)
+* Bump eslint from 8.22.0 to 8.23.0 (#247)
+* Bump sass from 1.54.5 to 1.54.8 (#246)
+* Bump phpunit/phpunit from 9.5.23 to 9.5.24 (#245)
+* Bump @babel/core from 7.18.10 to 7.18.13 (#244)
+* Bump sass from 1.54.4 to 1.54.5 (#243)
+* Bump phpunit/phpunit from 9.5.21 to 9.5.23 (#242)
+* Bump eslint from 8.21.0 to 8.22.0 (#241)
+* Bump @nextcloud/axios from 1.10.0 to 2.0.0 (#240)
+* Bump @nextcloud/dialogs from 3.1.4 to 3.2.0 (#238)
+* Bump @nextcloud/browserslist-config from 2.2.0 to 2.3.0 (#237)
+* Bump sass from 1.54.2 to 1.54.4 (#236)
+* Bump selenium-webdriver from 4.3.1 to 4.4.0 (#235)
+* Bump @babel/preset-env from 7.18.9 to 7.18.10 (#234)
+* Bump eslint from 8.20.0 to 8.21.0 (#233)
+* Bump @babel/core from 7.18.9 to 7.18.10 (#232)
+* Bump sass from 1.54.0 to 1.54.2 (#231)
+
 ## Version 3.1.2
 
 ### dependencies

@@ -286,5 +286,23 @@
       "Bump @babel/core from 7.18.9 to 7.18.10 (#232)",
       "Bump sass from 1.54.0 to 1.54.2 (#231)"
     ]
+  },
+  "3.1.4": {
+    "dependencies": [
+      "Bump eslint from 8.23.1 to 8.24.0 (#263)",
+      "Bump @babel/preset-env from 7.19.1 to 7.19.3 (#262)",
+      "Bump selenium-webdriver from 4.4.0 to 4.5.0 (#261)",
+      "Bump @babel/core from 7.19.1 to 7.19.3 (#260)",
+      "Bump phpunit/phpunit from 9.5.24 to 9.5.25 (#259)",
+      "Bump actions/setup-node from 3.4.1 to 3.5.0 (#258)",
+      "Bump sass from 1.54.9 to 1.55.0 (#256)",
+      "Bump @babel/preset-env from 7.19.0 to 7.19.1 (#255)",
+      "Bump @babel/eslint-parser from 7.18.9 to 7.19.1 (#254)",
+      "Bump @babel/core from 7.19.0 to 7.19.1 (#253)",
+      "Bump eslint from 8.23.0 to 8.23.1 (#252)",
+      "Bump sass from 1.54.8 to 1.54.9 (#251)",
+      "Bump @babel/core from 7.18.13 to 7.19.0 (#250)",
+      "Bump @babel/preset-env from 7.18.10 to 7.19.0 (#249)"
+    ]
   }
 }

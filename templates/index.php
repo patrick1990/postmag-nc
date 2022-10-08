@@ -25,48 +25,46 @@ style('postmag', 'style');
 Util::addScript('postmag', 'aliasListHandler');
 ?>
 
-<div id="app">
-	<div id="app-navigation">
-        <div class="app-navigation-new">
-            <button id="postmagNewAlias" type="button" class="icon-add">
-                <?php p($l->t('New alias')); ?>
-            </button>
-        </div>
+<div id="app-navigation">
+    <div class="app-navigation-new">
+        <button id="postmagNewAlias" type="button" class="icon-add">
+            <?php p($l->t('New alias')); ?>
+        </button>
+    </div>
 
-        <ul class="with-icon">
-            <li>
-                <a id="postmagAliasFilterAll" href="#" class="icon-user svg active">
-                    <?php p($l->t('All aliases')); ?>
-                    <div class="app-navigation-entry-utils">
-                        <div id="postmagAliasFilterAllCounter" class="app-navigation-entry-utils-counter">0</div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark svg">
-                    <?php p($l->t('Enabled')); ?>
-                    <div class="app-navigation-entry-utils">
-                        <div id="postmagAliasFilterEnabledCounter" class="app-navigation-entry-utils-counter">0</div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="postmagAliasFilterDisabled" href="#" class="icon-close svg">
-                    <?php p($l->t('Disabled')); ?>
-                    <div class="app-navigation-entry-utils">
-                        <div id="postmagAliasFilterDisabledCounter" class="app-navigation-entry-utils-counter">0</div>
-                    </div>
-                </a>
-            </li>
-        </ul>
-	</div>
+    <ul class="with-icon">
+        <li>
+            <a id="postmagAliasFilterAll" href="#" class="icon-user svg active">
+                <?php p($l->t('All aliases')); ?>
+                <div class="app-navigation-entry-utils">
+                    <div id="postmagAliasFilterAllCounter" class="app-navigation-entry-utils-counter">0</div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a id="postmagAliasFilterEnabled" href="#" class="icon-checkmark svg">
+                <?php p($l->t('Enabled')); ?>
+                <div class="app-navigation-entry-utils">
+                    <div id="postmagAliasFilterEnabledCounter" class="app-navigation-entry-utils-counter">0</div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a id="postmagAliasFilterDisabled" href="#" class="icon-close svg">
+                <?php p($l->t('Disabled')); ?>
+                <div class="app-navigation-entry-utils">
+                    <div id="postmagAliasFilterDisabledCounter" class="app-navigation-entry-utils-counter">0</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
 
-	<div id="app-content">
-        <div class="section">
-            <h2><?php p($l->t('Welcome to Postmag!')); ?></h2>
-            <h3><?php p($l->t('Your postfix mail alias generator.')); ?></h3>
-            <p><?php p($l->t('Loading...')); ?></p>
-        </div>
-	</div>
+<div id="app-content">
+    <div class="section">
+        <h2><?php p($l->t('Welcome to Postmag!')); ?></h2>
+        <h3><?php p($l->t('Your postfix mail alias generator.')); ?></h3>
+        <p><?php p($l->t('Loading...')); ?></p>
+    </div>
 </div>
 

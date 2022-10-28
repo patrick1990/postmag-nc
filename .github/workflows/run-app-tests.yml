@@ -140,7 +140,7 @@ jobs:
       - name: Set node version
         uses: actions/setup-node@v3.5.1
         with:
-          node-version: '12'
+          node-version: '18'
         
       - name: Setup nextcloud
         env:

@@ -48,7 +48,7 @@ jobs:
 
       - name: Check for parallel runs
         id: check
-        run: echo "::set-output name=parallelruns::$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})"
+        run: echo "parallelruns=$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})" >> $GITHUB_OUTPUT
 
       - name: Cleanup workspace
         run: rm -rf $GITHUB_WORKSPACE/*
@@ -71,11 +71,11 @@ jobs:
         run: |
           ncversion=$(( $(grep -o '<nextcloud.*min-version=\"[0-9]*\".*max-version=\"[0-9]*\"/>' $GITHUB_WORKSPACE/appinfo/info.xml | grep -o 'max-version=\"[0-9]*\"' | grep -o '[0-9]*') + 1 ))
           echo "ncversion=$ncversion" >> $GITHUB_ENV
-          echo "::set-output name=ncversion::$ncversion"
+          echo "ncversion=$ncversion" >> $GITHUB_OUTPUT
 
       - name: Check for open version PRs and NC version
         id: status
-        run: echo "::set-output name=createpr::$(python $GITHUB_WORKSPACE/.github/scripts/newNCVersion.py ${{ github.token }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }})"
+        run: echo "createpr=$(python $GITHUB_WORKSPACE/.github/scripts/newNCVersion.py ${{ github.token }} ${{ env.ncversion }} ${{ env.label }} ${{ env.base }})" >> $GITHUB_OUTPUT
 
       - name: Cleanup workspace
         run: rm -rf $GITHUB_WORKSPACE/*

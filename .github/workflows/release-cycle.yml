@@ -41,7 +41,7 @@ jobs:
 
       - name: Check for parallel runs
         id: check
-        run: echo "::set-output name=parallelruns::$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})"
+        run: echo "parallelruns=$(python $GITHUB_WORKSPACE/.github/scripts/parallelRuns.py ${{ github.token }})" >> $GITHUB_OUTPUT
 
       - name: Cleanup workspace
         run: rm -rf $GITHUB_WORKSPACE/*

@@ -58,9 +58,9 @@ jobs:
           ref: main
 
       - name: Set node version
-          uses: actions/setup-node@v3.5.1
-          with:
-            node-version: '16'
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: '16'
 
       - name: Download and install krankerl
         run: |

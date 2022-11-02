@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Version 4.0.0
+
+### nextcloud
+
+* Support for NC version 25 (#266)
+
+### dependencies
+
+* Bump babel-loader from 8.2.5 to 9.0.0 (#272)
+* Bump eslint from 8.25.0 to 8.26.0 (#273)
+* Bump @babel/core from 7.19.3 to 7.19.6 (#271)
+* Bump @babel/preset-env from 7.19.3 to 7.19.4 (#270)
+* Bump eslint from 8.24.0 to 8.25.0 (#269)
+* Bump sass-loader from 13.0.2 to 13.1.0 (#268)
+* Bump actions/setup-node from 3.5.0 to 3.5.1 (#267)
+* Bump @nextcloud/axios from 2.0.0 to 2.1.0 (#265)
+
 ## Version 3.1.4
 
 ### dependencies

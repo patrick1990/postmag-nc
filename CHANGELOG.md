@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 4.0.1
+
+### bug
+
+* Upgrade deprecated set-output in workflow files (#277)
+* Fix indentation for setup-node of package-app.yml (#276)
+
 ## Version 4.0.0
 
 ### nextcloud

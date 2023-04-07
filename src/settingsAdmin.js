@@ -19,7 +19,7 @@
  */
 
 import $ from "jquery";
-import "@nextcloud/dialogs/styles/toast.scss";
+import "@nextcloud/dialogs/dist/index.css";
 import { postmagPutConfig } from "./endpoints";
 
 $(function() {

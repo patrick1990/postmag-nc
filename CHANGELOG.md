@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## Version 5.0.0
+
+### nextcloud
+
+* Support for NC version 26 (#342)
+
+### bug
+
+* Change to chrome for system tests (#335)
+
+### dependencies
+
+* Bump @nextcloud/dialogs from 3.2.0 to 4.0.1 (#320)
+* Bump webpack from 5.75.0 to 5.78.0 (#341)
+* Bump jquery from 3.6.1 to 3.6.4 (#332)
+* Bump phpunit/phpunit from 9.5.26 to 9.6.6 (#340)
+* Bump eslint from 8.29.0 to 8.37.0 (#339)
+* Bump @babel/core from 7.20.5 to 7.21.4 (#338)
+* Bump sass from 1.56.1 to 1.61.0 (#337)
+* Bump @nextcloud/l10n from 1.6.0 to 2.1.0 (#325)
+* Bump selenium-webdriver from 4.7.0 to 4.8.2 (#336)
+* Bump webdriver-manager from 12.1.8 to 12.1.9 (#322)
+* Bump babel-loader from 9.1.0 to 9.1.2 (#308)
+* Bump actions/setup-node from 3.5.1 to 3.6.0 (#307)
+* Bump @nextcloud/router from 2.0.0 to 2.0.1 (#306)
+* Bump @nextcloud/axios from 2.2.0 to 2.3.0 (#302)
+* Bump css-loader from 6.7.2 to 6.7.3 (#299)
+* Bump webpack-cli from 5.0.0 to 5.0.1 (#295)
+* Bump eslint from 8.28.0 to 8.29.0 (#294)
+* Bump selenium-webdriver from 4.6.1 to 4.7.0 (#293)
+
 ## Version 4.0.2
 
 ### dependencies

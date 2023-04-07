@@ -20,7 +20,8 @@
 
 const {Builder, By, Key, Capabilities, until} = require("selenium-webdriver");
 const {StaleElementReferenceError} = require("selenium-webdriver/lib/error");
-const {Options} = require("selenium-webdriver/firefox");
+const ChromeWebdriver = require("selenium-webdriver/chrome");
+const FirefoxWebdriver = require("selenium-webdriver/firefox")
 
 class AbstractTest {
 
@@ -102,18 +103,36 @@ class AbstractTest {
      * Setup selenium web driver.
      *
      * @param {boolean} headless create headless driver
+     * @param {string} browser choose browser for tests
      * @returns {Promise<void>} promise for driver generation.
      */
-    async driverSetUp(headless) {
+    async driverSetUp(headless, browser) {
         this.logger("Setup web driver.");
 
-        let builder = new Builder()
-            .usingServer(this.#seleniumServerUrl)
-            .withCapabilities(Capabilities.firefox());
+        let builder = new Builder();
+        if(browser === "chrome") {
+            builder = builder.usingServer(this.#seleniumServerUrl)
+                .withCapabilities(Capabilities.chrome());
 
-        this._driver = headless ?
-            builder.setFirefoxOptions(new Options().headless()).build() :
-            builder.build();
+            if(headless)
+                builder = builder.setChromeOptions(
+                    new ChromeWebdriver.Options().addArguments("--window-size=1400,800")
+                                                 .addArguments("--headless")
+                );
+            else
+                builder = builder.setChromeOptions(
+                    new ChromeWebdriver.Options().addArguments("--window-size=1400,800")
+                );
+        }
+        else {
+            builder = builder.usingServer(this.#seleniumServerUrl)
+                .withCapabilities(Capabilities.firefox());
+
+            if(headless)
+                builder = builder.setFirefoxOptions(new FirefoxWebdriver.Options().headless());
+        }
+
+        this._driver = builder.build();
     }
 
     /**
@@ -312,10 +331,11 @@ class AbstractTest {
      * Run test candidate.
      *
      * @param {boolean} headless (optional) run test headless (default: true)
+     * @param {string} browser choose browser for tests (default: chrome)
      * @param {boolean} login (optional) login to nextcloud on true (default: true)
      * @returns {Promise<boolean>} promise for test run. returns if test failed.
      */
-    async run(headless = true, login = true) {
+    async run(headless = true, browser = "chrome", login = true) {
         // Check if name and test was implemented
         if (this._name === undefined) {
             throw new TypeError("Tests have to have a name.");
@@ -336,7 +356,7 @@ class AbstractTest {
         this.loggerHead();
 
         // Driver setup and login
-        await this.driverSetUp(headless);
+        await this.driverSetUp(headless, browser);
         if (login)
             await this.login();
 

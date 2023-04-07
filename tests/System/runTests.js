@@ -28,15 +28,16 @@ const {SendTestmail} = require("./journeys/sendTestmail");
 
 async function runTests() {
     const headless = !process.env.POSTMAG_SYSTEM_TEST_WITH_HEAD;
+    const browser = process.env.POSTMAG_SYSTEM_TEST_BROWSER === ""?"chrome":process.env.POSTMAG_SYSTEM_TEST_BROWSER;
     let testFail = false;
 
-    testFail = await new AdminSettings().run(headless) || testFail;
-    testFail = await new NoAliases().run(headless) || testFail;
-    testFail = await new CreateAliases().run(headless) || testFail;
-    testFail = await new ReadyTime().run(headless) || testFail;
-    testFail = await new EnableFilter().run(headless) || testFail;
-    testFail = await new NavigationCounters().run(headless) || testFail;
-    testFail = await new SendTestmail().run(headless) || testFail;
+    testFail = await new AdminSettings().run(headless, browser) || testFail;
+    testFail = await new NoAliases().run(headless, browser) || testFail;
+    testFail = await new CreateAliases().run(headless, browser) || testFail;
+    testFail = await new ReadyTime().run(headless, browser) || testFail;
+    testFail = await new EnableFilter().run(headless, browser) || testFail;
+    testFail = await new NavigationCounters().run(headless, browser) || testFail;
+    testFail = await new SendTestmail().run(headless, browser) || testFail;
 
     if (testFail)
         process.exit(1);

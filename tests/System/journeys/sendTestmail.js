@@ -66,6 +66,7 @@ class SendTestmail extends AbstractTest {
         // Click the button to send a testmail
         this.logger("Send testmail to " + alias + "...");
         await this._driver.findElement(By.id("postmagAliasFormSendTest")).click();
+        await sleep(2);
 
         // Go to maildev
         this.logger("Browse to maildev.");

@@ -189,12 +189,12 @@ jobs:
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           make build-dev
           
-      - name: Install firefox for frontend tests
+      - name: Install chrome for frontend tests
         env:
           NC_VERSION: ${{ matrix.nc-version }}
         run: |
-          sudo apt update
-          sudo apt -y install firefox
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo sudo dpkg -i google-chrome-stable_current_amd64.deb
 
       - name: Install selenium webdriver
         env:

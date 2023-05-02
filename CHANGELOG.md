@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## Version 5.0.1
+
+### dependencies
+
+* Bump selenium-webdriver from 4.8.2 to 4.9.0 (#358)
+* Bump sass from 1.62.0 to 1.62.1 (#357)
+* Bump webpack from 5.80.0 to 5.81.0 (#356)
+* Bump eslint from 8.38.0 to 8.39.0 (#355)
+* Bump @nextcloud/router from 2.1.0 to 2.1.1 (#354)
+* Bump webpack-cli from 5.0.1 to 5.0.2 (#353)
+* Bump @nextcloud/router from 2.0.1 to 2.1.0 (#352)
+* Bump webpack from 5.79.0 to 5.80.0 (#351)
+* Bump phpunit/phpunit from 9.6.6 to 9.6.7 (#350)
+* Bump eslint from 8.37.0 to 8.38.0 (#349)
+* Bump @babel/preset-env from 7.20.2 to 7.21.4 (#348)
+* Bump webpack from 5.78.0 to 5.79.0 (#347)
+* Bump sass from 1.61.0 to 1.62.0 (#346)
+* Bump style-loader from 3.3.1 to 3.3.2 (#345)
+* Bump @babel/eslint-parser from 7.19.1 to 7.21.3 (#344)
+* Bump sass-loader from 13.2.0 to 13.2.2 (#343)
+
 ## Version 5.0.0
 
 ### nextcloud

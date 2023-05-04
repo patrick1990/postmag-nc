@@ -45,7 +45,7 @@
 		"sass": "^1.62.1"
 	},
 	"devDependencies": {
-		"@babel/eslint-parser": "^7.21.3",
+		"@babel/eslint-parser": "^7.21.8",
 		"@nextcloud/eslint-plugin": "^2.0.0",
 		"eslint": "^8.39.0",
 		"maildev": "^2.0.5",

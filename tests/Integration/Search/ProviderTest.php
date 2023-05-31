@@ -219,6 +219,8 @@ class ProviderTest extends TestCase {
             public function getPrimaryEMailAddress(): ?string { return null; }
             public function setSystemEMailAddress(string $mailAddress): void {}
             public function setPrimaryEMailAddress(string $mailAddress): void {}
+            public function getManagerUids(): array { return []; }
+            public function setManagerUids(array $uids): void {}
         };
     }
 

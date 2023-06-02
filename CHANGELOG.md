@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## Version 6.0.0
+
+### nextcloud
+
+* Support for NC version 27 (#377)
+
+### dependencies
+
+* Bump @babel/preset-env from 7.21.5 to 7.22.4 (#382)
+* Bump @babel/core from 7.21.8 to 7.22.1 (#381)
+* Bump webpack from 5.84.1 to 5.85.0 (#380)
+* Bump css-loader from 6.7.4 to 6.8.1 (#379)
+* Bump sass-loader from 13.3.0 to 13.3.1 (#378)
+* Bump webpack-merge from 5.8.0 to 5.9.0 (#376)
+* Bump eslint from 8.40.0 to 8.41.0 (#375)
+* Bump style-loader from 3.3.2 to 3.3.3 (#374)
+* Bump sass-loader from 13.2.2 to 13.3.0 (#373)
+* Bump webpack from 5.83.1 to 5.84.1 (#372)
+* Bump css-loader from 6.7.3 to 6.7.4 (#371)
+* Bump webpack from 5.82.1 to 5.83.1 (#370)
+* Bump webpack-cli from 5.0.2 to 5.1.1 (#367)
+* Bump phpunit/phpunit from 9.6.7 to 9.6.8 (#368)
+* Bump eslint from 8.39.0 to 8.40.0 (#366)
+* Bump selenium-webdriver from 4.9.0 to 4.9.2 (#365)
+* Bump jquery from 3.6.4 to 3.7.0 (#364)
+* Bump webpack from 5.82.0 to 5.82.1 (#363)
+* Bump @babel/core from 7.21.4 to 7.21.8 (#362)
+* Bump @babel/eslint-parser from 7.21.3 to 7.21.8 (#361)
+* Bump webpack from 5.81.0 to 5.82.0 (#360)
+* Bump @babel/preset-env from 7.21.4 to 7.21.5 (#359)
+
 ## Version 5.0.1
 
 ### dependencies

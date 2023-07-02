@@ -421,5 +421,28 @@
     "nextcloud": [
       "Support for NC version 27 (#377)"
     ]
+  },
+  "6.0.1": {
+    "dependencies": [
+      "Bump @nextcloud/l10n from 2.1.0 to 2.2.0 (#401)",
+      "Bump webpack from 5.88.0 to 5.88.1 (#400)",
+      "Bump sass from 1.63.4 to 1.63.6 (#399)",
+      "Bump @nextcloud/dialogs from 4.0.1 to 4.1.0 (#398)",
+      "Bump webpack from 5.87.0 to 5.88.0 (#397)",
+      "Bump eslint from 8.42.0 to 8.43.0 (#396)",
+      "Bump @nextcloud/router from 2.1.1 to 2.1.2 (#395)",
+      "Bump webpack from 5.86.0 to 5.87.0 (#394)",
+      "Bump sass-loader from 13.3.1 to 13.3.2 (#393)",
+      "Bump sass from 1.63.2 to 1.63.4 (#392)",
+      "Bump phpunit/phpunit from 9.6.8 to 9.6.9 (#391)",
+      "Bump selenium-webdriver from 4.9.2 to 4.10.0 (#390)",
+      "Bump webpack-cli from 5.1.1 to 5.1.4 (#389)",
+      "Bump @babel/core from 7.22.1 to 7.22.5 (#388)",
+      "Bump webpack from 5.85.0 to 5.86.0 (#387)",
+      "Bump sass from 1.62.1 to 1.63.2 (#386)",
+      "Bump eslint from 8.41.0 to 8.42.0 (#385)",
+      "Bump @babel/preset-env from 7.22.4 to 7.22.5 (#384)",
+      "Bump @babel/eslint-parser from 7.21.8 to 7.22.5 (#383)"
+    ]
   }
 }

@@ -30,7 +30,7 @@
 		"webpack-merge": "^5.9.0",
 		"clean-webpack-plugin": "^4.0.0",
 		"@babel/core": "^7.22.5",
-		"@babel/preset-env": "^7.22.5",
+		"@babel/preset-env": "^7.22.7",
 		"@nextcloud/browserslist-config": "^2.3.0",
 		"style-loader": "^3.3.3",
 		"babel-loader": "^9.1.2",

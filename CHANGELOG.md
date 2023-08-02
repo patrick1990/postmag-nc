@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## Version 6.0.2
+
+### dependencies
+
+* Bump sass from 1.64.0 to 1.64.1 (#417)
+* Bump eslint from 8.44.0 to 8.45.0 (#416)
+* Bump sass from 1.63.6 to 1.64.0 (#415)
+* Bump webpack from 5.88.1 to 5.88.2 (#414)
+* Bump maildev from 2.0.5 to 2.1.0 (#413)
+* Bump @babel/eslint-parser from 7.22.7 to 7.22.9 (#412)
+* Bump babel-loader from 9.1.2 to 9.1.3 (#411)
+* Bump @babel/preset-env from 7.22.7 to 7.22.9 (#410)
+* Bump @babel/core from 7.22.8 to 7.22.9 (#409)
+* Bump phpunit/phpunit from 9.6.9 to 9.6.10 (#408)
+* Bump @babel/core from 7.22.5 to 7.22.8 (#407)
+* Bump @babel/eslint-parser from 7.22.5 to 7.22.7 (#406)
+* Bump @babel/preset-env from 7.22.5 to 7.22.7 (#405)
+* Bump @nextcloud/axios from 2.3.0 to 2.4.0 (#404)
+* Bump eslint from 8.43.0 to 8.44.0 (#403)
+* Bump actions/setup-node from 3.6.0 to 3.7.0 (#402)
+
 ## Version 6.0.1
 
 ### dependencies

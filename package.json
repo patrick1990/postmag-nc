@@ -46,7 +46,7 @@
 	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.22.9",
-		"@nextcloud/eslint-plugin": "^2.0.0",
+		"@nextcloud/eslint-plugin": "^2.1.0",
 		"eslint": "^8.46.0",
 		"maildev": "^2.1.0",
 		"selenium-webdriver": "^4.11.1",

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {Builder, By, Key, Capabilities, until} = require("selenium-webdriver");
+const {Builder, By, Key, until} = require("selenium-webdriver");
 const {StaleElementReferenceError} = require("selenium-webdriver/lib/error");
 const ChromeWebdriver = require("selenium-webdriver/chrome");
 const FirefoxWebdriver = require("selenium-webdriver/firefox")
@@ -71,23 +71,16 @@ class AbstractTest {
     _nextcloudUrl;
 
     /**
-     * @property {string} seleniumServerUrl url to selenium server
-     */
-    #seleniumServerUrl;
-
-    /**
      * Constructor for Test executor.
      *
      * @param {string} loginUser (optional) user for login to nextcloud (default: admin)
      * @param {string} loginPassword (optional) password for login to nextcloud (default: admin)
      * @param {string} nextcloudUrl (optional) url to nextcloud (default: http://localhost:8080/index.php)
-     * @param {string} seleniumServerUrl (optional) url to selenium server (default: webdriver-manager - http://localhost:4444/wd/hub)
      */
     constructor(
         loginUser = "selenium",
         loginPassword = "selenium",
-        nextcloudUrl = "http://localhost:8080/index.php",
-        seleniumServerUrl = "http://localhost:4444/wd/hub"
+        nextcloudUrl = "http://localhost:8080/index.php"
     ) {
         if (this.constructor === AbstractTest) {
             throw new TypeError("This class cannot be instantiated.");
@@ -96,7 +89,6 @@ class AbstractTest {
         this.#loginUser = loginUser;
         this.#loginPassword = loginPassword;
         this._nextcloudUrl = nextcloudUrl;
-        this.#seleniumServerUrl = seleniumServerUrl;
     }
 
     /**
@@ -111,8 +103,7 @@ class AbstractTest {
 
         let builder = new Builder();
         if(browser === "chrome") {
-            builder = builder.usingServer(this.#seleniumServerUrl)
-                .withCapabilities(Capabilities.chrome());
+            builder = builder.forBrowser('chrome');
 
             if(headless)
                 builder = builder.setChromeOptions(
@@ -125,8 +116,7 @@ class AbstractTest {
                 );
         }
         else {
-            builder = builder.usingServer(this.#seleniumServerUrl)
-                .withCapabilities(Capabilities.firefox());
+            builder = builder.forBrowser('firefox');
 
             if(headless)
                 builder = builder.setFirefoxOptions(new FirefoxWebdriver.Options().headless());

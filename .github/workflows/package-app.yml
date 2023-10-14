@@ -58,7 +58,7 @@ jobs:
           ref: main
 
       - name: Set node version
-        uses: actions/setup-node@v3.7.0
+        uses: actions/setup-node@v3.8.1
         with:
           node-version: '16'
 

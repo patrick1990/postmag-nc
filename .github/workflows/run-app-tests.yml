@@ -38,7 +38,7 @@ jobs:
       parallelruns: ${{ steps.check.outputs.parallelruns }}
     steps:
       - name: Checkout dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: dev
 
@@ -58,13 +58,13 @@ jobs:
     steps:
       - name: Checkout app code (from dispatch input)
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.ref }}
       
       - name: Checkout app code (from SHA)
         if: ${{ github.event_name != 'workflow_dispatch' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
     
@@ -105,7 +105,7 @@ jobs:
     steps:
       # Checks-out repository under $GITHUB_WORKSPACE
       - name: Checkout nextcloud code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: nextcloud/server
           ref: 'stable${{ matrix.nc-version }}'
@@ -120,14 +120,14 @@ jobs:
       
       - name: Checkout app code (from dispatch input)
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.ref }}
           path: '${{ matrix.nc-version }}/postmag'
       
       - name: Checkout app code (from SHA)
         if: ${{ github.event_name != 'workflow_dispatch' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           path: '${{ matrix.nc-version }}/postmag'

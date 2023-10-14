@@ -42,7 +42,7 @@ jobs:
       parallelruns: ${{ steps.check.outputs.parallelruns }}
     steps:
       - name: Checkout dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: dev
 
@@ -62,7 +62,7 @@ jobs:
       createpr: ${{ steps.status.outputs.createpr }}
     steps:
       - name: Checkout dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: dev
 
@@ -88,7 +88,7 @@ jobs:
       ncversion: ${{ needs.check-status.outputs.ncversion }}
     steps:
       - name: Checkout dev branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: dev
 

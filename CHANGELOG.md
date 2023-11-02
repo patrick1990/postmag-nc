@@ -1,5 +1,40 @@
 # CHANGELOG
 
+## Version 6.0.3
+
+### bug
+
+* Remove manual chrome install from run-app-tests.yml (#467)
+
+### dependencies
+
+* Bump sass from 1.69.4 to 1.69.5 (#464)
+* Bump eslint from 8.51.0 to 8.52.0 (#465)
+* Bump actions/setup-node from 3.8.1 to 4.0.0 (#463)
+* Bump webpack-merge from 5.9.0 to 5.10.0 (#462)
+* Bump webpack from 5.88.2 to 5.89.0 (#461)
+* Bump sass from 1.69.3 to 1.69.4 (#460)
+* Bump @nextcloud/router from 2.1.2 to 2.2.0 (#459)
+* Bump @nextcloud/browserslist-config from 2.3.0 to 3.0.0 (#426)
+* Bump actions/setup-node from 3.7.0 to 3.8.1 (#428)
+* Bump jquery from 3.7.0 to 3.7.1 (#433)
+* Bump @babel/eslint-parser from 7.22.10 to 7.22.15 (#438)
+* Bump actions/checkout from 3 to 4 (#440)
+* Bump phpunit/phpunit from 9.6.10 to 9.6.13 (#446)
+* Bump @babel/preset-env from 7.22.10 to 7.23.2 (#454)
+* Bump selenium-webdriver from 4.11.1 to 4.14.0 (#455)
+* Bump eslint from 8.46.0 to 8.51.0 (#456)
+* Bump @babel/core from 7.22.10 to 7.23.2 (#457)
+* Bump sass from 1.65.1 to 1.69.3 (#458)
+* Bump sass from 1.64.2 to 1.65.1 (#425)
+* Bump @babel/core from 7.22.9 to 7.22.10 (#424)
+* Bump @babel/preset-env from 7.22.9 to 7.22.10 (#423)
+* Bump @babel/eslint-parser from 7.22.9 to 7.22.10 (#422)
+* Bump @nextcloud/eslint-plugin from 2.0.0 to 2.1.0 (#421)
+* Bump selenium-webdriver from 4.10.0 to 4.11.1 (#420)
+* Bump sass from 1.64.1 to 1.64.2 (#419)
+* Bump eslint from 8.45.0 to 8.46.0 (#418)
+
 ## Version 6.0.2
 
 ### dependencies

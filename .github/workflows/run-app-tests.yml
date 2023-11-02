@@ -188,13 +188,6 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/$NC_VERSION/postmag
           make build-dev
-          
-      - name: Install chrome for frontend tests
-        env:
-          NC_VERSION: ${{ matrix.nc-version }}
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo sudo dpkg -i google-chrome-stable_current_amd64.deb
 
       - name: Test app
         env:

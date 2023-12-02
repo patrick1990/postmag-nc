@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version 6.0.4
+
+### dependencies
+
+* Bump @babel/core from 7.23.3 to 7.23.5 (#480)
+* Bump @babel/preset-env from 7.23.3 to 7.23.5 (#478)
+* Bump eslint from 8.53.0 to 8.54.0 (#475)
+* Bump @babel/core from 7.23.2 to 7.23.3 (#473)
+* Bump @babel/eslint-parser from 7.22.15 to 7.23.3 (#471)
+* Bump eslint from 8.52.0 to 8.53.0 (#470)
+* Bump @babel/preset-env from 7.23.2 to 7.23.3 (#469)
+* Bump selenium-webdriver from 4.14.0 to 4.15.0 (#468)
+
 ## Version 6.0.3
 
 ### bug

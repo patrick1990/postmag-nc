@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version 6.0.5
+
+### dependencies
+
+* Bump sass-loader from 13.3.2 to 13.3.3 (#488)
+* Bump actions/setup-node from 4.0.0 to 4.0.1 (#487)
+* Bump eslint from 8.55.0 to 8.56.0 (#486)
+* Bump @babel/core from 7.23.5 to 7.23.6 (#485)
+* Bump @babel/preset-env from 7.23.5 to 7.23.6 (#484)
+* Bump selenium-webdriver from 4.15.0 to 4.16.0 (#483)
+* Bump eslint from 8.54.0 to 8.55.0 (#482)
+* Bump phpunit/phpunit from 9.6.13 to 9.6.15 (#481)
+
 ## Version 6.0.4
 
 ### dependencies

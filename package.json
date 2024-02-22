@@ -49,7 +49,7 @@
 		"@nextcloud/eslint-plugin": "^2.1.0",
 		"eslint": "^8.56.0",
 		"maildev": "^2.1.0",
-		"selenium-webdriver": "^4.17.0",
+		"selenium-webdriver": "^4.18.1",
 		"webdriver-manager": "^12.1.9"
 	}
 }

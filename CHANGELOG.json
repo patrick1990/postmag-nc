@@ -546,5 +546,19 @@
       "Bump @babel/preset-env from 7.23.6 to 7.23.7 (#490)",
       "Bump @babel/core from 7.23.6 to 7.23.7 (#489)"
     ]
+  },
+  "6.0.7": {
+    "dependencies": [
+      "Bump phpunit/phpunit from 9.6.16 to 9.6.17 (#522)",
+      "Bump @babel/preset-env from 7.23.9 to 7.24.0 (#521)",
+      "Bump @babel/core from 7.23.9 to 7.24.0 (#520)",
+      "Bump eslint from 8.56.0 to 8.57.0 (#519)",
+      "Bump sass-loader from 14.1.0 to 14.1.1 (#517)",
+      "Bump webpack from 5.90.2 to 5.90.3 (#516)",
+      "Bump selenium-webdriver from 4.17.0 to 4.18.1 (#515)",
+      "Bump sass from 1.70.0 to 1.71.1 (#514)",
+      "Bump webpack from 5.90.1 to 5.90.2 (#513)",
+      "Bump actions/setup-node from 4.0.1 to 4.0.2 (#512)"
+    ]
   }
 }

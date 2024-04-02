@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version 6.0.8
+
+### dependencies
+
+* Bump selenium-webdriver from 4.18.1 to 4.19.0 (#531)
+* Bump @nextcloud/eslint-plugin from 2.1.0 to 2.2.0 (#530)
+* Bump phpunit/phpunit from 9.6.17 to 9.6.18 (#529)
+* Bump @babel/eslint-parser from 7.23.10 to 7.24.1 (#528)
+* Bump @babel/preset-env from 7.24.0 to 7.24.3 (#527)
+* Bump webpack from 5.90.3 to 5.91.0 (#526)
+* Bump @babel/core from 7.24.0 to 7.24.3 (#525)
+* Bump sass from 1.71.1 to 1.72.0 (#524)
+
 ## Version 6.0.7
 
 ### dependencies

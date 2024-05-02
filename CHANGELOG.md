@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## Version 6.0.9
+
+### dependencies
+
+* Bump selenium-webdriver from 4.19.0 to 4.20.0 (#549)
+* Bump @nextcloud/router from 3.0.0 to 3.0.1 (#548)
+* Bump @nextcloud/browserslist-config from 3.0.0 to 3.0.1 (#546)
+* Bump @nextcloud/eslint-plugin from 2.2.0 to 2.2.1 (#545)
+* Bump sass from 1.74.1 to 1.75.0 (#544)
+* Bump sass-loader from 14.2.0 to 14.2.1 (#543)
+* Bump phpunit/phpunit from 9.6.18 to 9.6.19 (#541)
+* Bump sass-loader from 14.1.1 to 14.2.0 (#539)
+* Bump style-loader from 3.3.4 to 4.0.0 (#538)
+* Bump css-loader from 7.0.0 to 7.1.1 (#536)
+* Bump @babel/core from 7.24.3 to 7.24.4 (#535)
+* Bump css-loader from 6.10.0 to 7.0.0 (#534)
+* Bump @babel/preset-env from 7.24.3 to 7.24.4 (#533)
+* Bump sass from 1.72.0 to 1.74.1 (#532)
+
 ## Version 6.0.8
 
 ### dependencies

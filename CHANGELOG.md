@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## Version 6.0.10
+
+### dependencies
+
+* Bump sass from 1.77.2 to 1.77.3 (#567)
+* Bump @babel/core from 7.24.5 to 7.24.6 (#566)
+* Bump @babel/eslint-parser from 7.24.5 to 7.24.6 (#565)
+* Bump @babel/preset-env from 7.24.5 to 7.24.6 (#564)
+* Bump css-loader from 7.1.1 to 7.1.2 (#562)
+* Bump sass from 1.77.1 to 1.77.2 (#561)
+* Bump selenium-webdriver from 4.20.0 to 4.21.0 (#560)
+* Bump sass from 1.77.0 to 1.77.1 (#559)
+* Bump @nextcloud/l10n from 3.0.0 to 3.1.0 (#558)
+* Bump @babel/preset-env from 7.24.4 to 7.24.5 (#555)
+* Bump sass from 1.75.0 to 1.77.0 (#556)
+* Bump @babel/eslint-parser from 7.24.1 to 7.24.5 (#553)
+* Bump @babel/core from 7.24.4 to 7.24.5 (#552)
+* Bump @nextcloud/axios from 2.4.0 to 2.5.0 (#551)
+* Bump @nextcloud/l10n from 2.2.0 to 3.0.0 (#550)
+
 ## Version 6.0.9
 
 ### dependencies

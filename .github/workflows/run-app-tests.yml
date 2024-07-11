@@ -138,7 +138,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
 
       - name: Set node version
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: '16'
         

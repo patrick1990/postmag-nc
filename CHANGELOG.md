@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## Version 6.0.12
+
+### dependencies
+
+* Bump sass-loader from 15.0.0 to 16.0.0 (#598)
+* Bump @babel/eslint-parser from 7.24.8 to 7.25.1 (#597)
+* Bump @babel/preset-env from 7.24.8 to 7.25.3 (#596)
+* Bump @babel/core from 7.24.9 to 7.25.2 (#595)
+* Bump selenium-webdriver from 4.22.0 to 4.23.0 (#594)
+* Bump sass-loader from 14.2.1 to 15.0.0 (#593)
+* Bump @babel/core from 7.24.8 to 7.24.9 (#591)
+* Bump @babel/preset-env from 7.24.7 to 7.24.8 (#589)
+* Bump @babel/eslint-parser from 7.24.7 to 7.24.8 (#588)
+* Bump sass from 1.77.6 to 1.77.8 (#590)
+* Bump webpack from 5.92.1 to 5.93.0 (#586)
+* Bump @babel/core from 7.24.7 to 7.24.8 (#585)
+* Bump actions/setup-node from 4.0.2 to 4.0.3 (#584)
+* Bump webpack-merge from 5.10.0 to 6.0.1 (#581)
+
 ## Version 6.0.11
 
 ### dependencies

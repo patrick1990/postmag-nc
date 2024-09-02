@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 6.0.13
+
+### dependencies
+
+* Bump selenium-webdriver from 4.23.0 to 4.24.0 (#605)
+* Bump webpack from 5.93.0 to 5.94.0 (#604)
+* Bump @babel/preset-env from 7.25.3 to 7.25.4 (#603)
+* Bump sass-loader from 16.0.0 to 16.0.1 (#602)
+
 ## Version 6.0.12
 
 ### dependencies

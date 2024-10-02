@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## Version 6.0.14
+
+### dependencies
+
+* Bump selenium-webdriver from 4.24.1 to 4.25.0 (#618)
+* Bump sass from 1.79.2 to 1.79.3 (#617)
+* Bump webpack from 5.94.0 to 5.95.0 (#616)
+* Bump sass-loader from 16.0.1 to 16.0.2 (#615)
+* Bump actions/setup-node from 4.0.3 to 4.0.4 (#614)
+* Bump babel-loader from 9.1.3 to 9.2.1 (#612)
+* Bump sass from 1.78.0 to 1.79.2 (#613)
+* Bump selenium-webdriver from 4.24.0 to 4.24.1 (#610)
+* Bump @nextcloud/axios from 2.5.0 to 2.5.1 (#609)
+* Bump sass from 1.77.8 to 1.78.0 (#607)
+
 ## Version 6.0.13
 
 ### dependencies

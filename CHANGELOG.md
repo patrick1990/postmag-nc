@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## Version 6.0.15
+
+### dependencies
+
+* Bump selenium-webdriver from 4.25.0 to 4.26.0 (#638)
+* Bump @babel/preset-env from 7.25.9 to 7.26.0 (#637)
+* Bump @babel/core from 7.25.9 to 7.26.0 (#636)
+* Bump sass from 1.80.4 to 1.80.5 (#635)
+* Bump actions/setup-node from 4.0.4 to 4.1.0 (#634)
+* Bump @babel/eslint-parser from 7.25.8 to 7.25.9 (#633)
+* Bump @babel/preset-env from 7.25.8 to 7.25.9 (#632)
+* Bump sass from 1.80.1 to 1.80.4 (#630)
+* Bump @babel/core from 7.25.8 to 7.25.9 (#629)
+* Bump sass from 1.79.4 to 1.80.1 (#628)
+* Bump @babel/core from 7.25.7 to 7.25.8 (#627)
+* Bump @babel/eslint-parser from 7.25.7 to 7.25.8 (#625)
+* Bump @babel/preset-env from 7.25.7 to 7.25.8 (#624)
+* Bump sass from 1.79.3 to 1.79.4 (#623)
+* Bump @babel/core from 7.25.2 to 7.25.7 (#622)
+* Bump @babel/eslint-parser from 7.25.1 to 7.25.7 (#621)
+* Bump @babel/preset-env from 7.25.4 to 7.25.7 (#620)
+
 ## Version 6.0.14
 
 ### dependencies

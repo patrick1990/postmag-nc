@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Version 6.0.16
+
+### dependencies
+
+* Bump selenium-webdriver from 4.26.0 to 4.27.0 (#647)
+* Bump sass from 1.80.7 to 1.81.0 (#646)
+* Bump sass from 1.80.6 to 1.80.7 (#644)
+* Bump sass-loader from 16.0.2 to 16.0.3 (#643)
+* Bump sass from 1.80.5 to 1.80.6 (#642)
+* Bump webpack from 5.95.0 to 5.96.1 (#641)
+
 ## Version 6.0.15
 
 ### dependencies

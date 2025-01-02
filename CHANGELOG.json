@@ -693,5 +693,16 @@
       "Bump sass from 1.80.5 to 1.80.6 (#642)",
       "Bump webpack from 5.95.0 to 5.96.1 (#641)"
     ]
+  },
+  "6.0.17": {
+    "dependencies": [
+      "Bump webpack-cli from 6.0.0 to 6.0.1 (#656)",
+      "Bump sass from 1.82.0 to 1.83.0 (#655)",
+      "Bump webpack-cli from 5.1.4 to 6.0.0 (#654)",
+      "Bump maildev from 2.1.0 to 2.2.1 (#652)",
+      "Bump sass-loader from 16.0.3 to 16.0.4 (#651)",
+      "Bump webpack from 5.96.1 to 5.97.1 (#650)",
+      "Bump sass from 1.81.0 to 1.82.0 (#648)"
+    ]
   }
 }

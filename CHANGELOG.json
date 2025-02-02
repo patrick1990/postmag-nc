@@ -704,5 +704,15 @@
       "Bump webpack from 5.96.1 to 5.97.1 (#650)",
       "Bump sass from 1.81.0 to 1.82.0 (#648)"
     ]
+  },
+  "6.0.18": {
+    "dependencies": [
+      "Bump @babel/core from 7.26.0 to 7.26.7 (#665)",
+      "Bump @babel/preset-env from 7.26.0 to 7.26.7 (#664)",
+      "Bump selenium-webdriver from 4.27.0 to 4.28.1 (#663)",
+      "Bump sass from 1.83.1 to 1.83.4 (#661)",
+      "Bump @babel/eslint-parser from 7.25.9 to 7.26.5 (#659)",
+      "Bump sass from 1.83.0 to 1.83.1 (#657)"
+    ]
   }
 }

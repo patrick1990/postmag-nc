@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 6.0.19
+
+### dependencies
+
+* Bump sass from 1.83.4 to 1.84.0 (#669)
+* Bump actions/setup-node from 4.1.0 to 4.2.0 (#668)
+
 ## Version 6.0.18
 
 ### dependencies
